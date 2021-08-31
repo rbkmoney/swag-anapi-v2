@@ -1,0 +1,7 @@
+description: Статус чарджбэка
+type: string
+enum:
+  - pending
+  - accepted
+  - rejected
+  - cancelled

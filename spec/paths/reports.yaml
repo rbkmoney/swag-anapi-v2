@@ -1,0 +1,124 @@
+post:
+  description: >-
+    Сгенерировать отчет с указанным типом по магазину за указанный промежуток
+    времени
+  tags:
+    - Reports
+  operationId: createReport
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDQuery'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - name: reportType
+      in: query
+      description: Тип отчета
+      required: true
+      type: string
+      enum:
+        - paymentRegistry
+  responses:
+    '201':
+      description: Отчет создан
+      schema:
+        $ref: '#/components/schemas/Report'
+    '400':
+      description: Ошибочные данные для генерации
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - ambiguousPartyID
+              - invalidShopID
+              - invalidRequest
+              - invalidDeadline
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid shop id
+    '401':
+      $ref: '#/responses/Unauthorized'
+get:
+  description: Получить список отчетов по данному магазину за период
+  tags:
+    - Reports
+  operationId: searchReports
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - name: limit
+      description: Лимит выборки
+      in: query
+      required: false
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 1000
+    - name: reportTypes
+      description: Типы отчетов
+      in: query
+      required: true
+      type: array
+      items:
+        type: string
+        enum:
+          - provisionOfService
+          - paymentRegistry
+          - paymentRegistryByPayout
+    - x-merge-obj:
+      - name: continuationToken
+        in: query
+        required: false
+      - $ref: '#/components/schemas/ContinuationToken'
+  responses:
+    '200':
+      description: Найденные отчеты
+      schema:
+        type: object
+        properties:
+          continuationToken:
+            x-merge-obj:
+              - $ref: '#/components/schemas/ContinuationToken'
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/Report'
+    '400':
+      description: Ошибочные данные для получения
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - ambiguousPartyID
+              - limitExceeded
+              - invalidRequest
+              - invalidPartyID
+              - invalidDeadline
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: 'Max limit: 1000'
+    '401':
+      $ref: '#/responses/Unauthorized'

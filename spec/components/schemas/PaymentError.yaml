@@ -1,0 +1,11 @@
+description: |
+  [Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)
+type: object
+required:
+  - code
+properties:
+  code:
+    description: Основной код ошибки
+    type: string
+  subError:
+    $ref: '#/components/schemas/SubError'

@@ -1,0 +1,191 @@
+get:
+  description: Поиск платежей
+  tags:
+    - Search
+  operationId: searchPayments
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/limit'
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      required: false
+      type: array
+      items:
+        type: string
+    - name: paymentStatus
+      in: query
+      description: Статус платежа для поиска
+      required: false
+      type: string
+      enum:
+        - pending
+        - processed
+        - captured
+        - cancelled
+        - refunded
+        - failed
+    - name: paymentFlow
+      in: query
+      description: Flow платежа
+      required: false
+      type: string
+      enum:
+        - instant
+        - hold
+    - name: paymentMethod
+      in: query
+      description: Метод оплаты
+      required: false
+      type: string
+      enum:
+        - bankCard
+        - paymentTerminal
+    - name: paymentTerminalProvider
+      in: query
+      description: Провайдер платежного терминала
+      required: false
+      type: string
+      enum:
+        - euroset
+        - wechat
+        - alipay
+        - zotapay
+        - qps
+        - uzcard
+        - rbs
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: paymentID
+      in: query
+      description: Идентификатор платежа
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: externalID
+      in: query
+      description: Внешний идентификатор
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: payerEmail
+      in: query
+      description: 'Email, указанный при оплате'
+      required: false
+      type: string
+      format: email
+      maxLength: 100
+    - name: payerIP
+      in: query
+      description: IP-адрес плательщика
+      required: false
+      type: string
+      format: ip-address
+      maxLength: 45
+    - name: payerFingerprint
+      in: query
+      description: Уникальный отпечаток user agent'а плательщика
+      required: false
+      type: string
+      maxLength: 1000
+    - name: customerID
+      in: query
+      description: Идентификатор плательщика
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: first6
+      in: query
+      description: Первые 6 цифр номера карты
+      required: false
+      type: string
+      pattern: '^\d{6}$'
+    - name: last4
+      in: query
+      description: Последние 4 цифры номера карты
+      required: false
+      type: string
+      pattern: '^\d{4}$'
+    - name: rrn
+      in: query
+      description: 'Retrieval Reference Number'
+      required: false
+      type: string
+      pattern: '^[a-zA-Z0-9]{12}$'
+    - name: approvalCode
+      in: query
+      description: 'Authorization Approval Code'
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - x-merge-obj:
+      - name: bankCardTokenProvider
+        in: query
+        required: false
+      - $ref: '#/components/schemas/BankCardTokenProvider'
+    - x-merge-obj:
+      - name: bankCardPaymentSystem
+        in: query
+        required: false
+      - $ref: '#/components/schemas/BankCardPaymentSystem'
+    - name: paymentAmountFrom
+      in: query
+      description: Минимальная сумма платежа
+      required: false
+      type: integer
+      format: int64
+      minimum: 1
+    - name: paymentAmountTo
+      in: query
+      description: Максимальная сумма платежа
+      required: false
+      type: integer
+      format: int64
+      minimum: 1
+    - name: excludedShops
+      in: query
+      description: Идентификаторы магазинов, исключаемых из поиска
+      required: false
+      type: array
+      items:
+        type: string
+    - x-merge-obj:
+      - name: continuationToken
+        in: query
+        required: false
+      - $ref: '#/components/schemas/ContinuationToken'
+  responses:
+    '200':
+      description: Найденные платежи
+      schema:
+        type: object
+        properties:
+          continuationToken:
+            x-merge-obj:
+              - $ref: '#/components/schemas/ContinuationToken'
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/PaymentSearchResult'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - count
+      - currency
+    properties:
+      count:
+        description: 'Общее количество операций'
+        type: integer
+        format: int64
+        minimum: 0
+      currency:
+        x-merge-obj:
+          - $ref: '#/components/schemas/Currency'

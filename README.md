@@ -1,1 +1,0 @@
-# swag-anapi-v2

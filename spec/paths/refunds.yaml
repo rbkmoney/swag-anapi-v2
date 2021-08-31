@@ -1,0 +1,92 @@
+get:
+  description: Поиск возвратов
+  tags:
+    - Search
+  operationId: searchRefunds
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      required: false
+      type: array
+      items:
+        type: string
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: paymentID
+      in: query
+      description: Идентификатор платежа
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: refundID
+      in: query
+      description: Идентификатор возврата
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: externalID
+      in: query
+      description: Внешний идентификатор
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: refundStatus
+      in: query
+      description: Статус возврата
+      type: string
+      enum:
+        - pending
+        - succeeded
+        - failed
+    - name: excludedShops
+      in: query
+      description: 'Идентификаторы магазинов, исключаемых из поиска'
+      required: false
+      type: array
+      items:
+        type: string
+    - x-merge-obj:
+      - name: continuationToken
+        in: query
+        required: false
+      - $ref: '#/components/schemas/ContinuationToken'
+  responses:
+    '200':
+      description: Найденные возвраты
+      schema:
+        type: object
+        properties:
+          totalCount:
+            type: integer
+          continuationToken:
+            x-merge-obj:
+              - $ref: '#/components/schemas/ContinuationToken'
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/RefundSearchResult'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '404':
+      $ref: '#/responses/NotFound'

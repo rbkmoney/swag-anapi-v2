@@ -1,0 +1,16 @@
+type: object
+required:
+  - currency
+  - statusOffsetCounts
+  - splitUnit
+properties:
+  splitUnit:
+    x-merge-obj:
+      - $ref: '#/components/schemas/SplitUnit'
+  currency:
+    x-merge-obj:
+      - $ref: '#/components/schemas/Currency'
+  statusOffsetCounts:
+    type: array
+    items:
+      $ref: '#/components/schemas/StatusOffsetCount'

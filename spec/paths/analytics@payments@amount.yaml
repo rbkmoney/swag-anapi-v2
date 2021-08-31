@@ -1,0 +1,30 @@
+get:
+  description: Получение списка оборотов с группировкой по валютам
+  tags:
+    - Analytics
+  operationId: getPaymentsAmount
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/excludeShopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '200':
+      description: Список оборотов с группировкой по валютам
+      schema:
+        type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/AmountResult'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

@@ -1,0 +1,13 @@
+description: Местоположение в Интернете
+type: object
+allOf:
+  - $ref: '#/components/schemas/ShopLocation'
+  - type: object
+    required:
+      - url
+    properties:
+      url:
+        description: URL сайта магазина
+        type: string
+        format: uri
+        maxLength: 1000

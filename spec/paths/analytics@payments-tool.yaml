@@ -1,0 +1,30 @@
+get:
+  description: Получение распределения использования платежных инструментов
+  tags:
+    - Analytics
+  operationId: getPaymentsToolDistribution
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/excludeShopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '200':
+      description: Распределение использования платежных инструментов
+      schema:
+        type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/PaymentsToolDistributionResult'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

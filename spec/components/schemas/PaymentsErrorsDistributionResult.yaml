@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - error
+      - percents
+    properties:
+      error:
+        description: Тип ошибки
+        type: string
+      percents:
+        description: Относительное колличество ошибок в процентах
+        type: number
+        format: double
+        minimum: 0

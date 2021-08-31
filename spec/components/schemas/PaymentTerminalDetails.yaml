@@ -1,0 +1,6 @@
+required:
+  - provider
+properties:
+  provider:
+    x-merge-obj:
+      - $ref: '#/components/schemas/PaymentTerminalProvider'

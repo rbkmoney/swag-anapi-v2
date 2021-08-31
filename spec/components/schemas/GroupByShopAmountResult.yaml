@@ -1,0 +1,8 @@
+description: |
+  Сгруппированый по магазинам список текущих балансов
+type: object
+properties:
+  groupBySHopResults:
+    type: array
+    items:
+      $ref: '#/components/schemas/ShopAmountResult'

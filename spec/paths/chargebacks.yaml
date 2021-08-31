@@ -1,0 +1,98 @@
+get:
+  description: Поиск чарджбэков
+  tags:
+    - Search
+  operationId: searchChargebacks
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: paymentID
+      in: query
+      description: Идентификатор платежа
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: chargebackID
+      in: query
+      description: Идентификатор чарджбэка
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: chargebackStatuses
+      in: query
+      description: Статусы чарджбэков
+      required: false
+      type: array
+      items:
+        type: string
+        enum:
+          - pending
+          - accepted
+          - rejected
+          - cancelled
+    - name: chargebackStages
+      in: query
+      description: Этапы чарджбэков
+      required: false
+      type: array
+      items:
+        type: string
+        enum:
+          - chargeback
+          - pre_arbitration
+          - arbitration
+    - name: chargebackCategories
+      in: query
+      description: Категории чарджбэков
+      required: false
+      type: array
+      items:
+        type: string
+        enum:
+          - fraud
+          - dispute
+          - authorisation
+          - processing_error
+    - x-merge-obj:
+      - name: continuationToken
+        in: query
+        required: false
+      - $ref: '#/components/schemas/ContinuationToken'
+  responses:
+    '200':
+      description: Найденные чарджбэки
+      schema:
+        type: object
+        properties:
+          totalCount:
+            type: integer
+          continuationToken:
+            x-merge-obj:
+              - $ref: '#/components/schemas/ContinuationToken'
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/Chargeback'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

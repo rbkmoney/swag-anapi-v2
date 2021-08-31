@@ -1,0 +1,9 @@
+type: object
+properties:
+  type:
+    description: Тип данных
+    type: string
+  data:
+    description: Данные
+    type: string
+    format: byte

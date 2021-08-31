@@ -1,0 +1,74 @@
+type: object
+required:
+  - invoiceId
+  - paymentId
+  - chargebackId
+  - shopID
+  - createdAt
+  - bodyAmount
+  - bodyCurrency
+  - levyAmount
+  - levyCurrency
+properties:
+  invoiceId:
+    description: Идентификатор инвойса
+    type: string
+  paymentId:
+    description: Идентификатор платежа
+    type: string
+  chargebackId:
+    description: Идентификатор чарджбэка
+    type: string
+  externalId:
+    description: Внешний идентификатор
+    type: string
+  shopID:
+    description: Идентификатор магазина
+    type: string
+  createdAt:
+    description: Дата и время создания
+    type: string
+    format: date-time
+  levyAmount:
+    description: Сумма списываемых средств у чарджбека
+    type: integer
+    format: int64
+    minimum: 1
+  levyCurrency:
+    x-merge-obj:
+      - $ref: '#/components/schemas/Currency'
+  bodyAmount:
+    description: Сумма чарджбэка
+    type: integer
+    format: int64
+    minimum: 1
+  bodyCurrency:
+    x-merge-obj:
+      - $ref: '#/components/schemas/Currency'
+  fee:
+    description: 'Комиссия системы, в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  providerFee:
+    description: 'Комиссия провайдера, в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  externalFee:
+    description: 'Комиссия внешней системы системы, в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  status:
+    x-merge-obj:
+      - $ref: '#/components/schemas/ChargebackStatus'
+  stage:
+    x-merge-obj:
+      - $ref: '#/components/schemas/ChargebackStage'
+  chargebackReason:
+    $ref: '#/components/schemas/ChargebackReason'
+  content:
+    $ref: '#/components/schemas/Content'
+
+

@@ -1,0 +1,18 @@
+post:
+  description: Отменить указанный отчет. Отчеты типа `provisionOfService` отменить нельзя
+  tags:
+    - Reports
+  operationId: cancelReport
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/reportID'
+  responses:
+    '202':
+      description: Запрос на отмену отчета принят
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

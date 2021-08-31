@@ -1,0 +1,11 @@
+description: Местоположение магазина, по которому можно его найти
+type: object
+discriminator: locationType
+required:
+  - locationType
+properties:
+  locationType:
+    description: Тип местоположения
+    type: string
+    enum:
+      - ShopLocationUrl

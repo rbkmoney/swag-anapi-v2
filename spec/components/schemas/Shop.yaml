@@ -1,0 +1,50 @@
+description: Данные магазина
+type: object
+required:
+  - id
+  - createdAt
+  - isBlocked
+  - isSuspended
+  - location
+  - categoryID
+  - details
+  - contractID
+properties:
+  id:
+    description: Идентификатор магазина
+    type: string
+  createdAt:
+    description: Дата и время создания
+    type: string
+    format: date-time
+  isBlocked:
+    description: Заблокирован ли магазин?
+    type: boolean
+  isSuspended:
+    description: Приостановлены ли операции в рамках магазина?
+    type: boolean
+  categoryID:
+    description: |
+      Идентификатор категории товаров и услуг, предлагаемых в этом магазине
+    type: integer
+    format: int32
+  location:
+    $ref: '#/components/schemas/ShopLocation'
+  details:
+    $ref: '#/components/schemas/ShopDetails'
+  contractID:
+    description: |
+      Идентификатор договора, на основании которого производится обслуживание
+      магазина
+    type: string
+  payoutToolID:
+    description: |
+      Идентификатор средства вывода в рамках контракта, используемое в процессе
+      вывода по магазину
+    type: string
+  scheduleID:
+    description: Идентификатор расписания выводов
+    type: integer
+    format: int32
+  account:
+    $ref: '#/components/schemas/ShopAccount'

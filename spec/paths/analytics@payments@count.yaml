@@ -1,0 +1,30 @@
+get:
+  description: Получение количества платежей с группировкой по валютам
+  tags:
+    - Analytics
+  operationId: getPaymentsCount
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/excludeShopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '200':
+      description: Среднее количество платежей с группировкой по валютам
+      schema:
+        type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/CountResult'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

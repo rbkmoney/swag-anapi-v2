@@ -1,0 +1,31 @@
+get:
+  description: Получение количества платежей с группировкой по валютам и статусам, разделенного по временным интервалам
+  tags:
+    - Analytics
+  operationId: getPaymentsSplitCount
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/parameters/shopIDs'
+    - $ref: '#/parameters/excludeShopIDs'
+    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/splitUnit'
+  responses:
+    '200':
+      description: Количество платежей с группировкой по валютам и статусам, разделенное по временным интервалам
+      schema:
+        type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/components/schemas/SplitCountResult'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
