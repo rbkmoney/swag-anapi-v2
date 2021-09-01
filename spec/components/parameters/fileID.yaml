@@ -1,0 +1,8 @@
+name: fileID
+in: path
+description: Идентификатор файла
+required: true
+schema:
+  type: string
+  maxLength: 40
+  minLength: 1

@@ -4,12 +4,12 @@ get:
     - Analytics
   operationId: getCurrentBalances
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/partyIDQuery'
-    - $ref: '#/parameters/shopIDs'
-    - $ref: '#/parameters/excludeShopIDs'
-    - $ref: '#/parameters/paymentInstitutionRealm'
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/partyIDQuery'
+    - $ref: '#/components/parameters/shopIDs'
+    - $ref: '#/components/parameters/excludeShopIDs'
+    - $ref: '#/components/parameters/paymentInstitutionRealm'
   responses:
     '200':
       description: Список оборотов с группировкой по валютам

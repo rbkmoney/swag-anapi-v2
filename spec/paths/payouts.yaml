@@ -4,43 +4,46 @@ get:
     - Search
   operationId: searchPayouts
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/partyIDQuery'
-    - $ref: '#/parameters/shopIDQuery'
-    - $ref: '#/parameters/shopIDs'
-    - $ref: '#/parameters/paymentInstitutionRealm'
-    - $ref: '#/parameters/fromTime'
-    - $ref: '#/parameters/toTime'
-    - $ref: '#/parameters/limit'
-    - $ref: '#/parameters/offset'
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/partyIDQuery'
+    - $ref: '#/components/parameters/shopIDQuery'
+    - $ref: '#/components/parameters/shopIDs'
+    - $ref: '#/components/parameters/paymentInstitutionRealm'
+    - $ref: '#/components/parameters/fromTime'
+    - $ref: '#/components/parameters/toTime'
+    - $ref: '#/components/parameters/limit'
+    - $ref: '#/components/parameters/offset'
     - name: payoutID
       in: query
       description: Идентификатор выплаты
       required: false
-      type: string
-      maxLength: 40
-      minLength: 1
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
     - name: payoutToolType
       in: query
       required: false
-      type: string
-      enum:
-        - PayoutAccount
-        - Wallet
-        - PaymentInstitutionAccount
-      description: >
-        Тип выплаты для поиска
-          * PayoutAccount - выплата на банковский счёт
-          * Wallet - выплата на кошелёк
-          * PaymentInstitutionAccount - выплата на счёт платежной организации
+      schema:
+        type: string
+        enum:
+          - PayoutAccount
+          - Wallet
+          - PaymentInstitutionAccount
+        description: >
+          Тип выплаты для поиска
+            * PayoutAccount - выплата на банковский счёт
+            * Wallet - выплата на кошелёк
+            * PaymentInstitutionAccount - выплата на счёт платежной организации
     - name: excludedShops
       in: query
       description: Идентификаторы магазинов, исключаемых из поиска
       required: false
-      type: array
-      items:
-        type: string
+      schema:
+        type: array
+        items:
+          type: string
     - x-merge-obj:
       - name: continuationToken
         in: query

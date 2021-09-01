@@ -1,0 +1,8 @@
+name: customerID
+in: path
+description: Идентификатор кастомера
+required: true
+schema:
+  type: string
+  maxLength: 40
+  minLength: 1

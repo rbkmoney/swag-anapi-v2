@@ -1,0 +1,13 @@
+name: splitUnit
+in: query
+description: Единица времени сегмента разбиения
+required: true
+schema:
+  type: string
+  enum:
+    - minute
+    - hour
+    - day
+    - week
+    - month
+    - year

@@ -4,10 +4,10 @@ get:
     - Reports
   operationId: downloadFile
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/reportID'
-    - $ref: '#/parameters/fileID'
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/reportID'
+    - $ref: '#/components/parameters/fileID'
   responses:
     '200':
       description: Download link

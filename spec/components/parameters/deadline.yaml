@@ -1,0 +1,8 @@
+name: X-Request-Deadline
+in: header
+description: Максимальное время обработки запроса
+required: false
+schema:
+  type: string
+  maxLength: 40
+  minLength: 1

@@ -1,0 +1,8 @@
+name: excludeShopIDs
+in: query
+description: Идентификаторы магазинов не включаемые в запрос
+required: false
+schema:
+  type: array
+  items:
+    type: string

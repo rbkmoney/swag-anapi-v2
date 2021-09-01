@@ -4,14 +4,14 @@ get:
     - Analytics
   operationId: getPaymentsCount
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/partyIDQuery'
-    - $ref: '#/parameters/shopIDs'
-    - $ref: '#/parameters/excludeShopIDs'
-    - $ref: '#/parameters/paymentInstitutionRealm'
-    - $ref: '#/parameters/fromTime'
-    - $ref: '#/parameters/toTime'
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/partyIDQuery'
+    - $ref: '#/components/parameters/shopIDs'
+    - $ref: '#/components/parameters/excludeShopIDs'
+    - $ref: '#/components/parameters/paymentInstitutionRealm'
+    - $ref: '#/components/parameters/fromTime'
+    - $ref: '#/components/parameters/toTime'
   responses:
     '200':
       description: Среднее количество платежей с группировкой по валютам

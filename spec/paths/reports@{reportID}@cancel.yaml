@@ -4,9 +4,9 @@ post:
     - Reports
   operationId: cancelReport
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/reportID'
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/reportID'
   responses:
     '202':
       description: Запрос на отмену отчета принят

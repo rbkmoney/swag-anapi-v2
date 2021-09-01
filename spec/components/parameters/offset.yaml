@@ -1,0 +1,7 @@
+name: offset
+in: query
+description: Смещение выборки
+required: false
+schema:
+  type: integer
+  minimum: 0

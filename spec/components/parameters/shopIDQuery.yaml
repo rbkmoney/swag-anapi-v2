@@ -1,0 +1,8 @@
+name: shopID
+in: query
+description: Идентификатор магазина
+required: false
+schema:
+  type: string
+  maxLength: 40
+  minLength: 1

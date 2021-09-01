@@ -4,11 +4,11 @@ get:
     - Analytics
   operationId: getCurrentBalancesGroupByShop
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopIDs'
-    - $ref: '#/parameters/excludeShopIDs'
-    - $ref: '#/parameters/partyIDQuery'
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/shopIDs'
+    - $ref: '#/components/parameters/excludeShopIDs'
+    - $ref: '#/components/parameters/partyIDQuery'
   responses:
     '200':
       description: Список балансов с группировкой по магазинам

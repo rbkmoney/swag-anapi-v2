@@ -1,0 +1,8 @@
+name: refundID
+in: path
+description: Идентификатор возврата в рамках платежа
+required: true
+schema:
+  type: string
+  maxLength: 40
+  minLength: 1

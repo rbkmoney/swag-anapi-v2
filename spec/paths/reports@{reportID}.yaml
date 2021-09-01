@@ -4,9 +4,9 @@ get:
     - Reports
   operationId: getReport
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/reportID'
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/reportID'
   responses:
     '200':
       description: Найденный отчет

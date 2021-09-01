@@ -1,0 +1,7 @@
+name: fromTime
+in: query
+description: Начало временного отрезка
+required: true
+schema:
+  type: string
+  format: date-time

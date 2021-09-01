@@ -1,0 +1,7 @@
+name: accountID
+in: path
+description: Account ID
+required: true
+schema:
+  type: integer
+  format: int64

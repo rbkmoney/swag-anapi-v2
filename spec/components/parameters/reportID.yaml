@@ -1,0 +1,7 @@
+name: reportID
+in: path
+description: Идентификатор отчета
+required: true
+schema:
+  type: integer
+  format: int64
