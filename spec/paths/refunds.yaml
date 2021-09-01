@@ -79,18 +79,20 @@ get:
   responses:
     '200':
       description: Найденные возвраты
-      schema:
-        type: object
-        properties:
-          totalCount:
-            type: integer
-          continuationToken:
-            x-merge-obj:
-              - $ref: '#/components/schemas/ContinuationToken'
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/RefundSearchResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              continuationToken:
+                x-merge-obj:
+                  - $ref: '#/components/schemas/ContinuationToken'
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RefundSearchResult'
     '400':
       $ref: '#/components/responses/DefaultLogicError'
     '401':

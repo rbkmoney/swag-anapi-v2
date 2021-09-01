@@ -16,13 +16,15 @@ get:
   responses:
     '200':
       description: Список оборотов с группировкой по валютам и разделенные по временным интервалам
-      schema:
-        type: object
-        properties:
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/SplitAmountResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SplitAmountResult'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

@@ -23,29 +23,33 @@ post:
   responses:
     '201':
       description: Отчет создан
-      schema:
-        $ref: '#/components/schemas/Report'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/Report'
     '400':
       description: Ошибочные данные для генерации
-      schema:
-        type: object
-        required:
-          - code
-          - message
-        properties:
-          code:
-            description: |
-              [Код ошибки](#tag/Error-Codes)
-            type: string
-            enum:
-              - ambiguousPartyID
-              - invalidShopID
-              - invalidRequest
-              - invalidDeadline
-          message:
-            description: Человекочитаемое описание ошибки
-            type: string
-            example: Invalid shop id
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - ambiguousPartyID
+                  - invalidShopID
+                  - invalidRequest
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid shop id
     '401':
       $ref: '#/components/responses/Unauthorized'
 get:
@@ -89,37 +93,41 @@ get:
   responses:
     '200':
       description: Найденные отчеты
-      schema:
-        type: object
-        properties:
-          continuationToken:
-            x-merge-obj:
-              - $ref: '#/components/schemas/ContinuationToken'
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/Report'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              continuationToken:
+                x-merge-obj:
+                  - $ref: '#/components/schemas/ContinuationToken'
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
     '400':
       description: Ошибочные данные для получения
-      schema:
-        type: object
-        required:
-          - code
-          - message
-        properties:
-          code:
-            description: |
-              [Код ошибки](#tag/Error-Codes)
-            type: string
-            enum:
-              - ambiguousPartyID
-              - limitExceeded
-              - invalidRequest
-              - invalidPartyID
-              - invalidDeadline
-          message:
-            description: Человекочитаемое описание ошибки
-            type: string
-            example: 'Max limit: 1000'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - ambiguousPartyID
+                  - limitExceeded
+                  - invalidRequest
+                  - invalidPartyID
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: 'Max limit: 1000'
     '401':
       $ref: '#/components/responses/Unauthorized'

@@ -76,26 +76,27 @@ get:
             - dispute
             - authorisation
             - processing_error
-    - x-merge-obj:
-        - name: continuationToken
-          in: query
-          required: false
-        - $ref: '#/components/schemas/ContinuationToken'
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/ContinuationToken'
   responses:
     '200':
       description: Найденные чарджбэки
-      schema:
-        type: object
-        properties:
-          totalCount:
-            type: integer
-          continuationToken:
-            x-merge-obj:
-              - $ref: '#/components/schemas/ContinuationToken'
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/Chargeback'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              continuationToken:
+                $ref: '#/components/schemas/ContinuationToken'
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chargeback'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

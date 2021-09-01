@@ -192,16 +192,18 @@ get:
   responses:
     '200':
       description: Найденные платежи
-      schema:
-        type: object
-        properties:
-          continuationToken:
-            x-merge-obj:
-              - $ref: '#/components/schemas/ContinuationToken'
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/PaymentSearchResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              continuationToken:
+                x-merge-obj:
+                  - $ref: '#/components/schemas/ContinuationToken'
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentSearchResult'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

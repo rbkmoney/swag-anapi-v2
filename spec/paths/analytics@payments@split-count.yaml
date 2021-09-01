@@ -16,13 +16,15 @@ get:
   responses:
     '200':
       description: Количество платежей с группировкой по валютам и статусам, разделенное по временным интервалам
-      schema:
-        type: object
-        properties:
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/SplitCountResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SplitCountResult'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

@@ -11,8 +11,10 @@ get:
   responses:
     '200':
       description: Download link
-      schema:
-        $ref: '#/components/schemas/ReportLink'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/ReportLink'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

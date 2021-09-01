@@ -12,13 +12,15 @@ get:
   responses:
     '200':
       description: Список балансов с группировкой по магазинам
-      schema:
-        type: object
-        properties:
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/GroupByShopAmountResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupByShopAmountResult'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

@@ -15,13 +15,15 @@ get:
   responses:
     '200':
       description: Распределение использования платежных инструментов
-      schema:
-        type: object
-        properties:
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/PaymentsToolDistributionResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentsToolDistributionResult'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

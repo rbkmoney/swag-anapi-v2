@@ -10,8 +10,10 @@ get:
   responses:
     '200':
       description: Найденный отчет
-      schema:
-        $ref: '#/components/schemas/Report'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/Report'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

@@ -52,18 +52,20 @@ get:
   responses:
     '200':
       description: Найденные выплаты
-      schema:
-        type: object
-        properties:
-          totalCount:
-            type: integer
-          continuationToken:
-            x-merge-obj:
-              - $ref: '#/components/schemas/ContinuationToken'
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/Payout'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              continuationToken:
+                x-merge-obj:
+                  - $ref: '#/components/schemas/ContinuationToken'
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payout'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

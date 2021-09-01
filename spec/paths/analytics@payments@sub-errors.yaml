@@ -15,13 +15,15 @@ get:
   responses:
     '200':
       description: Распределение ошибок с подошибками
-      schema:
-        type: object
-        properties:
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/PaymentsSubErrorsDistributionResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentsSubErrorsDistributionResult'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':

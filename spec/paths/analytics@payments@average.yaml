@@ -15,13 +15,15 @@ get:
   responses:
     '200':
       description: Средний размер платежа с группировкой по валютам
-      schema:
-        type: object
-        properties:
-          result:
-            type: array
-            items:
-              $ref: '#/components/schemas/AmountResult'
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AmountResult'
     '404':
       $ref: '#/components/responses/NotFound'
     '401':
