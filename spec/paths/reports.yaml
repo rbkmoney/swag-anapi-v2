@@ -47,7 +47,7 @@ post:
             type: string
             example: Invalid shop id
     '401':
-      $ref: '#/responses/Unauthorized'
+      $ref: '#/components/responses/Unauthorized'
 get:
   description: Получить список отчетов по данному магазину за период
   tags:
@@ -122,4 +122,4 @@ get:
             type: string
             example: 'Max limit: 1000'
     '401':
-      $ref: '#/responses/Unauthorized'
+      $ref: '#/components/responses/Unauthorized'

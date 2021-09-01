@@ -92,8 +92,8 @@ get:
             items:
               $ref: '#/components/schemas/RefundSearchResult'
     '400':
-      $ref: '#/responses/DefaultLogicError'
+      $ref: '#/components/responses/DefaultLogicError'
     '401':
-      $ref: '#/responses/Unauthorized'
+      $ref: '#/components/responses/Unauthorized'
     '404':
-      $ref: '#/responses/NotFound'
+      $ref: '#/components/responses/NotFound'

@@ -1,0 +1,5 @@
+description: Неверные данные
+content:
+  application/json:
+    schema:
+      $ref: '#/components/schemas/DefaultLogicError'

@@ -23,8 +23,8 @@ get:
             items:
               $ref: '#/components/schemas/AmountResult'
     '404':
-      $ref: '#/responses/NotFound'
+      $ref: '#/components/responses/NotFound'
     '401':
-      $ref: '#/responses/Unauthorized'
+      $ref: '#/components/responses/Unauthorized'
     '400':
-      $ref: '#/responses/DefaultLogicError'
+      $ref: '#/components/responses/DefaultLogicError'
