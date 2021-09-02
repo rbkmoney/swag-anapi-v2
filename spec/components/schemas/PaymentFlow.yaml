@@ -1,6 +1,4 @@
 type: object
-default:
-  type: PaymentFlowInstant
 required:
   - type
 properties:

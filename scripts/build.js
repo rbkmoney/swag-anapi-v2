@@ -14,5 +14,5 @@ mkdir('-p', TARGET_DIR);
 
 cp('-R', 'web/*', TARGET_DIR + '/');
 
-exec('npm run swagger bundle --        -o ' + TARGET_DIR + '/swagger.json');
-exec('npm run swagger bundle -- --yaml -o ' + TARGET_DIR + '/swagger.yaml');
+exec('npm run swagger bundle --        -o ' + TARGET_DIR + '/openapi.json');
+exec('npm run swagger bundle -- --yaml -o ' + TARGET_DIR + '/openapi.yaml');

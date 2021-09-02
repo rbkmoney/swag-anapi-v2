@@ -32,11 +32,12 @@
         <junit-version>4.12</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
         <springfox-version>2.7.0</springfox-version>
-        <jackson-version>2.8.9</jackson-version>
+        <jackson-version>2.12.5</jackson-version>
         <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
         <spring-version>5.1.3.RELEASE</spring-version>
+        <spring-boot-version>2.3.4.RELEASE</spring-boot-version>
         <javax-annotation-api-version>1.3.2</javax-annotation-api-version>
-        <javax-validation-api-version>1.1.0.Final</javax-validation-api-version>
+        <javax-validation-api-version>2.0.1.Final</javax-validation-api-version>
         <jaxb-version>2.3.1</jaxb-version>
     </properties>
 
@@ -49,6 +50,18 @@
         </dependency>
 
         <!--Spring dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>${spring-boot-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring-boot-version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -96,6 +109,12 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.1</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -127,9 +146,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>2.1.10</version>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
             <scope>provided</scope>
         </dependency>
 
@@ -147,9 +166,9 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.swagger.codegen.v3</groupId>
-                        <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>3.0.27</version>
+                        <groupId>org.openapitools</groupId>
+                        <artifactId>openapi-generator-maven-plugin</artifactId>
+                        <version>5.2.1</version>
                         <executions>
                             <execution>
                                 <id>generate-server</id>
@@ -157,13 +176,11 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
-                                    <inputSpec>web_deploy/swagger.yaml</inputSpec>
-                                    <language>java</language>
+                                    <inputSpec>web_deploy/openapi.yaml</inputSpec>
+                                    <generatorName>spring</generatorName>
                                     <configOptions>
                                         <dateLibrary>java8</dateLibrary>
                                     </configOptions>
-                                    <language>spring</language>
-                                    <library>spring-mvc</library>
                                     <apiPackage>${default.package}.api</apiPackage>
                                     <modelPackage>${default.package}.model</modelPackage>
                                 </configuration>
@@ -178,9 +195,9 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.swagger.codegen.v3</groupId>
-                        <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>3.0.27</version>
+                        <groupId>org.openapitools</groupId>
+                        <artifactId>openapi-generator-maven-plugin</artifactId>
+                        <version>5.2.1</version>
                         <executions>
                             <execution>
                                 <id>generate-client</id>
@@ -188,12 +205,11 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
-                                    <inputSpec>web_deploy/swagger.yaml</inputSpec>
-                                    <language>java</language>
+                                    <inputSpec>web_deploy/openapi.yaml</inputSpec>
+                                    <generatorName>java</generatorName>
                                     <configOptions>
                                         <dateLibrary>java8</dateLibrary>
                                     </configOptions>
-                                    <language>java</language>
                                     <library>resttemplate</library>
                                     <apiPackage>${default.package}.api</apiPackage>
                                     <modelPackage>${default.package}.model</modelPackage>
