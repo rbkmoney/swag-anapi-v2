@@ -11,7 +11,7 @@ build:
 deploy:
   steps:
     - lukevivier/gh-pages:
-      repo: rbkmoney/swag-swag-anapi-v2-public
+      repo: rbkmoney/swag-anapi-v2-public
       token: ${GITHUB_API_TOKEN}
   after-steps:
     - slack-notifier:
