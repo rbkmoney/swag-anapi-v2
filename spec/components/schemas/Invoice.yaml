@@ -36,8 +36,7 @@ allOf:
         format: int64
         minimum: 1
       currency:
-        x-merge-obj:
-          - $ref: '#/components/schemas/Currency'
+        $ref: '#/components/schemas/Currency'
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string

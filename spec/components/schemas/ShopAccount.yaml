@@ -6,8 +6,7 @@ required:
   - settlementID
 properties:
   currency:
-    x-merge-obj:
-      - $ref: '#/components/schemas/Currency'
+    $ref: '#/components/schemas/Currency'
   guaranteeID:
     type: integer
     format: int64

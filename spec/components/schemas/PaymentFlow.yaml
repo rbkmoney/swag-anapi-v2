@@ -1,5 +1,4 @@
 type: object
-discriminator: type
 default:
   type: PaymentFlowInstant
 required:
@@ -11,3 +10,5 @@ properties:
     enum:
       - PaymentFlowInstant
       - PaymentFlowHold
+discriminator:
+  propertyName: type

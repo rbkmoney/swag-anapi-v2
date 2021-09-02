@@ -1,5 +1,4 @@
 type: object
-discriminator: payerType
 properties:
   payerType:
     description: Тип платежного средства
@@ -10,3 +9,5 @@ properties:
       - RecurrentPayer
 required:
   - payerType
+discriminator:
+  propertyName: payerType

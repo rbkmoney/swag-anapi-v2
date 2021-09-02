@@ -1,4 +1,3 @@
-discriminator: digitalWalletDetailsType
 required:
   - digitalWalletDetailsType
 properties:
@@ -6,3 +5,5 @@ properties:
     type: string
     enum:
       - DigitalWalletDetailsQIWI
+discriminator:
+  propertyName: digitalWalletDetailsType

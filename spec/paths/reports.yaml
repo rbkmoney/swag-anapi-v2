@@ -66,25 +66,19 @@ get:
     - $ref: '#/components/parameters/paymentInstitutionRealm'
     - $ref: '#/components/parameters/fromTime'
     - $ref: '#/components/parameters/toTime'
-    - name: limit
-      description: Лимит выборки
-      in: query
-      required: false
-      type: integer
-      format: int32
-      minimum: 1
-      maximum: 1000
+    - $ref: '#/components/parameters/limit'
     - name: reportTypes
       description: Типы отчетов
       in: query
       required: true
-      type: array
-      items:
-        type: string
-        enum:
-          - provisionOfService
-          - paymentRegistry
-          - paymentRegistryByPayout
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - provisionOfService
+            - paymentRegistry
+            - paymentRegistryByPayout
     - name: continuationToken
       in: query
       required: false

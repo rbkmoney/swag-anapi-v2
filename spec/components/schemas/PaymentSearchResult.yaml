@@ -44,8 +44,7 @@ allOf:
         format: int64
         minimum: 0
       currency:
-        x-merge-obj:
-          - $ref: '#/components/schemas/Currency'
+        $ref: '#/components/schemas/Currency'
       payer:
         $ref: '#/components/schemas/Payer'
       flow:
@@ -60,7 +59,6 @@ allOf:
         type: string
         format: date-time
       transactionInfo:
-        description: 'Информация о транзакции'
         $ref: '#/components/schemas/TransactionInfo'
       makeRecurrent:
         $ref: '#/components/schemas/PaymentMakeRecurrent'

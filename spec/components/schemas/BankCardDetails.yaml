@@ -15,8 +15,6 @@ properties:
     type: string
     pattern: '^\d{2,4}$'
   paymentSystem:
-    x-merge-obj:
-      - $ref: '#/components/schemas/BankCardPaymentSystem'
+    $ref: '#/components/schemas/BankCardPaymentSystem'
   tokenProvider:
-    x-merge-obj:
-      - $ref: '#/components/schemas/BankCardTokenProvider'
+    $ref: '#/components/schemas/BankCardTokenProvider'

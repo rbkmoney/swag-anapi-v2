@@ -1,5 +1,4 @@
 type: object
-discriminator: detailsType
 description: Детали платежного средства
 required:
   - detailsType
@@ -7,3 +6,5 @@ properties:
   detailsType:
     description: Тип информации о платежном средстве
     type: string
+discriminator:
+  propertyName: detailsType

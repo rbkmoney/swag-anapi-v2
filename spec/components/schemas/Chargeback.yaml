@@ -35,16 +35,14 @@ properties:
     format: int64
     minimum: 1
   levyCurrency:
-    x-merge-obj:
-      - $ref: '#/components/schemas/Currency'
+    $ref: '#/components/schemas/Currency'
   bodyAmount:
     description: Сумма чарджбэка
     type: integer
     format: int64
     minimum: 1
   bodyCurrency:
-    x-merge-obj:
-      - $ref: '#/components/schemas/Currency'
+    $ref: '#/components/schemas/Currency'
   fee:
     description: 'Комиссия системы, в минорных денежных единицах'
     type: integer
@@ -61,11 +59,9 @@ properties:
     format: int64
     minimum: 0
   status:
-    x-merge-obj:
-      - $ref: '#/components/schemas/ChargebackStatus'
+    $ref: '#/components/schemas/ChargebackStatus'
   stage:
-    x-merge-obj:
-      - $ref: '#/components/schemas/ChargebackStage'
+    $ref: '#/components/schemas/ChargebackStage'
   chargebackReason:
     $ref: '#/components/schemas/ChargebackReason'
   content:

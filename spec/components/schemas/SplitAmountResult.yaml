@@ -5,11 +5,9 @@ required:
   - offsetAmounts
 properties:
   splitUnit:
-    x-merge-obj:
-      - $ref: '#/components/schemas/SplitUnit'
+    $ref: '#/components/schemas/SplitUnit'
   currency:
-    x-merge-obj:
-      - $ref: '#/components/schemas/Currency'
+    $ref: '#/components/schemas/Currency'
   offsetAmounts:
     type: array
     items:

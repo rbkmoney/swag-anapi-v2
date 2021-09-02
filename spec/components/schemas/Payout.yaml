@@ -35,8 +35,7 @@ properties:
     format: int64
     minimum: 0
   currency:
-    x-merge-obj:
-      - $ref: '#/components/schemas/Currency'
+    $ref: '#/components/schemas/Currency'
   payoutToolDetails:
     $ref: '#/components/schemas/PayoutToolDetails'
   status:

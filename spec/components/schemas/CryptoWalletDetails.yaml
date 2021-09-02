@@ -2,5 +2,4 @@ required:
   - cryptoCurrency
 properties:
   cryptoCurrency:
-    x-merge-obj:
-      - $ref: '#/components/schemas/CryptoCurrency'
+    $ref: '#/components/schemas/CryptoCurrency'
