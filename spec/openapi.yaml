@@ -36,7 +36,7 @@ info:
   contact:
     name: RBKmoney support team
     email: support@rbk.money
-    url: https://rbk.money
+    url: https://api.rbk.money
 servers:
   - url: 'https://api.rbk.money/lk/v1'
 security:
