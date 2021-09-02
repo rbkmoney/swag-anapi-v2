@@ -1,5 +1,5 @@
 description: >-
   Валюта, символьный код согласно [ISO
-  4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+  4217](https://www.iso.org/iso-4217-currency-codes.html).
 type: string
 pattern: '^[A-Z]{3}$'
