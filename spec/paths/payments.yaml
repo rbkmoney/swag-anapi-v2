@@ -150,16 +150,16 @@ get:
         type: string
         maxLength: 40
         minLength: 1
-    - x-merge-obj:
-      - name: bankCardTokenProvider
-        in: query
-        required: false
-      - $ref: '#/components/schemas/BankCardTokenProvider'
-    - x-merge-obj:
-      - name: bankCardPaymentSystem
-        in: query
-        required: false
-      - $ref: '#/components/schemas/BankCardPaymentSystem'
+    - name: bankCardTokenProvider
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/BankCardTokenProvider'
+    - name: bankCardPaymentSystem
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/BankCardPaymentSystem'
     - name: paymentAmountFrom
       in: query
       description: Минимальная сумма платежа
@@ -184,11 +184,11 @@ get:
         type: array
         items:
           type: string
-    - x-merge-obj:
-      - name: continuationToken
-        in: query
-        required: false
-      - $ref: '#/components/schemas/ContinuationToken'
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/ContinuationToken'
   responses:
     '200':
       description: Найденные платежи
@@ -198,8 +198,7 @@ get:
             type: object
             properties:
               continuationToken:
-                x-merge-obj:
-                  - $ref: '#/components/schemas/ContinuationToken'
+                $ref: '#/components/schemas/ContinuationToken'
               result:
                 type: array
                 items:

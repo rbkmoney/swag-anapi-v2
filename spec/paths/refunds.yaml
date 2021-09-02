@@ -71,11 +71,11 @@ get:
         type: array
         items:
           type: string
-    - x-merge-obj:
-      - name: continuationToken
-        in: query
-        required: false
-      - $ref: '#/components/schemas/ContinuationToken'
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/ContinuationToken'
   responses:
     '200':
       description: Найденные возвраты
@@ -87,8 +87,7 @@ get:
               totalCount:
                 type: integer
               continuationToken:
-                x-merge-obj:
-                  - $ref: '#/components/schemas/ContinuationToken'
+                $ref: '#/components/schemas/ContinuationToken'
               result:
                 type: array
                 items:
