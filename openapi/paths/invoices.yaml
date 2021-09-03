@@ -1,4 +1,5 @@
 get:
+  description: Поиск инвойсов
   summary: Поиск инвойсов
   tags:
     - Search

@@ -1,4 +1,5 @@
 get:
+  description: Поиск платежей
   summary: Поиск платежей
   tags:
     - Search

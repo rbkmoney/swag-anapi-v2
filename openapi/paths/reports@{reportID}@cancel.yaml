@@ -1,4 +1,5 @@
 post:
+  description: Отменить указанный отчет. Отчеты типа `provisionOfService` отменить нельзя
   summary: Отменить указанный отчет. Отчеты типа `provisionOfService` отменить нельзя
   tags:
     - Reports
