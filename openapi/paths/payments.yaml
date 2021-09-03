@@ -1,0 +1,211 @@
+get:
+  description: Поиск платежей
+  tags:
+    - Search
+  operationId: searchPayments
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/limit.yaml'
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: paymentStatus
+      in: query
+      description: Статус платежа для поиска
+      required: false
+      schema:
+        type: string
+        enum:
+          - pending
+          - processed
+          - captured
+          - cancelled
+          - refunded
+          - failed
+    - name: paymentFlow
+      in: query
+      description: Flow платежа
+      required: false
+      schema:
+        type: string
+        enum:
+          - instant
+          - hold
+    - name: paymentMethod
+      in: query
+      description: Метод оплаты
+      required: false
+      schema:
+        type: string
+        enum:
+          - bankCard
+          - paymentTerminal
+    - name: paymentTerminalProvider
+      in: query
+      description: Провайдер платежного терминала
+      required: false
+      schema:
+        type: string
+        enum:
+          - euroset
+          - wechat
+          - alipay
+          - zotapay
+          - qps
+          - uzcard
+          - rbs
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: paymentID
+      in: query
+      description: Идентификатор платежа
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: externalID
+      in: query
+      description: Внешний идентификатор
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: payerEmail
+      in: query
+      description: 'Email, указанный при оплате'
+      required: false
+      schema:
+        type: string
+        format: email
+        maxLength: 100
+    - name: payerIP
+      in: query
+      description: IP-адрес плательщика
+      required: false
+      schema:
+        type: string
+        format: ip-address
+        maxLength: 45
+    - name: payerFingerprint
+      in: query
+      description: Уникальный отпечаток user agent'а плательщика
+      required: false
+      schema:
+        type: string
+        maxLength: 1000
+    - name: customerID
+      in: query
+      description: Идентификатор плательщика
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: first6
+      in: query
+      description: Первые 6 цифр номера карты
+      required: false
+      schema:
+        type: string
+        pattern: '^\d{6}$'
+    - name: last4
+      in: query
+      description: Последние 4 цифры номера карты
+      required: false
+      schema:
+        type: string
+        pattern: '^\d{4}$'
+    - name: rrn
+      in: query
+      description: 'Retrieval Reference Number'
+      required: false
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{12}$'
+    - name: approvalCode
+      in: query
+      description: 'Authorization Approval Code'
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: bankCardTokenProvider
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/BankCardTokenProvider.yaml'
+    - name: bankCardPaymentSystem
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/BankCardPaymentSystem.yaml'
+    - name: paymentAmountFrom
+      in: query
+      description: Минимальная сумма платежа
+      required: false
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    - name: paymentAmountTo
+      in: query
+      description: Максимальная сумма платежа
+      required: false
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    - name: excludedShops
+      in: query
+      description: Идентификаторы магазинов, исключаемых из поиска
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/ContinuationToken.yaml'
+  responses:
+    '200':
+      description: Найденные платежи
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              continuationToken:
+                $ref: '../components/schemas/ContinuationToken.yaml'
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/PaymentSearchResult.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

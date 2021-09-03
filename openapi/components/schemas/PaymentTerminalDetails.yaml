@@ -1,0 +1,5 @@
+required:
+  - provider
+properties:
+  provider:
+    $ref: '../schemas/PaymentTerminalProvider.yaml'

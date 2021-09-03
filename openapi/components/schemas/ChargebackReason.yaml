@@ -1,0 +1,10 @@
+description: Данные о причине чарджбэка
+type: object
+required:
+  - category
+properties:
+  code:
+    description: Код категории
+    type: string
+  category:
+    $ref: '../schemas/ChargebackCategory.yaml'

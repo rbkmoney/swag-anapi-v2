@@ -1,0 +1,5 @@
+description: Неверные данные
+content:
+  application/json; charset=utf-8:
+    schema:
+      $ref: '../schemas/DefaultLogicError.yaml'

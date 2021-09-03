@@ -1,0 +1,70 @@
+type: object
+required:
+  - invoiceId
+  - paymentId
+  - chargebackId
+  - shopID
+  - createdAt
+  - bodyAmount
+  - bodyCurrency
+  - levyAmount
+  - levyCurrency
+properties:
+  invoiceId:
+    description: Идентификатор инвойса
+    type: string
+  paymentId:
+    description: Идентификатор платежа
+    type: string
+  chargebackId:
+    description: Идентификатор чарджбэка
+    type: string
+  externalId:
+    description: Внешний идентификатор
+    type: string
+  shopID:
+    description: Идентификатор магазина
+    type: string
+  createdAt:
+    description: Дата и время создания
+    type: string
+    format: date-time
+  levyAmount:
+    description: Сумма списываемых средств у чарджбека
+    type: integer
+    format: int64
+    minimum: 1
+  levyCurrency:
+    $ref: '../schemas/Currency.yaml'
+  bodyAmount:
+    description: Сумма чарджбэка
+    type: integer
+    format: int64
+    minimum: 1
+  bodyCurrency:
+    $ref: '../schemas/Currency.yaml'
+  fee:
+    description: 'Комиссия системы, в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  providerFee:
+    description: 'Комиссия провайдера, в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  externalFee:
+    description: 'Комиссия внешней системы системы, в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  status:
+    $ref: '../schemas/ChargebackStatus.yaml'
+  stage:
+    $ref: '../schemas/ChargebackStage.yaml'
+  chargebackReason:
+    $ref: '../schemas/ChargebackReason.yaml'
+  content:
+    $ref: '../schemas/Content.yaml'
+
+

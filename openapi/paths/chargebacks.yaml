@@ -1,0 +1,105 @@
+get:
+  description: Поиск чарджбэков
+  tags:
+    - Search
+  operationId: searchChargebacks
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/limit.yaml'
+    - $ref: '../components/parameters/offset.yaml'
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: paymentID
+      in: query
+      description: Идентификатор платежа
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: chargebackID
+      in: query
+      description: Идентификатор чарджбэка
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: chargebackStatuses
+      in: query
+      description: Статусы чарджбэков
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - cancelled
+    - name: chargebackStages
+      in: query
+      description: Этапы чарджбэков
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - chargeback
+            - pre_arbitration
+            - arbitration
+    - name: chargebackCategories
+      in: query
+      description: Категории чарджбэков
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - fraud
+            - dispute
+            - authorisation
+            - processing_error
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/ContinuationToken.yaml'
+  responses:
+    '200':
+      description: Найденные чарджбэки
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              continuationToken:
+                $ref: '../components/schemas/ContinuationToken.yaml'
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/Chargeback.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

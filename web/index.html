@@ -2,46 +2,24 @@
 <html>
 
 <head>
-    <title>RBKmoney Swag anapi v2 API</title>
+    <title>RBKmoney Anapi v2 API</title>
     <!-- needed for adaptive design -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="widnth=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js">
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <!--
-    ReDoc doesn't change outer page styles
+    ReDoc uses font options from the parent element
+    So override default browser styles
     -->
     <style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+        }
     </style>
+    {{{redocHead}}}
 </head>
-
 <body>
-    <div id='redoc'></div>
-    <script type="text/javascript">
-      // Since we serve three different specs from a single domain we hack up a
-      // simple way to redirect user to one or another
-      var spec = window.location.search.substring(1);
-      if (spec.length === 0) {
-          spec = "./swagger.json";
-      }
-      Redoc.init(
-          spec,
-          {
-              theme: {
-                  breakpoints: {
-                      // 3-panel view fix
-                      medium: '75rem'
-                  }
-              }
-          },
-          document.getElementById('redoc')
-      );
-    </script>
+{{{redocHTML}}}
 </body>
-
 </html>

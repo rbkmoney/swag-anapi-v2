@@ -1,3 +1,0 @@
-allOf:
-  - description: Данные корреспондентского счёта указанного банка
-  - $ref: '#/components/schemas/InternationalBankAccount'

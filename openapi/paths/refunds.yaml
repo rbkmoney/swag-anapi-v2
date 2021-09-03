@@ -1,0 +1,100 @@
+get:
+  description: Поиск возвратов
+  tags:
+    - Search
+  operationId: searchRefunds
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/limit.yaml'
+    - $ref: '../components/parameters/offset.yaml'
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: paymentID
+      in: query
+      description: Идентификатор платежа
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: refundID
+      in: query
+      description: Идентификатор возврата
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: externalID
+      in: query
+      description: Внешний идентификатор
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: refundStatus
+      in: query
+      description: Статус возврата
+      schema:
+        type: string
+        enum:
+          - pending
+          - succeeded
+          - failed
+    - name: excludedShops
+      in: query
+      description: 'Идентификаторы магазинов, исключаемых из поиска'
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/ContinuationToken.yaml'
+  responses:
+    '200':
+      description: Найденные возвраты
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              continuationToken:
+                $ref: '../components/schemas/ContinuationToken.yaml'
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/RefundSearchResult.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'

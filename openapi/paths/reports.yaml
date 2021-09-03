@@ -1,0 +1,126 @@
+post:
+  description: >-
+    Сгенерировать отчет с указанным типом по магазину за указанный промежуток
+    времени
+  tags:
+    - Reports
+  operationId: createReport
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - name: reportType
+      in: query
+      description: Тип отчета
+      required: true
+      schema:
+        type: string
+        enum:
+          - paymentRegistry
+  responses:
+    '201':
+      description: Отчет создан
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '../components/schemas/Report.yaml'
+    '400':
+      description: Ошибочные данные для генерации
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - ambiguousPartyID
+                  - invalidShopID
+                  - invalidRequest
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid shop id
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+get:
+  description: Получить список отчетов по данному магазину за период
+  tags:
+    - Reports
+  operationId: searchReports
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/limit.yaml'
+    - name: reportTypes
+      description: Типы отчетов
+      in: query
+      required: true
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - provisionOfService
+            - paymentRegistry
+            - paymentRegistryByPayout
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/ContinuationToken.yaml'
+  responses:
+    '200':
+      description: Найденные отчеты
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              continuationToken:
+                $ref: '../components/schemas/ContinuationToken.yaml'
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/Report.yaml'
+    '400':
+      description: Ошибочные данные для получения
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - ambiguousPartyID
+                  - limitExceeded
+                  - invalidRequest
+                  - invalidPartyID
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: 'Max limit: 1000'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
