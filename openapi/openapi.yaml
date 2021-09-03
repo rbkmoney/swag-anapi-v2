@@ -37,6 +37,9 @@ info:
     name: RBKmoney support team
     email: support@rbk.money
     url: https://api.rbk.money
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: 'https://api.rbk.money/lk/v1'
 security:

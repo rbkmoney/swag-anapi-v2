@@ -1,5 +1,5 @@
 post:
-  description: >-
+  summary: >-
     Сгенерировать отчет с указанным типом по магазину за указанный промежуток
     времени
   tags:
@@ -53,7 +53,7 @@ post:
     '401':
       $ref: '../components/responses/Unauthorized.yaml'
 get:
-  description: Получить список отчетов по данному магазину за период
+  summary: Получить список отчетов по данному магазину за период
   tags:
     - Reports
   operationId: searchReports

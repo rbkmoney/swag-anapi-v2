@@ -1,5 +1,5 @@
 get:
-  description: Поиск чарджбэков
+  summary: Поиск чарджбэков
   tags:
     - Search
   operationId: searchChargebacks

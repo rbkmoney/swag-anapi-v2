@@ -1,5 +1,5 @@
 get:
-  description: Получение списка оборотов с группировкой по валютам
+  summary: Получение списка оборотов с группировкой по валютам
   tags:
     - Analytics
   operationId: getPaymentsAmount

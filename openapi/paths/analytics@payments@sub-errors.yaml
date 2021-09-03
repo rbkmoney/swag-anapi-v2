@@ -1,5 +1,5 @@
 get:
-  description: Получение распределения ошибок с подошибками
+  summary: Получение распределения ошибок с подошибками
   tags:
     - Analytics
   operationId: getPaymentsSubErrorDistribution

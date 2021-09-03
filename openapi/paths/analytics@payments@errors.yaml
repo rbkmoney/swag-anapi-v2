@@ -1,5 +1,5 @@
 get:
-  description: Получение распределения ошибок
+  summary: Получение распределения ошибок
   tags:
     - Analytics
   operationId: getPaymentsErrorDistribution

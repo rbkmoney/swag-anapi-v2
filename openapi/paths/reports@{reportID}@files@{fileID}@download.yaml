@@ -1,5 +1,5 @@
 get:
-  description: Скачать файл
+  summary: Скачать файл
   tags:
     - Reports
   operationId: downloadFile

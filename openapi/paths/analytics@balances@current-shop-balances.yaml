@@ -1,5 +1,5 @@
 get:
-  description: Получение текущего баланса с группировкой по магазинам
+  summary: Получение текущего баланса с группировкой по магазинам
   tags:
     - Analytics
   operationId: getCurrentBalancesGroupByShop

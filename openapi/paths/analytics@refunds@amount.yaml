@@ -1,5 +1,5 @@
 get:
-  description: Получение списка возвратов с группировкой по валютам
+  summary: Получение списка возвратов с группировкой по валютам
   tags:
     - Analytics
   operationId: getRefundsAmount

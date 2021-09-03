@@ -1,5 +1,5 @@
 get:
-  description: Получить отчет по данному идентификатору
+  summary: Получить отчет по данному идентификатору
   tags:
     - Reports
   operationId: getReport

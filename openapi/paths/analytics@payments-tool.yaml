@@ -1,5 +1,5 @@
 get:
-  description: Получение распределения использования платежных инструментов
+  summary: Получение распределения использования платежных инструментов
   tags:
     - Analytics
   operationId: getPaymentsToolDistribution
