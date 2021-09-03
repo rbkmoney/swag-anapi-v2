@@ -1,0 +1,9 @@
+description: Единица времени сегмента разбиения
+type: string
+enum:
+  - minute
+  - hour
+  - day
+  - week
+  - month
+  - year

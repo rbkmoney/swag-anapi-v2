@@ -1,0 +1,9 @@
+name: paymentInstitutionRealm
+in: query
+description: Тип магазина, тестовый или «боевой»
+required: false
+schema:
+  type: string
+  enum:
+    - live
+    - test

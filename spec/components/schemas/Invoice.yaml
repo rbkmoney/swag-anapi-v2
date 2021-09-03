@@ -1,0 +1,56 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - id
+      - shopID
+      - createdAt
+      - dueDate
+      - amount
+      - currency
+      - product
+      - metadata
+    properties:
+      id:
+        description: Идентификатор инвойса
+        type: string
+      externalID:
+        description: Внешний идентификатор
+        type: string
+      shopID:
+        description: Идентификатор магазина
+        type: string
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      dueDate:
+        description: Дата и время окончания действия
+        type: string
+        format: date-time
+      amount:
+        description: |
+          Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        $ref: '#/components/schemas/Currency'
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+        maxLength: 1000
+      invoiceTemplateID:
+        description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
+        type: string
+      cart:
+        $ref: '#/components/schemas/InvoiceCart'
+      metadata:
+        description: Связанные с инвойсом метаданные
+        type: object
+  - $ref: '#/components/schemas/InvoiceStatus'

@@ -1,0 +1,73 @@
+get:
+  description: Поиск выплат
+  tags:
+    - Search
+  operationId: searchPayouts
+  parameters:
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/partyIDQuery'
+    - $ref: '#/components/parameters/shopIDQuery'
+    - $ref: '#/components/parameters/shopIDs'
+    - $ref: '#/components/parameters/paymentInstitutionRealm'
+    - $ref: '#/components/parameters/fromTime'
+    - $ref: '#/components/parameters/toTime'
+    - $ref: '#/components/parameters/limit'
+    - $ref: '#/components/parameters/offset'
+    - name: payoutID
+      in: query
+      description: Идентификатор выплаты
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: payoutToolType
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - PayoutAccount
+          - Wallet
+          - PaymentInstitutionAccount
+        description: >
+          Тип выплаты для поиска
+            * PayoutAccount - выплата на банковский счёт
+            * Wallet - выплата на кошелёк
+            * PaymentInstitutionAccount - выплата на счёт платежной организации
+    - name: excludedShops
+      in: query
+      description: Идентификаторы магазинов, исключаемых из поиска
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/ContinuationToken'
+  responses:
+    '200':
+      description: Найденные выплаты
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              continuationToken:
+                $ref: '#/components/schemas/ContinuationToken'
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payout'
+    '404':
+      $ref: '#/components/responses/NotFound'
+    '401':
+      $ref: '#/components/responses/Unauthorized'
+    '400':
+      $ref: '#/components/responses/DefaultLogicError'

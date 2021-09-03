@@ -1,0 +1,6 @@
+description: Этап прохождения чарджбэка
+type: string
+enum:
+  - chargeback
+  - pre_arbitration
+  - arbitration

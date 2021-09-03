@@ -1,0 +1,10 @@
+description: Провайдер терминальной сети
+type: string
+enum:
+  - euroset
+  - wechat
+  - alipay
+  - zotapay
+  - qps
+  - uzcard
+  - rbs

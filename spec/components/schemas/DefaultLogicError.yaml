@@ -1,0 +1,17 @@
+type: object
+required:
+  - code
+  - message
+properties:
+  code:
+    description: |
+      [Код ошибки](#tag/Error-Codes)
+    type: string
+    enum:
+      - invalidRequest
+      - ambiguousPartyID
+      - invalidDeadline
+      - invalidPartyID
+  message:
+    description: Человекочитаемое описание ошибки
+    type: string

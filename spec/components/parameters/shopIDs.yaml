@@ -1,0 +1,8 @@
+name: shopIDs
+in: query
+description: Идентификаторы магазинов
+required: false
+schema:
+  type: array
+  items:
+    type: string

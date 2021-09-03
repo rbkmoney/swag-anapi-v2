@@ -1,0 +1,30 @@
+get:
+  description: Получение текущего баланса по магазину
+  tags:
+    - Analytics
+  operationId: getCurrentBalances
+  parameters:
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/partyIDQuery'
+    - $ref: '#/components/parameters/shopIDs'
+    - $ref: '#/components/parameters/excludeShopIDs'
+    - $ref: '#/components/parameters/paymentInstitutionRealm'
+  responses:
+    '200':
+      description: Список оборотов с группировкой по валютам
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AmountResult'
+    '404':
+      $ref: '#/components/responses/NotFound'
+    '401':
+      $ref: '#/components/responses/Unauthorized'
+    '400':
+      $ref: '#/components/responses/DefaultLogicError'

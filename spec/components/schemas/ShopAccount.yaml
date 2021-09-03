@@ -1,0 +1,15 @@
+description: Счета магазина
+type: object
+required:
+  - currency
+  - guaranteeID
+  - settlementID
+properties:
+  currency:
+    $ref: '#/components/schemas/Currency'
+  guaranteeID:
+    type: integer
+    format: int64
+  settlementID:
+    type: integer
+    format: int64

@@ -1,0 +1,9 @@
+name: residence
+in: query
+description: >-
+  Резиденция, alpha-3 код по стандарту [ISO
+  3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+required: false
+schema:
+  type: string
+  pattern: '^[A-Z]{3}$'

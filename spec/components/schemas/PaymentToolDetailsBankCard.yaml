@@ -1,0 +1,4 @@
+type: object
+allOf:
+  - $ref: '#/components/schemas/PaymentToolDetails'
+  - $ref: '#/components/schemas/BankCardDetails'

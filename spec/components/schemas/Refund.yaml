@@ -1,0 +1,37 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - id
+      - createdAt
+      - amount
+      - currency
+      - shopID
+    properties:
+      id:
+        description: Идентификатор возврата
+        type: string
+      externalID:
+        description: Внешний идентификатор
+        type: string
+      createdAt:
+        description: Дата и время осуществления
+        type: string
+        format: date-time
+      amount:
+        description: >
+          Сумма возврата, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        $ref: '#/components/schemas/Currency'
+      reason:
+        description: Причина осуществления возврата
+        type: string
+      shopID:
+        description: Идентификатор магазина
+        type: string
+  - $ref: '#/components/schemas/RefundStatus'

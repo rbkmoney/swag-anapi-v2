@@ -1,0 +1,18 @@
+type: object
+required:
+  - amount
+  - offset
+properties:
+    amount:
+      description: |
+        Стоимость предлагаемых товаров или услуг, в минорных денежных
+        единицах, например в копейках в случае указания российских рублей в
+        качестве валюты.
+      type: integer
+      format: int64
+      minimum: 1
+    offset:
+      description: 'Номер интервала в списке'
+      type: integer
+      format: int64
+      minimum: 0

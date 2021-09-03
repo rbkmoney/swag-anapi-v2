@@ -1,0 +1,8 @@
+name: paymentID
+in: path
+description: Идентификатор платежа в рамках инвойса
+required: true
+schema:
+  type: string
+  maxLength: 40
+  minLength: 1

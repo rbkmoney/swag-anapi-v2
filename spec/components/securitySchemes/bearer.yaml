@@ -1,0 +1,16 @@
+type: apiKey
+name: Authorization
+in: header
+description: >
+  Для аутентификации вызовов мы используем [JWT](https://jwt.io).
+  Cоответствующий ключ передается в заголовке.
+
+  ```shell
+   Authorization: Bearer {JWT}
+  ```
+
+  Посмотреть ваш API-ключ вы можете в [личном
+  кабинете](https://dashboard.rbk.money/).
+
+
+  Помните, что вы никому не должны передавать ваш API ключ!

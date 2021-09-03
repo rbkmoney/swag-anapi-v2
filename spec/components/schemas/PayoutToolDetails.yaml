@@ -1,0 +1,10 @@
+description: Данные средства вывода
+type: object
+properties:
+   detailsType:
+    description: Тип средства вывода
+    type: string
+required:
+  - detailsType
+discriminator:
+  propertyName: detailsType

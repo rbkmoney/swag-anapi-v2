@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - name
+      - percents
+    properties:
+      name:
+        description: Название платежного средства
+        type: string
+      percents:
+        description: Колличество использования платежного инструмента в процентах
+        type: number
+        format: double
+        minimum: 0

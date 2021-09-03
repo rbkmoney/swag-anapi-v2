@@ -1,0 +1,9 @@
+required:
+  - digitalWalletDetailsType
+properties:
+  digitalWalletDetailsType:
+    type: string
+    enum:
+      - DigitalWalletDetailsQIWI
+discriminator:
+  propertyName: digitalWalletDetailsType

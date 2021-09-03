@@ -1,0 +1,9 @@
+name: reportType
+in: query
+description: Тип отчета
+required: true
+schema:
+  type: string
+  enum:
+    - provisionOfService
+    - paymentRegistry

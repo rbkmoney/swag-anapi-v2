@@ -1,0 +1,8 @@
+name: invoiceID
+in: path
+description: Идентификатор инвойса
+required: true
+schema:
+  type: string
+  maxLength: 40
+  minLength: 1

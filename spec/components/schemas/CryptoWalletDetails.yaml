@@ -1,0 +1,5 @@
+required:
+  - cryptoCurrency
+properties:
+  cryptoCurrency:
+    $ref: '#/components/schemas/CryptoCurrency'

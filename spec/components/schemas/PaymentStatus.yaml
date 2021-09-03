@@ -1,0 +1,16 @@
+type: object
+required:
+  - status
+properties:
+  status:
+    description: Статус платежа
+    type: string
+    enum:
+      - pending
+      - processed
+      - captured
+      - cancelled
+      - refunded
+      - failed
+  error:
+    $ref: '#/components/schemas/PaymentError'

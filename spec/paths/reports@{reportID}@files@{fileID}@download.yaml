@@ -1,0 +1,23 @@
+get:
+  description: Скачать файл
+  tags:
+    - Reports
+  operationId: downloadFile
+  parameters:
+    - $ref: '#/components/parameters/requestID'
+    - $ref: '#/components/parameters/deadline'
+    - $ref: '#/components/parameters/reportID'
+    - $ref: '#/components/parameters/fileID'
+  responses:
+    '200':
+      description: Download link
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/ReportLink'
+    '404':
+      $ref: '#/components/responses/NotFound'
+    '401':
+      $ref: '#/components/responses/Unauthorized'
+    '400':
+      $ref: '#/components/responses/DefaultLogicError'
