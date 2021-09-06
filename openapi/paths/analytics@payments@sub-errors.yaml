@@ -1,0 +1,33 @@
+get:
+  description: Получение распределения ошибок с подошибками
+  summary: Получение распределения ошибок с подошибками
+  tags:
+    - Analytics
+  operationId: getPaymentsSubErrorDistribution
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/excludeShopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+  responses:
+    '200':
+      description: Распределение ошибок с подошибками
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/PaymentsSubErrorsDistributionResult.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

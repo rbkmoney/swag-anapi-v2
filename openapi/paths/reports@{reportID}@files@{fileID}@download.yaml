@@ -1,0 +1,24 @@
+get:
+  description: Скачать файл
+  summary: Скачать файл
+  tags:
+    - Reports
+  operationId: downloadFile
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/reportID.yaml'
+    - $ref: '../components/parameters/fileID.yaml'
+  responses:
+    '200':
+      description: Download link
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '../components/schemas/ReportLink.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

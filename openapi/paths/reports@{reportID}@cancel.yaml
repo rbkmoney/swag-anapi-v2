@@ -1,0 +1,19 @@
+post:
+  description: Отменить указанный отчет. Отчеты типа `provisionOfService` отменить нельзя
+  summary: Отменить указанный отчет. Отчеты типа `provisionOfService` отменить нельзя
+  tags:
+    - Reports
+  operationId: cancelReport
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/reportID.yaml'
+  responses:
+    '202':
+      description: Запрос на отмену отчета принят
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

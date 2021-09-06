@@ -1,0 +1,100 @@
+get:
+  description: Поиск инвойсов
+  summary: Поиск инвойсов
+  tags:
+    - Search
+  operationId: searchInvoices
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/limit.yaml'
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: invoiceStatus
+      in: query
+      description: Статус инвойса для поиска
+      required: false
+      schema:
+        type: string
+        enum:
+          - unpaid
+          - cancelled
+          - paid
+          - fulfilled
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: externalID
+      in: query
+      description: Внешний идентификатор
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: invoiceAmountFrom
+      in: query
+      description: Минимальная сумма инвойса
+      required: false
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    - name: invoiceAmountTo
+      in: query
+      description: Максимальная сумма инвойса
+      required: false
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    - name: excludedShops
+      in: query
+      description: Идентификаторы магазинов, исключаемых из поиска
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/ContinuationToken.yaml'
+  responses:
+    '200':
+      description: Найденные инвойсы
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              continuationToken:
+                $ref: '../components/schemas/ContinuationToken.yaml'
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/Invoice.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

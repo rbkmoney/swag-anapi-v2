@@ -1,5 +1,0 @@
-description: Заданный ресурс не найден
-content:
-  application/json; charset=utf-8:
-    schema:
-      $ref: '#/components/schemas/GeneralError'

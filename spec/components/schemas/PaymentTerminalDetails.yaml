@@ -1,5 +1,0 @@
-required:
-  - provider
-properties:
-  provider:
-    $ref: '#/components/schemas/PaymentTerminalProvider'

@@ -1,4 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/components/schemas/PayoutToolDetails'
-  - $ref: '#/components/schemas/InternationalBankAccount'

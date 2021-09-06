@@ -1,0 +1,11 @@
+type: object
+description: Одноразовое платежное средство
+allOf:
+  - $ref: '../schemas/Payer.yaml'
+  - $ref: '../schemas/PaymentResource.yaml'
+  - type: object
+    required:
+      - contactInfo
+    properties:
+      contactInfo:
+        $ref: '../schemas/ContactInfo.yaml'

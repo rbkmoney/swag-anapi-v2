@@ -1,0 +1,30 @@
+get:
+  description: Получение текущего баланса с группировкой по магазинам
+  summary: Получение текущего баланса с группировкой по магазинам
+  tags:
+    - Analytics
+  operationId: getCurrentBalancesGroupByShop
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/excludeShopIDs.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+  responses:
+    '200':
+      description: Список балансов с группировкой по магазинам
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/GroupByShopAmountResult.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

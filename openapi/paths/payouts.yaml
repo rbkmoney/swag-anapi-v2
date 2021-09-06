@@ -1,0 +1,74 @@
+get:
+  description: Поиск выплат
+  summary: Поиск выплат
+  tags:
+    - Search
+  operationId: searchPayouts
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/limit.yaml'
+    - $ref: '../components/parameters/offset.yaml'
+    - name: payoutID
+      in: query
+      description: Идентификатор выплаты
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: payoutToolType
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - PayoutAccount
+          - Wallet
+          - PaymentInstitutionAccount
+        description: >
+          Тип выплаты для поиска
+            * PayoutAccount - выплата на банковский счёт
+            * Wallet - выплата на кошелёк
+            * PaymentInstitutionAccount - выплата на счёт платежной организации
+    - name: excludedShops
+      in: query
+      description: Идентификаторы магазинов, исключаемых из поиска
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/ContinuationToken.yaml'
+  responses:
+    '200':
+      description: Найденные выплаты
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              continuationToken:
+                $ref: '../components/schemas/ContinuationToken.yaml'
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/Payout.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

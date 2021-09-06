@@ -1,0 +1,14 @@
+type: object
+required:
+  - splitUnit
+  - currency
+  - offsetAmounts
+properties:
+  splitUnit:
+    $ref: '../schemas/SplitUnit.yaml'
+  currency:
+    $ref: '../schemas/Currency.yaml'
+  offsetAmounts:
+    type: array
+    items:
+      $ref: '../schemas/OffsetAmount.yaml'

@@ -1,0 +1,64 @@
+type: object
+allOf:
+  - $ref: '../schemas/PaymentStatus.yaml'
+  - type: object
+    required:
+      - id
+      - invoiceID
+      - createdAt
+      - amount
+      - currency
+      - payer
+      - flow
+    properties:
+      id:
+        description: Идентификатор платежа
+        type: string
+      shortID:
+        description: Cокращенный идентификатор платежа и инвойса (spid)
+        type: string
+      invoiceID:
+        description: 'Идентификатор инвойса, в рамках которого был создан платеж'
+        type: string
+      externalID:
+        description: Внешний идентификатор
+        type: string
+      shopID:
+        description: 'Идентификатор магазина, в рамках которого был создан платеж'
+        type: string
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      amount:
+        description: |
+          Стоимость предлагаемых товаров или услуг, в минорных денежных
+          единицах, например в копейках в случае указания российских рублей в
+          качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      fee:
+        description: 'Комиссия системы, в минорных денежных единицах'
+        type: integer
+        format: int64
+        minimum: 0
+      currency:
+        $ref: '../schemas/Currency.yaml'
+      payer:
+        $ref: '../schemas/Payer.yaml'
+      flow:
+        $ref: '../schemas/PaymentFlow.yaml'
+      geoLocationInfo:
+        $ref: '../schemas/GeoLocationInfo.yaml'
+      metadata:
+        description: Связанные с платежом метаданные
+        type: object
+      statusChangedAt:
+        description: Дата и время изменения статуса платежа
+        type: string
+        format: date-time
+      transactionInfo:
+        $ref: '../schemas/TransactionInfo.yaml'
+      makeRecurrent:
+        $ref: '../schemas/PaymentMakeRecurrent.yaml'
