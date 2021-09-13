@@ -8,3 +8,8 @@ required:
   - detailsType
 discriminator:
   propertyName: detailsType
+  mapping:
+    'PayoutToolDetailsBankAccount': '../schemas/PayoutToolDetailsBankAccount.yaml'
+    'PayoutToolDetailsInternationalBankAccount': '../schemas/PayoutToolDetailsInternationalBankAccount.yaml'
+    'PayoutToolDetailsPaymentsInstitutionAccount': '../schemas/PayoutToolDetailsPaymentInstitutionAccount.yaml'
+    'PayoutToolDetailsWalletInfo': '../schemas/PayoutToolDetailsWalletInfo.yaml'
