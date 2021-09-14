@@ -8,20 +8,19 @@ get:
     - $ref: '../components/parameters/requestID.yaml'
     - $ref: '../components/parameters/deadline.yaml'
     - $ref: '../components/parameters/partyIDQuery.yaml'
-    - $ref: '../components/parameters/shopIDQuery.yaml'
     - $ref: '../components/parameters/shopIDs.yaml'
-    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
     - $ref: '../components/parameters/fromTime.yaml'
     - $ref: '../components/parameters/toTime.yaml'
     - $ref: '../components/parameters/limit.yaml'
-    - name: invoiceTemplateIDs
+    - name: invoiceTemplateStatus
       in: query
-      description: Список шаблонов инвойсов
+      description: Статус шаблона инвойса для поиска
       required: false
       schema:
-        type: array
-        items:
-          type: string
+        type: string
+        enum:
+          - created
+          - deleted
     - name: invoiceTemplateID
       in: query
       description: Идентификатор шаблона инвойса
@@ -30,19 +29,36 @@ get:
         type: string
         maxLength: 40
         minLength: 1
-    - name: excludedShops
-      in: query
-      description: Идентификаторы магазинов, исключаемых из поиска
-      required: false
-      schema:
-        type: array
-        items:
-          type: string
     - name: continuationToken
       in: query
       required: false
       schema:
         $ref: '../components/schemas/ContinuationToken.yaml'
+    - name: name
+      in: query
+      description: Название шаблона инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: product
+      in: query
+      description: Наименование товара или услуги
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: invoiceValidUntil
+      in: query
+      description: Срок действия шаблона
+      required: false
+      schema:
+        type: string
+        format: date-time
+        maxLength: 40
+        minLength: 1
   responses:
     '200':
       description: Найденные шаблоны инвойсов

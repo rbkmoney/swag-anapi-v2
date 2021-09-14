@@ -2,20 +2,26 @@ type: object
 allOf:
   - type: object
     required:
-      - id
+      - eventCreatedAt
+      - partyID
       - shopID
-      - invoiceLifetime
+      - invoiceTemplateID
+      - invoiceValidUntil
       - product
-      - invoiceTemplateDetails
     properties:
-      id:
-        description: Идентификатор инвойса
+      invoiceTemplateId:
+        description: Идентификатор шаблона инвойса
+        type: string
+      partyID:
+        description: Идентификатор участника
         type: string
       shopID:
         description: Идентификатор магазина
         type: string
-      invoiceLifetime:
-        $ref: '../schemas/InvoiceLifeTime.yaml'
+      eventCreatedAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string
@@ -26,7 +32,13 @@ allOf:
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
-      createdAt:
+      invoiceTemplateStatus:
+        description: Статус инвойса
+        type: string
+        enum:
+          - created
+          - deleted
+      invoiceTemplateCreatedAt:
         description: Дата и время создания
         type: string
         format: date-time
