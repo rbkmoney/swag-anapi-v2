@@ -32,10 +32,10 @@ allOf:
       details:
         $ref: '../schemas/InvoiceTemplateDetails.yaml'
       name:
-        description: Имя шаблона
+        description: Имя шаблона инвойса
         type: string
       invoiceTemplateStatus:
-        description: Статус инвойса
+        description: Статус шаблона инвойса
         type: string
         enum:
           - created
