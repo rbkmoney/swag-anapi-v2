@@ -3,22 +3,22 @@ allOf:
   - type: object
     required:
       - eventCreatedAt
-      - partyID
       - shopID
       - invoiceTemplateID
       - invoiceValidUntil
       - product
     properties:
-      invoiceTemplateId:
-        description: Идентификатор шаблона инвойса
+      eventCreatedAt:
+        description: Дата и время создания
         type: string
-      partyID:
-        description: Идентификатор участника
-        type: string
+        format: date-time
       shopID:
         description: Идентификатор магазина
         type: string
-      eventCreatedAt:
+      invoiceTemplateId:
+        description: Идентификатор шаблона инвойса
+        type: string
+      invoiceValidUntil:
         description: Дата и время создания
         type: string
         format: date-time
@@ -26,11 +26,13 @@ allOf:
         description: Наименование предлагаемых товаров или услуг
         type: string
         maxLength: 100
-      name:
-        description: Имя шаблона
-        type: string
       description:
         description: Описание предлагаемых товаров или услуг
+        type: string
+      details:
+        $ref: '../schemas/InvoiceTemplateDetails.yaml'
+      name:
+        description: Имя шаблона
         type: string
       invoiceTemplateStatus:
         description: Статус инвойса
@@ -42,5 +44,3 @@ allOf:
         description: Дата и время создания
         type: string
         format: date-time
-      details:
-        $ref: '../schemas/InvoiceTemplateDetails.yaml'
