@@ -1,0 +1,34 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - id
+      - shopID
+      - invoiceLifetime
+      - product
+      - invoiceTemplateDetails
+    properties:
+      id:
+        description: Идентификатор инвойса
+        type: string
+      shopID:
+        description: Идентификатор магазина
+        type: string
+      invoiceLifetime:
+        $ref: '../schemas/InvoiceLifeTime.yaml'
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      name:
+        description: Имя шаблона
+        type: string
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      details:
+        $ref: '../schemas/InvoiceTemplateDetails.yaml'

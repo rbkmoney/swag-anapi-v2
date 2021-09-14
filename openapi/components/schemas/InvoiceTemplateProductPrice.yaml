@@ -1,0 +1,14 @@
+type: object
+required:
+  - costType
+properties:
+  costType:
+    type: string
+    enum:
+      - fixed
+      - range
+      - unlim
+  fixed:
+    $ref: '../schemas/Cash.yaml'
+  range:
+    $ref: '../schemas/CashRange.yaml'
