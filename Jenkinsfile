@@ -10,7 +10,7 @@ build('swag-anapi-v2', 'docker-host') {
     def gitUtils
     runStage('load pipeline') {
         env.JENKINS_LIB = "build_utils/jenkins_lib"
-        pipeDefault = load("${env.JENKINS_LIB}/pipeDefault.groovy")
+        pipeDefault = load("${env.JENKINS_LIB}/pipeJavaLibInsideDocker.groovy")
         withWsCache = load("${env.JENKINS_LIB}/withWsCache.groovy")
         gitUtils = load("${env.JENKINS_LIB}/gitUtils.groovy")
     }
