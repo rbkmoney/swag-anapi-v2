@@ -47,7 +47,7 @@ endif
 REPO_PROFILE := private
 
 ifdef REPO_PUBLIC
-ifeq REPO_PUBLIC "true"
+ifeq ($(REPO_PUBLIC), "true")
 REPO_PROFILE := public
 endif
 endif
