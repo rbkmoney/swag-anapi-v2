@@ -44,6 +44,14 @@ JAVA_PKG_VERSION := $(JAVA_PKG_VERSION)-epic
 endif
 endif
 
+REPO_PROFILE := private
+
+ifdef REPO_PUBLIC
+ifeq ($(REPO_PUBLIC), "true")
+REPO_PROFILE := public
+endif
+endif
+
 MVN = mvn -s $(SETTINGS_XML) -Dcommit.number="$(NUMBER_COMMITS)"
 
 java.openapi.compile_client: java.settings
@@ -53,7 +61,7 @@ java.openapi.compile_client: java.settings
 java.openapi.deploy_client: java.settings
 	$(MVN) clean && \
 	$(MVN) versions:set versions:commit -DnewVersion="$(JAVA_PKG_VERSION)-client" && \
-	$(MVN) deploy -P="client"
+	$(MVN) deploy -P="client,$(REPO_PROFILE)"
 
 java.openapi.install_client: java.settings
 	$(MVN) clean && \
@@ -67,7 +75,7 @@ java.openapi.compile_server: java.settings
 java.openapi.deploy_server: java.settings
 	$(MVN) clean && \
 	$(MVN) versions:set versions:commit -DnewVersion="$(JAVA_PKG_VERSION)-server" && \
-	$(MVN) deploy -P="server"
+	$(MVN) deploy -P="server,$(REPO_PROFILE)"
 
 java.openapi.install_server: java.settings
 	$(MVN) clean && \
