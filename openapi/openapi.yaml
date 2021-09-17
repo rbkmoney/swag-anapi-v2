@@ -43,7 +43,7 @@ info:
 servers:
   - url: 'https://api.rbk.money/lk/v1'
 security:
-  - bearer: []
+  - bearer: [ ]
 tags:
   - name: Search
     description: |
@@ -143,6 +143,8 @@ paths:
     $ref: './paths/payouts.yaml'
   '/refunds':
     $ref: './paths/refunds.yaml'
+  '/invoice-templates':
+    $ref: './paths/invoice-templates.yaml'
   '/reports':
     $ref: './paths/reports.yaml'
   '/reports/{reportID}':

@@ -1,0 +1,15 @@
+type: object
+required:
+  - product
+  - price
+  - metadata
+properties:
+  product:
+    description: Наименование предлагаемых товаров или услуг
+    type: string
+    maxLength: 1000
+  price:
+    $ref: '../schemas/InvoiceTemplateProductPrice.yaml'
+  metadata:
+    description: Связанные с товарами или услугами метаданные
+    type: object
