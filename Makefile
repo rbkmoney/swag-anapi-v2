@@ -56,7 +56,7 @@ MVN = mvn -s $(SETTINGS_XML) -Dcommit.number="$(NUMBER_COMMITS)"
 
 java.openapi.compile_client: java.settings
 	$(MVN) clean && \
-	$(MVN) compile -P="client"
+	$(MVN) compile -P="client" -P="$(REPO_PROFILE)"
 
 java.openapi.deploy_client: java.settings
 	$(MVN) clean && \
@@ -66,11 +66,11 @@ java.openapi.deploy_client: java.settings
 java.openapi.install_client: java.settings
 	$(MVN) clean && \
     $(MVN) versions:set versions:commit -DnewVersion="$(JAVA_PKG_VERSION)-client" && \
-    $(MVN) install -P="client"
+    $(MVN) install -P="client" -P="$(REPO_PROFILE)"
 
 java.openapi.compile_server: java.settings
 	$(MVN) clean && \
-	$(MVN) compile -P="server"
+	$(MVN) compile -P="server" -P="$(REPO_PROFILE)"
 
 java.openapi.deploy_server: java.settings
 	$(MVN) clean && \
@@ -80,7 +80,7 @@ java.openapi.deploy_server: java.settings
 java.openapi.install_server: java.settings
 	$(MVN) clean && \
     $(MVN) versions:set versions:commit -DnewVersion="$(JAVA_PKG_VERSION)-server" && \
-    $(MVN) install -P="server"
+    $(MVN) install -P="server" -P="$(REPO_PROFILE)"
 
 java.compile: java.settings
 	$(MVN) compile

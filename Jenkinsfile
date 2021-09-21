@@ -10,7 +10,7 @@ build('swag-anapi-v2', 'docker-host') {
     def gitUtils
     runStage('load pipeline') {
         env.JENKINS_LIB = "build_utils/jenkins_lib"
-        pipeDefault = load("${env.JENKINS_LIB}/pipeJavaLibInsideDocker.groovy")
+        pipeDefault = load("${env.JENKINS_LIB}/pipeDefault.groovy")
         withWsCache = load("${env.JENKINS_LIB}/withWsCache.groovy")
         gitUtils = load("${env.JENKINS_LIB}/gitUtils.groovy")
     }
@@ -33,6 +33,7 @@ build('swag-anapi-v2', 'docker-host') {
 
         // Java
         runStage('build java client & server') {
+            env.JAVA_HOME = sh(returnStdout: true, script: 'java-config --select-vm openjdk-bin-11 --jdk-home').trim()
             withCredentials([[$class: 'FileBinding', credentialsId: 'java-maven-settings.xml', variable: 'SETTINGS_XML']]) {
                 if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('epic/')) {
                     sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} REPO_PUBLIC=${REPO_PUBLIC} java.openapi.deploy_client'
