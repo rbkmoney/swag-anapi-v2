@@ -1694,6 +1694,137 @@
         }
       }
     },
+    "/invoice-templates": {
+      "get": {
+        "description": "Поиск шаблонов инвойсов",
+        "summary": "Поиск шаблонов инвойсов",
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchInvoiceTemplates",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/requestID"
+          },
+          {
+            "$ref": "#/components/parameters/deadline"
+          },
+          {
+            "$ref": "#/components/parameters/partyIDQuery"
+          },
+          {
+            "$ref": "#/components/parameters/shopIDs"
+          },
+          {
+            "$ref": "#/components/parameters/fromTime"
+          },
+          {
+            "$ref": "#/components/parameters/toTime"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "name": "invoiceTemplateStatus",
+            "in": "query",
+            "description": "Статус шаблона инвойса для поиска",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created",
+                "deleted"
+              ]
+            }
+          },
+          {
+            "name": "invoiceTemplateID",
+            "in": "query",
+            "description": "Идентификатор шаблона инвойса",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ContinuationToken"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Название шаблона инвойса",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "product",
+            "in": "query",
+            "description": "Наименование товара или услуги",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "invoiceValidUntil",
+            "in": "query",
+            "description": "Срок действия шаблона",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40,
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найденные шаблоны инвойсов",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "continuationToken": {
+                      "$ref": "#/components/schemas/ContinuationToken"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceTemplate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/reports": {
       "post": {
         "description": "Сгенерировать отчет с указанным типом по магазину за указанный промежуток времени",
@@ -3434,6 +3565,173 @@
           },
           {
             "$ref": "#/components/schemas/Refund"
+          }
+        ]
+      },
+      "Cash": {
+        "type": "object",
+        "required": [
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          }
+        }
+      },
+      "CashRange": {
+        "type": "object",
+        "required": [
+          "upperBound",
+          "lowerBound"
+        ],
+        "properties": {
+          "upperBound": {
+            "description": "Верхняя (включительная) граница стоимости товаров или услуг.",
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "lowerBound": {
+            "description": "Нижняя (включительная) граница стоимости товаров или услуг.",
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          }
+        }
+      },
+      "InvoiceTemplateProductPrice": {
+        "type": "object",
+        "required": [
+          "costType"
+        ],
+        "properties": {
+          "costType": {
+            "type": "string",
+            "enum": [
+              "fixed",
+              "range",
+              "unlim"
+            ]
+          },
+          "fixed": {
+            "$ref": "#/components/schemas/Cash"
+          },
+          "range": {
+            "$ref": "#/components/schemas/CashRange"
+          }
+        }
+      },
+      "InvoiceTemplateProduct": {
+        "type": "object",
+        "required": [
+          "product",
+          "price",
+          "metadata"
+        ],
+        "properties": {
+          "product": {
+            "description": "Наименование предлагаемых товаров или услуг",
+            "type": "string",
+            "maxLength": 1000
+          },
+          "price": {
+            "$ref": "#/components/schemas/InvoiceTemplateProductPrice"
+          },
+          "metadata": {
+            "description": "Связанные с товарами или услугами метаданные",
+            "type": "object"
+          }
+        }
+      },
+      "InvoiceTemplateDetails": {
+        "type": "object",
+        "required": [
+          "templateType"
+        ],
+        "properties": {
+          "templateType": {
+            "type": "string",
+            "enum": [
+              "invoiceTemplateMultiLine",
+              "invoiceTemplateSingleLine"
+            ]
+          },
+          "cart": {
+            "$ref": "#/components/schemas/InvoiceCart"
+          },
+          "product": {
+            "$ref": "#/components/schemas/InvoiceTemplateProduct"
+          }
+        }
+      },
+      "InvoiceTemplate": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "eventCreatedAt",
+              "shopID",
+              "invoiceTemplateID",
+              "invoiceValidUntil",
+              "product"
+            ],
+            "properties": {
+              "eventCreatedAt": {
+                "description": "Дата и время создания",
+                "type": "string",
+                "format": "date-time"
+              },
+              "shopID": {
+                "description": "Идентификатор магазина",
+                "type": "string"
+              },
+              "invoiceTemplateId": {
+                "description": "Идентификатор шаблона инвойса",
+                "type": "string"
+              },
+              "invoiceValidUntil": {
+                "description": "Дата и время создания",
+                "type": "string",
+                "format": "date-time"
+              },
+              "product": {
+                "description": "Наименование предлагаемых товаров или услуг",
+                "type": "string",
+                "maxLength": 100
+              },
+              "description": {
+                "description": "Описание предлагаемых товаров или услуг",
+                "type": "string"
+              },
+              "details": {
+                "$ref": "#/components/schemas/InvoiceTemplateDetails"
+              },
+              "name": {
+                "description": "Имя шаблона инвойса",
+                "type": "string"
+              },
+              "invoiceTemplateStatus": {
+                "description": "Статус шаблона инвойса",
+                "type": "string",
+                "enum": [
+                  "created",
+                  "deleted"
+                ]
+              },
+              "invoiceTemplateCreatedAt": {
+                "description": "Дата и время создания",
+                "type": "string",
+                "format": "date-time"
+              }
+            }
           }
         ]
       },
