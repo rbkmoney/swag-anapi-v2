@@ -34,7 +34,7 @@ build('swag-anapi-v2', 'docker-host') {
         // Java
         runStage('build java client & server') {
             env.JAVA_HOME = sh(returnStdout: true, script: 'java-config --select-vm openjdk-bin-11 --jdk-home').trim()
-            withCredentials([[$class: 'FileBinding', credentialsId: 'java-maven-settings.xml', variable: 'SETTINGS_XML']]) {
+            withMaven() {
                 if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('epic/')) {
                     sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} REPO_PUBLIC=${REPO_PUBLIC} java.openapi.deploy_client'
                     sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} REPO_PUBLIC=${REPO_PUBLIC} java.openapi.deploy_server'
