@@ -61,7 +61,7 @@ java.openapi.compile_client: java.settings
 java.openapi.deploy_client: java.settings
 	$(MVN) clean && \
 	$(MVN) versions:set versions:commit -DnewVersion="$(JAVA_PKG_VERSION)-client" && \
-	$(MVN) deploy -P="client" -P="$(REPO_PROFILE)"
+	$(MVN) deploy --batch-mode -Dgpg.keyname="$(GPG_KEYID)" -Dgpg.passphrase="$(GPG_PASSPHRASE)" -P="client" -P="$(REPO_PROFILE)"
 
 java.openapi.install_client: java.settings
 	$(MVN) clean && \
@@ -75,7 +75,7 @@ java.openapi.compile_server: java.settings
 java.openapi.deploy_server: java.settings
 	$(MVN) clean && \
 	$(MVN) versions:set versions:commit -DnewVersion="$(JAVA_PKG_VERSION)-server" && \
-	$(MVN) deploy -P="server" -P="$(REPO_PROFILE)"
+	$(MVN) deploy --batch-mode -Dgpg.keyname="$(GPG_KEYID)" -Dgpg.passphrase="$(GPG_PASSPHRASE)" -P="server" -P="$(REPO_PROFILE)"
 
 java.openapi.install_server: java.settings
 	$(MVN) clean && \

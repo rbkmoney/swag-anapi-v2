@@ -37,8 +37,8 @@ build('swag-anapi-v2', 'docker-host') {
             withMaven() {
                 if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('epic/')) {
                     withGPG() {
-                        sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} REPO_PUBLIC=${REPO_PUBLIC} java.openapi.deploy_client'
-                        sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} REPO_PUBLIC=${REPO_PUBLIC} java.openapi.deploy_server'
+                        sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} REPO_PUBLIC=${REPO_PUBLIC} GPG_PASSPHRASE=${GPG_PASSPHRASE} GPG_KEYID=${GPG_KEYID} java.openapi.deploy_client'
+                        sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} REPO_PUBLIC=${REPO_PUBLIC} GPG_PASSPHRASE=${GPG_PASSPHRASE} GPG_KEYID=${GPG_KEYID} java.openapi.deploy_server'
                     }
                 } else {
                     sh 'make SETTINGS_XML=${SETTINGS_XML} BRANCH_NAME=${BRANCH_NAME} java.openapi.compile_client'
