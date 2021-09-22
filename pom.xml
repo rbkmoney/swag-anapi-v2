@@ -6,12 +6,12 @@
 
     <parent>
         <groupId>com.rbkmoney</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.0.0</version>
+        <artifactId>library-parent-pom</artifactId>
+        <version>1.0.8</version>
     </parent>
 
     <artifactId>swag-anapi-v2</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>anapi v2</name>
@@ -22,11 +22,11 @@
         <default.package>com.rbkmoney.openapi.anapi_v2</default.package>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <slf4j-version>1.7.21</slf4j-version>
-        <junit-version>4.13</junit-version>
+        <junit-version>4.13.2</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
         <jackson-version>2.12.5</jackson-version>
         <spring-version>2.5.3</spring-version>
