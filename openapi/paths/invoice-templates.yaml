@@ -1,0 +1,81 @@
+get:
+  description: Поиск шаблонов инвойсов
+  summary: Поиск шаблонов инвойсов
+  tags:
+    - Search
+  operationId: searchInvoiceTemplates
+  parameters:
+    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/limit.yaml'
+    - name: invoiceTemplateStatus
+      in: query
+      description: Статус шаблона инвойса для поиска
+      required: false
+      schema:
+        type: string
+        enum:
+          - created
+          - deleted
+    - name: invoiceTemplateID
+      in: query
+      description: Идентификатор шаблона инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: continuationToken
+      in: query
+      required: false
+      schema:
+        $ref: '../components/schemas/ContinuationToken.yaml'
+    - name: name
+      in: query
+      description: Название шаблона инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: product
+      in: query
+      description: Наименование товара или услуги
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    - name: invoiceValidUntil
+      in: query
+      description: Срок действия шаблона
+      required: false
+      schema:
+        type: string
+        format: date-time
+        maxLength: 40
+        minLength: 1
+  responses:
+    '200':
+      description: Найденные шаблоны инвойсов
+      content:
+        application/json; charset=utf-8:
+          schema:
+            type: object
+            properties:
+              continuationToken:
+                $ref: '../components/schemas/ContinuationToken.yaml'
+              result:
+                type: array
+                items:
+                  $ref: '../components/schemas/InvoiceTemplate.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '400':
+      $ref: '../components/responses/DefaultLogicError.yaml'

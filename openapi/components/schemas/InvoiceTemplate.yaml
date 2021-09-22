@@ -1,0 +1,46 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - eventCreatedAt
+      - shopID
+      - invoiceTemplateID
+      - invoiceValidUntil
+      - product
+    properties:
+      eventCreatedAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      shopID:
+        description: Идентификатор магазина
+        type: string
+      invoiceTemplateId:
+        description: Идентификатор шаблона инвойса
+        type: string
+      invoiceValidUntil:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+      details:
+        $ref: '../schemas/InvoiceTemplateDetails.yaml'
+      name:
+        description: Имя шаблона инвойса
+        type: string
+      invoiceTemplateStatus:
+        description: Статус шаблона инвойса
+        type: string
+        enum:
+          - created
+          - deleted
+      invoiceTemplateCreatedAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
