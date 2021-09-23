@@ -1958,20 +1958,39 @@ components:
       description: >
         Схема налогообложения предлагаемого товара или услуги.
 
-
         Указывается, только если предлагаемый товар или услуга облагается
         налогом.
       type: object
-      required:
-        - type
       properties:
         type:
           description: Тип схемы налогообложения
           type: string
-          enum:
-            - InvoiceLineTaxVAT
+      required:
+        - type
       discriminator:
         propertyName: type
+        mapping:
+          InvoiceLineTaxVAT: '#/components/schemas/InvoiceLineTaxVAT'
+    InvoiceLineTaxVAT:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/InvoiceLineTaxMode'
+        - description: Налог на добавленную стоимость в юрисдикции РФ
+          type: object
+          required:
+            - rate
+          properties:
+            rate:
+              description: Ставка налога
+              type: string
+              enum:
+                - 0%
+                - 10%
+                - 18%
+                - 20%
+                - 10/110
+                - 18/118
+                - 20/120
     InvoiceLine:
       description: Позиция товара или услуги
       type: object

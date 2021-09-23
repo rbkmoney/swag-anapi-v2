@@ -2814,23 +2814,53 @@
         }
       },
       "InvoiceLineTaxMode": {
-        "description": "Схема налогообложения предлагаемого товара или услуги.\n\nУказывается, только если предлагаемый товар или услуга облагается налогом.\n",
+        "description": "Схема налогообложения предлагаемого товара или услуги.\nУказывается, только если предлагаемый товар или услуга облагается налогом.\n",
         "type": "object",
-        "required": [
-          "type"
-        ],
         "properties": {
           "type": {
             "description": "Тип схемы налогообложения",
-            "type": "string",
-            "enum": [
-              "InvoiceLineTaxVAT"
-            ]
+            "type": "string"
           }
         },
+        "required": [
+          "type"
+        ],
         "discriminator": {
-          "propertyName": "type"
+          "propertyName": "type",
+          "mapping": {
+            "InvoiceLineTaxVAT": "#/components/schemas/InvoiceLineTaxVAT"
+          }
         }
+      },
+      "InvoiceLineTaxVAT": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InvoiceLineTaxMode"
+          },
+          {
+            "description": "Налог на добавленную стоимость в юрисдикции РФ",
+            "type": "object",
+            "required": [
+              "rate"
+            ],
+            "properties": {
+              "rate": {
+                "description": "Ставка налога",
+                "type": "string",
+                "enum": [
+                  "0%",
+                  "10%",
+                  "18%",
+                  "20%",
+                  "10/110",
+                  "18/118",
+                  "20/120"
+                ]
+              }
+            }
+          }
+        ]
       },
       "InvoiceLine": {
         "description": "Позиция товара или услуги",
