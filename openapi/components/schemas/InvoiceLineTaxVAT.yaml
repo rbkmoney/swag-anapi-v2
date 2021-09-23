@@ -1,3 +1,4 @@
+type: object
 allOf:
   - $ref: '../schemas/InvoiceLineTaxMode.yaml'
   - description: Налог на добавленную стоимость в юрисдикции РФ
