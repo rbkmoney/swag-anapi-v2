@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: '../schemas/InvoiceTemplateDetails.yaml'
+  - required:
+      - cart
+      - currency
+    properties:
+      cart:
+        $ref: '../schemas/InvoiceCart.yaml'
+      currency:
+        $ref: '../schemas/Currency.yaml'

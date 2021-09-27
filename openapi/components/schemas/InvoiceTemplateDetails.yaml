@@ -7,5 +7,5 @@ required:
 discriminator:
   propertyName: templateType
   mapping:
-    'InvoiceTemplateMultiLine': '../schemas/InvoiceCart.yaml'
+    'InvoiceTemplateMultiLine': '../schemas/InvoiceTemplateCart.yaml'
     'invoiceTemplateSingleLine': '../schemas/InvoiceTemplateProduct.yaml'

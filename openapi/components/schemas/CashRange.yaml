@@ -4,6 +4,7 @@ allOf:
   - required:
       - upperBound
       - lowerBound
+      - currency
     properties:
       upperBound:
         description: Верхняя (включительная) граница стоимости товаров или услуг.
@@ -15,3 +16,5 @@ allOf:
         type: integer
         format: int64
         minimum: 1
+      currency:
+        $ref: '../schemas/Currency.yaml'
