@@ -2,7 +2,7 @@ description: |
   Сгруппированый по магазинам список текущих балансов
 type: object
 properties:
-  groupBySHopResults:
+  groupByShopResults:
     type: array
     items:
       $ref: '../schemas/ShopAmountResult.yaml'

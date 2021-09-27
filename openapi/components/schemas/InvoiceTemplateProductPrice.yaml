@@ -4,11 +4,9 @@ required:
 properties:
   costType:
     type: string
-    enum:
-      - fixed
-      - range
-      - unlim
-  fixed:
-    $ref: '../schemas/Cash.yaml'
-  range:
-    $ref: '../schemas/CashRange.yaml'
+discriminator:
+  propertyName: costType
+  mapping:
+    'fixed': '../schemas/Cash.yaml'
+    'range': '../schemas/CashRange.yaml'
+    'unlim': '../schemas/CashUnlim.yaml'

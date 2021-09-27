@@ -1,15 +1,17 @@
 type: object
-required:
-  - upperBound
-  - lowerBound
-properties:
-  upperBound:
-    description: Верхняя (включительная) граница стоимости товаров или услуг.
-    type: integer
-    format: int64
-    minimum: 1
-  lowerBound:
-    description: Нижняя (включительная) граница стоимости товаров или услуг.
-    type: integer
-    format: int64
-    minimum: 1
+allOf:
+  - $ref: '../schemas/InvoiceTemplateProductPrice.yaml'
+  - required:
+      - upperBound
+      - lowerBound
+    properties:
+      upperBound:
+        description: Верхняя (включительная) граница стоимости товаров или услуг.
+        type: integer
+        format: int64
+        minimum: 1
+      lowerBound:
+        description: Нижняя (включительная) граница стоимости товаров или услуг.
+        type: integer
+        format: int64
+        minimum: 1
