@@ -1318,7 +1318,14 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/BankCardTokenProvider"
+              "description": "Провайдер платежных токенов",
+              "type": "string",
+              "enum": [
+                "applepay",
+                "googlepay",
+                "samsungpay",
+                "yandexpay"
+              ]
             }
           },
           {
@@ -1326,7 +1333,26 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/BankCardPaymentSystem"
+              "description": "Платежная система",
+              "type": "string",
+              "enum": [
+                "visa",
+                "mastercard",
+                "visaelectron",
+                "maestro",
+                "forbrugsforeningen",
+                "dankort",
+                "amex",
+                "dinersclub",
+                "discover",
+                "unionpay",
+                "jcb",
+                "nspkmir",
+                "elo",
+                "rupay",
+                "dummy",
+                "uzcard"
+              ]
             }
           },
           {
@@ -2413,7 +2439,7 @@
         "description": "Сгруппированый по магазинам список текущих балансов\n",
         "type": "object",
         "properties": {
-          "groupBySHopResults": {
+          "groupByShopResults": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShopAmountResult"
@@ -3007,38 +3033,6 @@
           }
         ]
       },
-      "BankCardTokenProvider": {
-        "description": "Провайдер платежных токенов",
-        "type": "string",
-        "enum": [
-          "applepay",
-          "googlepay",
-          "samsungpay",
-          "yandexpay"
-        ]
-      },
-      "BankCardPaymentSystem": {
-        "description": "Платежная система",
-        "type": "string",
-        "enum": [
-          "visa",
-          "mastercard",
-          "visaelectron",
-          "maestro",
-          "forbrugsforeningen",
-          "dankort",
-          "amex",
-          "dinersclub",
-          "discover",
-          "unionpay",
-          "jcb",
-          "nspkmir",
-          "elo",
-          "rupay",
-          "dummy",
-          "uzcard"
-        ]
-      },
       "PaymentError": {
         "description": "[Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)\n",
         "type": "object",
@@ -3070,7 +3064,8 @@
               "captured",
               "cancelled",
               "refunded",
-              "failed"
+              "failed",
+              "chargedback"
             ]
           },
           "error": {
@@ -3598,43 +3593,45 @@
           }
         ]
       },
-      "Cash": {
+      "InvoiceTemplateDetails": {
         "type": "object",
-        "required": [
-          "amount",
-          "currency"
-        ],
         "properties": {
-          "amount": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1
-          },
-          "currency": {
-            "$ref": "#/components/schemas/Currency"
+          "templateType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "templateType"
+        ],
+        "discriminator": {
+          "propertyName": "templateType",
+          "mapping": {
+            "InvoiceTemplateMultiLine": "#/components/schemas/InvoiceTemplateCart",
+            "invoiceTemplateSingleLine": "#/components/schemas/InvoiceTemplateProduct"
           }
         }
       },
-      "CashRange": {
+      "InvoiceTemplateCart": {
         "type": "object",
-        "required": [
-          "upperBound",
-          "lowerBound"
-        ],
-        "properties": {
-          "upperBound": {
-            "description": "Верхняя (включительная) граница стоимости товаров или услуг.",
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InvoiceTemplateDetails"
           },
-          "lowerBound": {
-            "description": "Нижняя (включительная) граница стоимости товаров или услуг.",
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1
+          {
+            "required": [
+              "cart",
+              "currency"
+            ],
+            "properties": {
+              "cart": {
+                "$ref": "#/components/schemas/InvoiceCart"
+              },
+              "currency": {
+                "$ref": "#/components/schemas/Currency"
+              }
+            }
           }
-        }
+        ]
       },
       "InvoiceTemplateProductPrice": {
         "type": "object",
@@ -3643,63 +3640,110 @@
         ],
         "properties": {
           "costType": {
-            "type": "string",
-            "enum": [
-              "fixed",
-              "range",
-              "unlim"
-            ]
-          },
-          "fixed": {
-            "$ref": "#/components/schemas/Cash"
-          },
-          "range": {
-            "$ref": "#/components/schemas/CashRange"
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "costType",
+          "mapping": {
+            "fixed": "#/components/schemas/Cash",
+            "range": "#/components/schemas/CashRange",
+            "unlim": "#/components/schemas/CashUnlim"
           }
         }
+      },
+      "Cash": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InvoiceTemplateProductPrice"
+          },
+          {
+            "required": [
+              "amount",
+              "currency"
+            ],
+            "properties": {
+              "amount": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 1
+              },
+              "currency": {
+                "$ref": "#/components/schemas/Currency"
+              }
+            }
+          }
+        ]
+      },
+      "CashRange": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InvoiceTemplateProductPrice"
+          },
+          {
+            "required": [
+              "upperBound",
+              "lowerBound",
+              "currency"
+            ],
+            "properties": {
+              "upperBound": {
+                "description": "Верхняя (включительная) граница стоимости товаров или услуг.",
+                "type": "integer",
+                "format": "int64",
+                "minimum": 1
+              },
+              "lowerBound": {
+                "description": "Нижняя (включительная) граница стоимости товаров или услуг.",
+                "type": "integer",
+                "format": "int64",
+                "minimum": 1
+              },
+              "currency": {
+                "$ref": "#/components/schemas/Currency"
+              }
+            }
+          }
+        ]
+      },
+      "CashUnlim": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InvoiceTemplateProductPrice"
+          }
+        ]
       },
       "InvoiceTemplateProduct": {
         "type": "object",
-        "required": [
-          "product",
-          "price",
-          "metadata"
-        ],
-        "properties": {
-          "product": {
-            "description": "Наименование предлагаемых товаров или услуг",
-            "type": "string",
-            "maxLength": 1000
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InvoiceTemplateDetails"
           },
-          "price": {
-            "$ref": "#/components/schemas/InvoiceTemplateProductPrice"
-          },
-          "metadata": {
-            "description": "Связанные с товарами или услугами метаданные",
-            "type": "object"
+          {
+            "required": [
+              "product",
+              "price",
+              "metadata"
+            ],
+            "properties": {
+              "product": {
+                "description": "Наименование предлагаемых товаров или услуг",
+                "type": "string",
+                "maxLength": 1000
+              },
+              "price": {
+                "$ref": "#/components/schemas/InvoiceTemplateProductPrice"
+              },
+              "metadata": {
+                "description": "Связанные с товарами или услугами метаданные",
+                "type": "object"
+              }
+            }
           }
-        }
-      },
-      "InvoiceTemplateDetails": {
-        "type": "object",
-        "required": [
-          "templateType"
-        ],
-        "properties": {
-          "templateType": {
-            "type": "string",
-            "enum": [
-              "invoiceTemplateMultiLine",
-              "invoiceTemplateSingleLine"
-            ]
-          },
-          "cart": {
-            "$ref": "#/components/schemas/InvoiceCart"
-          },
-          "product": {
-            "$ref": "#/components/schemas/InvoiceTemplateProduct"
-          }
-        }
+        ]
       },
       "InvoiceTemplate": {
         "type": "object",
