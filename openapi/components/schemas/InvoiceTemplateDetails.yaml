@@ -1,13 +1,11 @@
 type: object
+properties:
+   templateType:
+    type: string
 required:
   - templateType
-properties:
-  templateType:
-    type: string
-    enum:
-      - invoiceTemplateMultiLine
-      - invoiceTemplateSingleLine
-  cart:
-    $ref: '../schemas/InvoiceCart.yaml'
-  product:
-    $ref: '../schemas/InvoiceTemplateProduct.yaml'
+discriminator:
+  propertyName: templateType
+  mapping:
+    'InvoiceTemplateMultiLine': '../schemas/InvoiceTemplateCart.yaml'
+    'invoiceTemplateSingleLine': '../schemas/InvoiceTemplateProduct.yaml'
