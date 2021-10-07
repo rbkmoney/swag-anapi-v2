@@ -9,6 +9,7 @@ get:
     - $ref: '../components/parameters/deadline.yaml'
     - $ref: '../components/parameters/partyIDQuery.yaml'
     - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
     - $ref: '../components/parameters/fromTime.yaml'
     - $ref: '../components/parameters/toTime.yaml'
     - $ref: '../components/parameters/limit.yaml'
@@ -57,8 +58,6 @@ get:
       schema:
         type: string
         format: date-time
-        maxLength: 40
-        minLength: 1
   responses:
     '200':
       description: Найденные шаблоны инвойсов
