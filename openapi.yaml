@@ -1187,6 +1187,7 @@ paths:
         - $ref: '#/components/parameters/deadline'
         - $ref: '#/components/parameters/partyIDQuery'
         - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
         - $ref: '#/components/parameters/fromTime'
         - $ref: '#/components/parameters/toTime'
         - $ref: '#/components/parameters/limit'
@@ -1235,8 +1236,6 @@ paths:
           schema:
             type: string
             format: date-time
-            maxLength: 40
-            minLength: 1
       responses:
         '200':
           description: Найденные шаблоны инвойсов

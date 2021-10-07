@@ -1742,6 +1742,9 @@
             "$ref": "#/components/parameters/shopIDs"
           },
           {
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          },
+          {
             "$ref": "#/components/parameters/fromTime"
           },
           {
@@ -1811,9 +1814,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "format": "date-time",
-              "maxLength": 40,
-              "minLength": 1
+              "format": "date-time"
             }
           }
         ],
