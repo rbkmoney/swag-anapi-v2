@@ -5,9 +5,6 @@ properties:
   type:
     description: Тип процесса выполнения платежа
     type: string
-    enum:
-      - PaymentFlowInstant
-      - PaymentFlowHold
 discriminator:
   propertyName: type
   mapping:
