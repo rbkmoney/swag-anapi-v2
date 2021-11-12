@@ -10,3 +10,6 @@ properties:
       - PaymentFlowHold
 discriminator:
   propertyName: type
+  mapping:
+    'PaymentFlowInstant': '../schemas/PaymentFlowInstant.yaml'
+    'PaymentFlowHold': '../schemas/PaymentFlowHold.yaml'
