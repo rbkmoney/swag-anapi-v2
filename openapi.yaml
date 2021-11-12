@@ -73,16 +73,16 @@ info:
     `paymentInstitutionRealm`. В случае использования нескольких критериев
     одновременно в выборку будут включены магазины, подпадающие под хотя бы один
     из перечисленных критериев.
-  termsOfService: 'https://rbk.money/'
+  termsOfService: https://rbk.money/
   contact:
     name: RBKmoney support team
     email: support@rbk.money
-    url: 'https://api.rbk.money'
+    url: https://api.rbk.money
   license:
     name: Apache 2.0
-    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: 'https://api.rbk.money/lk/v1'
+  - url: https://api.rbk.money/lk/v1
 security:
   - bearer: []
 tags:
@@ -730,7 +730,7 @@ paths:
             minimum: 1
         - name: excludedShops
           in: query
-          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          description: Идентификаторы магазинов, исключаемых из поиска
           required: false
           schema:
             type: array
@@ -857,7 +857,7 @@ paths:
             minLength: 1
         - name: payerEmail
           in: query
-          description: 'Email, указанный при оплате'
+          description: Email, указанный при оплате
           required: false
           schema:
             type: string
@@ -892,21 +892,21 @@ paths:
           required: false
           schema:
             type: string
-            pattern: '^\d{6}$'
+            pattern: ^\d{6}$
         - name: last4
           in: query
           description: Последние 4 цифры номера карты
           required: false
           schema:
             type: string
-            pattern: '^\d{4}$'
+            pattern: ^\d{4}$
         - name: rrn
           in: query
           description: Retrieval Reference Number
           required: false
           schema:
             type: string
-            pattern: '^[a-zA-Z0-9]{12}$'
+            pattern: ^[a-zA-Z0-9]{12}$
         - name: approvalCode
           in: query
           description: Authorization Approval Code
@@ -967,7 +967,7 @@ paths:
             minimum: 1
         - name: excludedShops
           in: query
-          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          description: Идентификаторы магазинов, исключаемых из поиска
           required: false
           schema:
             type: array
@@ -1040,7 +1040,7 @@ paths:
                 * PaymentInstitutionAccount - выплата на счёт платежной организации
         - name: excludedShops
           in: query
-          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          description: Идентификаторы магазинов, исключаемых из поиска
           required: false
           schema:
             type: array
@@ -1142,7 +1142,7 @@ paths:
               - failed
         - name: excludedShops
           in: query
-          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          description: Идентификаторы магазинов, исключаемых из поиска
           required: false
           schema:
             type: array
@@ -1387,7 +1387,7 @@ paths:
                     example: 'Max limit: 1000'
         '401':
           $ref: '#/components/responses/Unauthorized'
-  '/reports/{reportID}':
+  /reports/{reportID}:
     get:
       description: Получить отчет по данному идентификатору
       summary: Получить отчет по данному идентификатору
@@ -1411,7 +1411,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/reports/{reportID}/cancel':
+  /reports/{reportID}/cancel:
     post:
       description: >-
         Отменить указанный отчет. Отчеты типа `provisionOfService` отменить
@@ -1435,7 +1435,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/reports/{reportID}/files/{fileID}/download':
+  /reports/{reportID}/files/{fileID}/download:
     get:
       description: Скачать файл
       summary: Скачать файл
@@ -1528,7 +1528,7 @@ components:
     paymentInstitutionRealm:
       name: paymentInstitutionRealm
       in: query
-      description: 'Тип магазина, тестовый или «боевой»'
+      description: Тип магазина, тестовый или «боевой»
       required: false
       schema:
         type: string
@@ -1615,7 +1615,7 @@ components:
         Валюта, символьный код согласно [ISO
         4217](https://www.iso.org/iso-4217-currency-codes.html).
       type: string
-      pattern: '^[A-Z]{3}$'
+      pattern: ^[A-Z]{3}$
     AmountResult:
       type: object
       allOf:
@@ -1955,17 +1955,17 @@ components:
         bodyCurrency:
           $ref: '#/components/schemas/Currency'
         fee:
-          description: 'Комиссия системы, в минорных денежных единицах'
+          description: Комиссия системы, в минорных денежных единицах
           type: integer
           format: int64
           minimum: 0
         providerFee:
-          description: 'Комиссия провайдера, в минорных денежных единицах'
+          description: Комиссия провайдера, в минорных денежных единицах
           type: integer
           format: int64
           minimum: 0
         externalFee:
-          description: 'Комиссия внешней системы системы, в минорных денежных единицах'
+          description: Комиссия внешней системы системы, в минорных денежных единицах
           type: integer
           format: int64
           minimum: 0
@@ -2129,7 +2129,7 @@ components:
               type: string
               maxLength: 1000
             invoiceTemplateID:
-              description: 'Идентификатор шаблона (для инвойсов, созданных по шаблону).'
+              description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
               type: string
             cart:
               $ref: '#/components/schemas/InvoiceCart'
@@ -2173,14 +2173,141 @@ components:
         payerType:
           description: Тип платежного средства
           type: string
-          enum:
-            - CustomerPayer
-            - PaymentResourcePayer
-            - RecurrentPayer
       required:
         - payerType
       discriminator:
         propertyName: payerType
+        mapping:
+          CustomerPayer: '#/components/schemas/CustomerPayer'
+          PaymentResourcePayer: '#/components/schemas/PaymentResourcePayer'
+          RecurrentPayer: '#/components/schemas/RecurrentPayer'
+    PaymentToolDetails:
+      type: object
+      description: Детали платежного средства
+      required:
+        - detailsType
+      properties:
+        detailsType:
+          description: Тип информации о платежном средстве
+          type: string
+      discriminator:
+        propertyName: detailsType
+    CustomerPayer:
+      type: object
+      description: Многоразовое платежное средство
+      allOf:
+        - $ref: '#/components/schemas/Payer'
+        - type: object
+          required:
+            - customerID
+          properties:
+            customerID:
+              description: Идентификатор плательщика
+              type: string
+              maxLength: 40
+              minLength: 1
+            paymentToolToken:
+              description: Токен платежного средства, предоставленного плательщиком
+              type: string
+              maxLength: 1000
+            paymentToolDetails:
+              $ref: '#/components/schemas/PaymentToolDetails'
+    ClientInfo:
+      description: Данные клиентского устройства плательщика
+      type: object
+      required:
+        - fingerprint
+      properties:
+        fingerprint:
+          description: Уникальный отпечаток user agent'а плательщика
+          type: string
+          maxLength: 1000
+        ip:
+          description: IP-адрес плательщика
+          type: string
+          format: ip-address
+          maxLength: 45
+    PaymentResource:
+      type: object
+      description: Данные одноразового платежного средства
+      required:
+        - paymentToolToken
+      properties:
+        paymentToolToken:
+          description: Токен платежного средства, предоставленного плательщиком
+          type: string
+          maxLength: 1000
+        paymentSession:
+          description: Идентификатор платежной сессии
+          type: string
+          maxLength: 1000
+        paymentToolDetails:
+          $ref: '#/components/schemas/PaymentToolDetails'
+        clientInfo:
+          allOf:
+            - $ref: '#/components/schemas/ClientInfo'
+    ContactInfo:
+      description: Контактные данные
+      type: object
+      properties:
+        email:
+          description: Адрес электронной почты
+          type: string
+          format: email
+          maxLength: 100
+        phoneNumber:
+          description: |
+            Номер мобильного телефона с международным префиксом согласно
+            [E.164](https://en.wikipedia.org/wiki/E.164).
+          type: string
+          format: ^\+\d{4,15}$
+    PaymentResourcePayer:
+      type: object
+      description: Одноразовое платежное средство
+      allOf:
+        - $ref: '#/components/schemas/Payer'
+        - $ref: '#/components/schemas/PaymentResource'
+        - type: object
+          required:
+            - contactInfo
+          properties:
+            contactInfo:
+              $ref: '#/components/schemas/ContactInfo'
+    PaymentRecurrentParent:
+      type: object
+      description: >-
+        Родительский платеж, на основе которого создан текущий рекуррентный
+        платеж
+      required:
+        - invoiceID
+        - paymentID
+      properties:
+        invoiceID:
+          description: Идентификатор инвойса
+          type: string
+        paymentID:
+          description: Идентификатор платежа
+          type: string
+    RecurrentPayer:
+      type: object
+      description: Многоразовое платежное средство на основе другого платежа
+      allOf:
+        - $ref: '#/components/schemas/Payer'
+        - type: object
+          required:
+            - contactInfo
+            - recurrentParentPayment
+          properties:
+            contactInfo:
+              $ref: '#/components/schemas/ContactInfo'
+            recurrentParentPayment:
+              $ref: '#/components/schemas/PaymentRecurrentParent'
+            paymentToolToken:
+              description: Токен платежного средства, предоставленного плательщиком
+              type: string
+              maxLength: 1000
+            paymentToolDetails:
+              $ref: '#/components/schemas/PaymentToolDetails'
     PaymentFlow:
       type: object
       required:
@@ -2189,11 +2316,34 @@ components:
         type:
           description: Тип процесса выполнения платежа
           type: string
-          enum:
-            - PaymentFlowInstant
-            - PaymentFlowHold
       discriminator:
         propertyName: type
+        mapping:
+          PaymentFlowInstant: '#/components/schemas/PaymentFlowInstant'
+          PaymentFlowHold: '#/components/schemas/PaymentFlowHold'
+    PaymentFlowInstant:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PaymentFlow'
+    PaymentFlowHold:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PaymentFlow'
+        - type: object
+          required:
+            - onHoldExpiration
+          properties:
+            onHoldExpiration:
+              description: Политика управления удержанием денежных средств
+              type: string
+              default: cancel
+              enum:
+                - cancel
+                - capture
+            heldUntil:
+              description: Дата и время, до которого происходит удержание денежных средств
+              type: string
+              format: date-time
     GeoLocationInfo:
       description: Информация о геопозиции
       type: object
@@ -2245,13 +2395,13 @@ components:
               description: Cокращенный идентификатор платежа и инвойса (spid)
               type: string
             invoiceID:
-              description: 'Идентификатор инвойса, в рамках которого был создан платеж'
+              description: Идентификатор инвойса, в рамках которого был создан платеж
               type: string
             externalID:
               description: Внешний идентификатор
               type: string
             shopID:
-              description: 'Идентификатор магазина, в рамках которого был создан платеж'
+              description: Идентификатор магазина, в рамках которого был создан платеж
               type: string
             createdAt:
               description: Дата и время создания
@@ -2269,7 +2419,7 @@ components:
               format: int64
               minimum: 1
             fee:
-              description: 'Комиссия системы, в минорных денежных единицах'
+              description: Комиссия системы, в минорных денежных единицах
               type: integer
               format: int64
               minimum: 0
@@ -2324,18 +2474,18 @@ components:
         account:
           description: Номер счёта
           type: string
-          pattern: '^\d{20}$'
+          pattern: ^\d{20}$
         bankName:
           description: Наименование юридического лица банковской организации
           type: string
           maxLength: 100
         bankPostAccount:
           type: string
-          pattern: '^\d{20}$'
+          pattern: ^\d{20}$
         bankBik:
           description: БИК банковской организации
           type: string
-          pattern: '^\d{9}$'
+          pattern: ^\d{9}$
     PayoutToolDetailsBankAccount:
       type: object
       allOf:
@@ -2350,7 +2500,7 @@ components:
             Business Identifier Code [ISO
             9362](https://en.wikipedia.org/wiki/ISO_9362).
           type: string
-          pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
+          pattern: ^([A-Z0-9]{8}|[A-Z0-9]{11})$
           example: |
             RZBAATWW
         abartn:
@@ -2360,7 +2510,7 @@ components:
 
             банковской организации, специфичный для банковской системы USA.
           type: string
-          pattern: '^[0-9]{9}$'
+          pattern: ^[0-9]{9}$
           example: '129131673'
         name:
           description: Наименование юридического лица банковской организации
@@ -2377,7 +2527,7 @@ components:
                 alpha-3 код по стандарту [ISO
                 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
           type: string
-          pattern: '^[A-Z]{2}$'
+          pattern: ^[A-Z]{2}$
           example: AT
         address:
           description: Адрес юридического лица банковской организации
@@ -2393,14 +2543,14 @@ components:
           description: |
             Номер счёта
           type: string
-          pattern: '^[0-9A-Z]{8,40}$'
+          pattern: ^[0-9A-Z]{8,40}$
           example: '123006951'
         iban:
           description: >
             International Bank Account Number [ISO
             13616](https://en.wikipedia.org/wiki/International_Bank_Account_Number)
           type: string
-          pattern: '^[A-Z0-9]{3,35}$'
+          pattern: ^[A-Z0-9]{3,35}$
           example: GR1601101250000000012300695
         bankDetails:
           $ref: '#/components/schemas/InternationalBankDetails'
@@ -2469,7 +2619,7 @@ components:
           format: int64
           minimum: 1
         fee:
-          description: 'Комиссия системы, в минорных денежных единицах'
+          description: Комиссия системы, в минорных денежных единицах
           type: integer
           format: int64
           minimum: 0
@@ -2513,10 +2663,10 @@ components:
             - message
           properties:
             code:
-              description: 'Код ошибки, пригодный для обработки автоматическими системами'
+              description: Код ошибки, пригодный для обработки автоматическими системами
               type: string
             message:
-              description: 'Описание ошибки, пригодное для восприятия человеком'
+              description: Описание ошибки, пригодное для восприятия человеком
               type: string
     Refund:
       type: object

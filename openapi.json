@@ -3079,20 +3079,206 @@
         "properties": {
           "payerType": {
             "description": "Тип платежного средства",
-            "type": "string",
-            "enum": [
-              "CustomerPayer",
-              "PaymentResourcePayer",
-              "RecurrentPayer"
-            ]
+            "type": "string"
           }
         },
         "required": [
           "payerType"
         ],
         "discriminator": {
-          "propertyName": "payerType"
+          "propertyName": "payerType",
+          "mapping": {
+            "CustomerPayer": "#/components/schemas/CustomerPayer",
+            "PaymentResourcePayer": "#/components/schemas/PaymentResourcePayer",
+            "RecurrentPayer": "#/components/schemas/RecurrentPayer"
+          }
         }
+      },
+      "PaymentToolDetails": {
+        "type": "object",
+        "description": "Детали платежного средства",
+        "required": [
+          "detailsType"
+        ],
+        "properties": {
+          "detailsType": {
+            "description": "Тип информации о платежном средстве",
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "detailsType"
+        }
+      },
+      "CustomerPayer": {
+        "type": "object",
+        "description": "Многоразовое платежное средство",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Payer"
+          },
+          {
+            "type": "object",
+            "required": [
+              "customerID"
+            ],
+            "properties": {
+              "customerID": {
+                "description": "Идентификатор плательщика",
+                "type": "string",
+                "maxLength": 40,
+                "minLength": 1
+              },
+              "paymentToolToken": {
+                "description": "Токен платежного средства, предоставленного плательщиком",
+                "type": "string",
+                "maxLength": 1000
+              },
+              "paymentToolDetails": {
+                "$ref": "#/components/schemas/PaymentToolDetails"
+              }
+            }
+          }
+        ]
+      },
+      "ClientInfo": {
+        "description": "Данные клиентского устройства плательщика",
+        "type": "object",
+        "required": [
+          "fingerprint"
+        ],
+        "properties": {
+          "fingerprint": {
+            "description": "Уникальный отпечаток user agent'а плательщика",
+            "type": "string",
+            "maxLength": 1000
+          },
+          "ip": {
+            "description": "IP-адрес плательщика",
+            "type": "string",
+            "format": "ip-address",
+            "maxLength": 45
+          }
+        }
+      },
+      "PaymentResource": {
+        "type": "object",
+        "description": "Данные одноразового платежного средства",
+        "required": [
+          "paymentToolToken"
+        ],
+        "properties": {
+          "paymentToolToken": {
+            "description": "Токен платежного средства, предоставленного плательщиком",
+            "type": "string",
+            "maxLength": 1000
+          },
+          "paymentSession": {
+            "description": "Идентификатор платежной сессии",
+            "type": "string",
+            "maxLength": 1000
+          },
+          "paymentToolDetails": {
+            "$ref": "#/components/schemas/PaymentToolDetails"
+          },
+          "clientInfo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ClientInfo"
+              }
+            ]
+          }
+        }
+      },
+      "ContactInfo": {
+        "description": "Контактные данные",
+        "type": "object",
+        "properties": {
+          "email": {
+            "description": "Адрес электронной почты",
+            "type": "string",
+            "format": "email",
+            "maxLength": 100
+          },
+          "phoneNumber": {
+            "description": "Номер мобильного телефона с международным префиксом согласно\n[E.164](https://en.wikipedia.org/wiki/E.164).\n",
+            "type": "string",
+            "format": "^\\+\\d{4,15}$"
+          }
+        }
+      },
+      "PaymentResourcePayer": {
+        "type": "object",
+        "description": "Одноразовое платежное средство",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Payer"
+          },
+          {
+            "$ref": "#/components/schemas/PaymentResource"
+          },
+          {
+            "type": "object",
+            "required": [
+              "contactInfo"
+            ],
+            "properties": {
+              "contactInfo": {
+                "$ref": "#/components/schemas/ContactInfo"
+              }
+            }
+          }
+        ]
+      },
+      "PaymentRecurrentParent": {
+        "type": "object",
+        "description": "Родительский платеж, на основе которого создан текущий рекуррентный платеж",
+        "required": [
+          "invoiceID",
+          "paymentID"
+        ],
+        "properties": {
+          "invoiceID": {
+            "description": "Идентификатор инвойса",
+            "type": "string"
+          },
+          "paymentID": {
+            "description": "Идентификатор платежа",
+            "type": "string"
+          }
+        }
+      },
+      "RecurrentPayer": {
+        "type": "object",
+        "description": "Многоразовое платежное средство на основе другого платежа",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Payer"
+          },
+          {
+            "type": "object",
+            "required": [
+              "contactInfo",
+              "recurrentParentPayment"
+            ],
+            "properties": {
+              "contactInfo": {
+                "$ref": "#/components/schemas/ContactInfo"
+              },
+              "recurrentParentPayment": {
+                "$ref": "#/components/schemas/PaymentRecurrentParent"
+              },
+              "paymentToolToken": {
+                "description": "Токен платежного средства, предоставленного плательщиком",
+                "type": "string",
+                "maxLength": 1000
+              },
+              "paymentToolDetails": {
+                "$ref": "#/components/schemas/PaymentToolDetails"
+              }
+            }
+          }
+        ]
       },
       "PaymentFlow": {
         "type": "object",
@@ -3102,16 +3288,54 @@
         "properties": {
           "type": {
             "description": "Тип процесса выполнения платежа",
-            "type": "string",
-            "enum": [
-              "PaymentFlowInstant",
-              "PaymentFlowHold"
-            ]
+            "type": "string"
           }
         },
         "discriminator": {
-          "propertyName": "type"
+          "propertyName": "type",
+          "mapping": {
+            "PaymentFlowInstant": "#/components/schemas/PaymentFlowInstant",
+            "PaymentFlowHold": "#/components/schemas/PaymentFlowHold"
+          }
         }
+      },
+      "PaymentFlowInstant": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaymentFlow"
+          }
+        ]
+      },
+      "PaymentFlowHold": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaymentFlow"
+          },
+          {
+            "type": "object",
+            "required": [
+              "onHoldExpiration"
+            ],
+            "properties": {
+              "onHoldExpiration": {
+                "description": "Политика управления удержанием денежных средств",
+                "type": "string",
+                "default": "cancel",
+                "enum": [
+                  "cancel",
+                  "capture"
+                ]
+              },
+              "heldUntil": {
+                "description": "Дата и время, до которого происходит удержание денежных средств",
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
       },
       "GeoLocationInfo": {
         "description": "Информация о геопозиции",
