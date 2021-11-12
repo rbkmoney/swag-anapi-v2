@@ -42,7 +42,7 @@ post:
             properties:
               code:
                 description: |
-                  [Код ошибки](#tag/Error-Codes)
+                  [Код ошибки](#section/Kody-oshibok)
                 type: string
                 enum:
                   - ambiguousPartyID
@@ -114,7 +114,7 @@ get:
             properties:
               code:
                 description: |
-                  [Код ошибки](#tag/Error-Codes)
+                  [Код ошибки](#section/Kody-oshibok)
                 type: string
                 enum:
                   - ambiguousPartyID

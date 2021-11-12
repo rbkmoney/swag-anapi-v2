@@ -3,7 +3,7 @@ name: Authorization
 in: header
 description: >
   Для аутентификации вызовов мы используем [JWT](https://jwt.io).
-  Cоответствующий ключ передается в заголовке.
+  Соответствующий ключ передается в заголовке.
 
   ```shell
    Authorization: Bearer {JWT}
