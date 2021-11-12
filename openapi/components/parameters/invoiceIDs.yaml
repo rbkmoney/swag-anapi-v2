@@ -1,0 +1,8 @@
+name: invoiceIDs
+in: query
+description: Список инвойсов
+required: false
+schema:
+  type: array
+  items:
+    type: string

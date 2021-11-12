@@ -1,5 +1,5 @@
 description: |
-  баланс по магазину
+  Список балансов магазина
 type: object
 required:
   - id

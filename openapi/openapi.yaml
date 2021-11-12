@@ -90,7 +90,7 @@ info:
   contact:
     name: RBKmoney support team
     email: support@rbk.money
-    url: https://api.rbk.money
+    url: https://api.rbk.money/lk/v2
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html

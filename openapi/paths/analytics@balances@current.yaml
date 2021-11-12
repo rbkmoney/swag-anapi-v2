@@ -5,9 +5,9 @@ get:
     - Analytics
   operationId: getCurrentBalances
   parameters:
-    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/requestIDRequired.yaml'
     - $ref: '../components/parameters/deadline.yaml'
-    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/partyIDRequired.yaml'
     - $ref: '../components/parameters/shopIDs.yaml'
     - $ref: '../components/parameters/excludeShopIDs.yaml'
     - $ref: '../components/parameters/paymentInstitutionRealm.yaml'

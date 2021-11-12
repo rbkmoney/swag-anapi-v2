@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>swag-anapi-v2</artifactId>
-    <version>1.45-fb01b3d-server</version>
+    <version>SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>anapi v2</name>

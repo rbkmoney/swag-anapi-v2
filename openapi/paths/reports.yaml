@@ -9,12 +9,13 @@ post:
     - Reports
   operationId: createReport
   parameters:
-    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/requestIDRequired.yaml'
     - $ref: '../components/parameters/deadline.yaml'
-    - $ref: '../components/parameters/partyIDQuery.yaml'
-    - $ref: '../components/parameters/shopIDQuery.yaml'
-    - $ref: '../components/parameters/fromTime.yaml'
-    - $ref: '../components/parameters/toTime.yaml'
+    - $ref: '../components/parameters/partyIDRequired.yaml'
+    - $ref: '../components/parameters/shopID.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/fromTimeRequired.yaml'
+    - $ref: '../components/parameters/toTimeRequired.yaml'
     - name: reportType
       in: query
       description: Тип отчета
@@ -62,15 +63,14 @@ get:
     - Reports
   operationId: searchReports
   parameters:
-    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/requestIDRequired.yaml'
     - $ref: '../components/parameters/deadline.yaml'
-    - $ref: '../components/parameters/partyIDQuery.yaml'
-    - $ref: '../components/parameters/shopIDQuery.yaml'
-    - $ref: '../components/parameters/shopIDs.yaml'
+    - $ref: '../components/parameters/partyIDRequired.yaml'
+    - $ref: '../components/parameters/shopID.yaml'
     - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
-    - $ref: '../components/parameters/fromTime.yaml'
-    - $ref: '../components/parameters/toTime.yaml'
-    - $ref: '../components/parameters/limit.yaml'
+    - $ref: '../components/parameters/fromTimeRequired.yaml'
+    - $ref: '../components/parameters/toTimeRequired.yaml'
+    - $ref: '../components/parameters/limitRequired.yaml'
     - name: reportTypes
       description: Типы отчетов
       in: query
