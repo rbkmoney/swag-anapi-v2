@@ -5,8 +5,8 @@ properties:
   type:
     description: Тип процесса выполнения платежа
     type: string
-    enum:
-      - PaymentFlowInstant
-      - PaymentFlowHold
 discriminator:
   propertyName: type
+  mapping:
+    'PaymentFlowInstant': '../schemas/PaymentFlowInstant.yaml'
+    'PaymentFlowHold': '../schemas/PaymentFlowHold.yaml'
