@@ -19,7 +19,7 @@
     </description>
 
     <properties>
-        <default.package>com.rbkmoney.openapi.anapi_v2</default.package>
+        <default.package>com.rbkmoney.anapi.v2</default.package>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <java.version>11</java.version>
