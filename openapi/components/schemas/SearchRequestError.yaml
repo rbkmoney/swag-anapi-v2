@@ -1,0 +1,17 @@
+type: object
+required:
+  - code
+  - message
+properties:
+  code:
+    description: |
+      [Код ошибки](#section/Kody-oshibok)
+    type: string
+    enum:
+      - invalidRequest
+      - invalidDeadline
+      - limitExceeded
+      - badContinuationToken
+  message:
+    description: Человекочитаемое описание ошибки
+    type: string

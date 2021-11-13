@@ -64,8 +64,6 @@ get:
                 items:
                   $ref: '../components/schemas/RefundSearchResult.yaml'
     '400':
-      $ref: '../components/responses/DefaultLogicError.yaml'
+      $ref: '../components/responses/SearchRequestError.yaml'
     '401':
       $ref: '../components/responses/Unauthorized.yaml'
-    '404':
-      $ref: '../components/responses/NotFound.yaml'

@@ -83,9 +83,7 @@ get:
                 type: array
                 items:
                   $ref: '../components/schemas/Chargeback.yaml'
-    '404':
-      $ref: '../components/responses/NotFound.yaml'
+    '400':
+      $ref: '../components/responses/SearchRequestError.yaml'
     '401':
       $ref: '../components/responses/Unauthorized.yaml'
-    '400':
-      $ref: '../components/responses/DefaultLogicError.yaml'

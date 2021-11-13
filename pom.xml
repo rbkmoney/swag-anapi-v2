@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>swag-anapi-v2</artifactId>
-    <version>SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>anapi v2</name>
@@ -159,11 +159,18 @@
                                 <configuration>
                                     <inputSpec>web_deploy/openapi.yaml</inputSpec>
                                     <generatorName>spring</generatorName>
-                                    <configOptions>
-                                        <dateLibrary>java8</dateLibrary>
-                                    </configOptions>
+                                    <generateModels>true</generateModels>
+                                    <generateApis>true</generateApis>
+                                    <generateApiDocumentation>true</generateApiDocumentation>
+                                    <generateSupportingFiles>true</generateSupportingFiles>
                                     <apiPackage>${default.package}.api</apiPackage>
                                     <modelPackage>${default.package}.model</modelPackage>
+                                    <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                                    <configOptions>
+                                        <dateLibrary>java8</dateLibrary>
+                                        <delegatePattern>true</delegatePattern>
+                                        <useBeanValidation>true</useBeanValidation>
+                                    </configOptions>
                                 </configuration>
                             </execution>
                         </executions>
