@@ -1008,16 +1008,7 @@
             "description": "Провайдер платежного терминала",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "euroset",
-                "wechat",
-                "alipay",
-                "zotapay",
-                "qps",
-                "uzcard",
-                "rbs"
-              ]
+              "$ref": "#/components/schemas/PaymentTerminalProvider"
             }
           },
           {
@@ -1109,14 +1100,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "description": "Провайдер платежных токенов",
-              "type": "string",
-              "enum": [
-                "applepay",
-                "googlepay",
-                "samsungpay",
-                "yandexpay"
-              ]
+              "$ref": "#/components/schemas/BankCardTokenProvider"
             }
           },
           {
@@ -1124,26 +1108,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "description": "Платежная система",
-              "type": "string",
-              "enum": [
-                "visa",
-                "mastercard",
-                "visaelectron",
-                "maestro",
-                "forbrugsforeningen",
-                "dankort",
-                "amex",
-                "dinersclub",
-                "discover",
-                "unionpay",
-                "jcb",
-                "nspkmir",
-                "elo",
-                "rupay",
-                "dummy",
-                "uzcard"
-              ]
+              "$ref": "#/components/schemas/BankCardPaymentSystem"
             }
           },
           {
@@ -2800,6 +2765,51 @@
           }
         }
       },
+      "PaymentTerminalProvider": {
+        "description": "Провайдер терминальной сети",
+        "type": "string",
+        "enum": [
+          "euroset",
+          "wechat",
+          "alipay",
+          "zotapay",
+          "qps",
+          "uzcard",
+          "rbs"
+        ]
+      },
+      "BankCardTokenProvider": {
+        "description": "Провайдер платежных токенов",
+        "type": "string",
+        "enum": [
+          "applepay",
+          "googlepay",
+          "samsungpay",
+          "yandexpay"
+        ]
+      },
+      "BankCardPaymentSystem": {
+        "description": "Платежная система",
+        "type": "string",
+        "enum": [
+          "visa",
+          "mastercard",
+          "visaelectron",
+          "maestro",
+          "forbrugsforeningen",
+          "dankort",
+          "amex",
+          "dinersclub",
+          "discover",
+          "unionpay",
+          "jcb",
+          "nspkmir",
+          "elo",
+          "rupay",
+          "dummy",
+          "uzcard"
+        ]
+      },
       "PaymentError": {
         "description": "[Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)\n",
         "type": "object",
@@ -2873,8 +2883,132 @@
           }
         },
         "discriminator": {
-          "propertyName": "detailsType"
+          "propertyName": "detailsType",
+          "mapping": {
+            "PaymentToolDetailsBankCard": "#/components/schemas/PaymentToolDetailsBankCard",
+            "PaymentToolDetailsCryptoWallet": "#/components/schemas/PaymentToolDetailsCryptoWallet",
+            "PaymentToolDetailsMobileCommerce": "#/components/schemas/PaymentToolDetailsMobileCommerce",
+            "PaymentToolDetailsPaymentTerminal": "#/components/schemas/PaymentToolDetailsPaymentTerminal"
+          }
         }
+      },
+      "BankCardDetails": {
+        "required": [
+          "cardNumberMask",
+          "paymentSystem"
+        ],
+        "properties": {
+          "cardNumberMask": {
+            "description": "Маскированый номер карты",
+            "type": "string",
+            "pattern": "^\\d{6,8}\\*+\\d{2,4}$"
+          },
+          "bin": {
+            "description": "BIN банка-эмитента карты",
+            "type": "string",
+            "pattern": "^(\\d{0}|\\d{6,8})$"
+          },
+          "lastDigits": {
+            "description": "Последние цифры номера карты",
+            "type": "string",
+            "pattern": "^\\d{2,4}$"
+          },
+          "paymentSystem": {
+            "$ref": "#/components/schemas/BankCardPaymentSystem"
+          },
+          "tokenProvider": {
+            "$ref": "#/components/schemas/BankCardTokenProvider"
+          }
+        }
+      },
+      "PaymentToolDetailsBankCard": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaymentToolDetails"
+          },
+          {
+            "$ref": "#/components/schemas/BankCardDetails"
+          }
+        ]
+      },
+      "CryptoCurrency": {
+        "description": "Тип криптовалюты",
+        "type": "string",
+        "enum": [
+          "bitcoin",
+          "litecoin",
+          "bitcoinCash",
+          "ripple",
+          "ethereum",
+          "zcash"
+        ]
+      },
+      "CryptoWalletDetails": {
+        "required": [
+          "cryptoCurrency"
+        ],
+        "properties": {
+          "cryptoCurrency": {
+            "$ref": "#/components/schemas/CryptoCurrency"
+          }
+        }
+      },
+      "PaymentToolDetailsCryptoWallet": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaymentToolDetails"
+          },
+          {
+            "$ref": "#/components/schemas/CryptoWalletDetails"
+          }
+        ]
+      },
+      "MobileCommerceDetails": {
+        "required": [
+          "phoneNumber"
+        ],
+        "properties": {
+          "phoneNumber": {
+            "description": "Маскированый номер мобильного телефона",
+            "type": "string",
+            "pattern": "^\\+\\d\\*{1,10}\\d{2,4}$",
+            "example": "+7******0102"
+          }
+        }
+      },
+      "PaymentToolDetailsMobileCommerce": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaymentToolDetails"
+          },
+          {
+            "$ref": "#/components/schemas/MobileCommerceDetails"
+          }
+        ]
+      },
+      "PaymentTerminalDetails": {
+        "required": [
+          "provider"
+        ],
+        "properties": {
+          "provider": {
+            "$ref": "#/components/schemas/PaymentTerminalProvider"
+          }
+        }
+      },
+      "PaymentToolDetailsPaymentTerminal": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaymentToolDetails"
+          },
+          {
+            "$ref": "#/components/schemas/PaymentTerminalDetails"
+          }
+        ]
       },
       "CustomerPayer": {
         "type": "object",
