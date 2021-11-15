@@ -1,7 +1,7 @@
 name: paymentID
-in: query
+in: path
 description: Идентификатор платежа в рамках инвойса
-required: false
+required: true
 schema:
   type: string
   maxLength: 40

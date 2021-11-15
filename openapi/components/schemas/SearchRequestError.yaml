@@ -9,9 +9,9 @@ properties:
     type: string
     enum:
       - invalidRequest
-      - ambiguousPartyID
       - invalidDeadline
-      - invalidPartyID
+      - limitExceeded
+      - badContinuationToken
   message:
     description: Человекочитаемое описание ошибки
     type: string

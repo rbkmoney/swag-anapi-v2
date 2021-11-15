@@ -1,7 +1,7 @@
 name: invoiceID
-in: query
+in: path
 description: Идентификатор инвойса
-required: false
+required: true
 schema:
   type: string
   maxLength: 40

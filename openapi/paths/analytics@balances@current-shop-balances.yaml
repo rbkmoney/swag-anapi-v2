@@ -3,13 +3,14 @@ get:
   summary: Получение текущего баланса с группировкой по магазинам
   tags:
     - Analytics
-  operationId: getCurrentBalancesGroupByShop
+  operationId: getCurrentShopBalances
   parameters:
-    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/requestIDRequired.yaml'
     - $ref: '../components/parameters/deadline.yaml'
+    - $ref: '../components/parameters/partyIDRequired.yaml'
     - $ref: '../components/parameters/shopIDs.yaml'
     - $ref: '../components/parameters/excludeShopIDs.yaml'
-    - $ref: '../components/parameters/partyIDQuery.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
   responses:
     '200':
       description: Список балансов с группировкой по магазинам
@@ -21,10 +22,8 @@ get:
               result:
                 type: array
                 items:
-                  $ref: '../components/schemas/GroupByShopAmountResult.yaml'
-    '404':
-      $ref: '../components/responses/NotFound.yaml'
-    '401':
-      $ref: '../components/responses/Unauthorized.yaml'
+                  $ref: '../components/schemas/ShopAmountResult.yaml'
     '400':
       $ref: '../components/responses/DefaultLogicError.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'

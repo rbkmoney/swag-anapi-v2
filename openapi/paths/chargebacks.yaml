@@ -5,32 +5,17 @@ get:
     - Search
   operationId: searchChargebacks
   parameters:
-    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/requestIDRequired.yaml'
     - $ref: '../components/parameters/deadline.yaml'
-    - $ref: '../components/parameters/partyIDQuery.yaml'
-    - $ref: '../components/parameters/shopIDQuery.yaml'
+    - $ref: '../components/parameters/partyIDRequired.yaml'
+    - $ref: '../components/parameters/shopID.yaml'
     - $ref: '../components/parameters/shopIDs.yaml'
     - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
-    - $ref: '../components/parameters/fromTime.yaml'
-    - $ref: '../components/parameters/toTime.yaml'
-    - $ref: '../components/parameters/limit.yaml'
-    - $ref: '../components/parameters/offset.yaml'
-    - name: invoiceID
-      in: query
-      description: Идентификатор инвойса
-      required: false
-      schema:
-        type: string
-        maxLength: 40
-        minLength: 1
-    - name: paymentID
-      in: query
-      description: Идентификатор платежа
-      required: false
-      schema:
-        type: string
-        maxLength: 40
-        minLength: 1
+    - $ref: '../components/parameters/fromTimeRequired.yaml'
+    - $ref: '../components/parameters/toTimeRequired.yaml'
+    - $ref: '../components/parameters/limitRequired.yaml'
+    - $ref: '../components/parameters/invoiceID.yaml'
+    - $ref: '../components/parameters/paymentID.yaml'
     - name: chargebackID
       in: query
       description: Идентификатор чарджбэка
@@ -98,9 +83,7 @@ get:
                 type: array
                 items:
                   $ref: '../components/schemas/Chargeback.yaml'
-    '404':
-      $ref: '../components/responses/NotFound.yaml'
+    '400':
+      $ref: '../components/responses/SearchRequestError.yaml'
     '401':
       $ref: '../components/responses/Unauthorized.yaml'
-    '400':
-      $ref: '../components/responses/DefaultLogicError.yaml'

@@ -5,9 +5,11 @@ get:
     - Reports
   operationId: getReport
   parameters:
-    - $ref: '../components/parameters/requestID.yaml'
+    - $ref: '../components/parameters/requestIDRequired.yaml'
     - $ref: '../components/parameters/deadline.yaml'
-    - $ref: '../components/parameters/reportID.yaml'
+    - $ref: '../components/parameters/partyIDRequired.yaml'
+    - $ref: '../components/parameters/paymentInstitutionRealm.yaml'
+    - $ref: '../components/parameters/reportIDPathRequired.yaml'
   responses:
     '200':
       description: Найденный отчет

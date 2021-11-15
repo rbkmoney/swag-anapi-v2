@@ -1,6 +1,6 @@
 name: excludeShopIDs
 in: query
-description: Идентификаторы магазинов не включаемые в запрос
+description: Идентификаторы магазинов, исключаемых из запроса
 required: false
 schema:
   type: array
