@@ -8,3 +8,8 @@ properties:
     type: string
 discriminator:
   propertyName: detailsType
+  mapping:
+    'PaymentToolDetailsBankCard': '../schemas/PaymentToolDetailsBankCard.yaml'
+    'PaymentToolDetailsCryptoWallet': '../schemas/PaymentToolDetailsCryptoWallet.yaml'
+    'PaymentToolDetailsMobileCommerce': '../schemas/PaymentToolDetailsMobileCommerce.yaml'
+    'PaymentToolDetailsPaymentTerminal': '../schemas/PaymentToolDetailsPaymentTerminal.yaml'
