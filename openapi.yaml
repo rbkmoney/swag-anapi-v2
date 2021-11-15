@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 2.0.0
   title: RBKmoney Platform Analytics API
   description: >
     ## Описание
@@ -11,11 +11,13 @@ info:
     включая наши веб-сайты, личные кабинеты и другие UI-интерфейсы являются
     внешними приложениями-клиентами.
 
+
     RBKmoney Analytics API работает поверх HTTP-протокола. Мы используем REST
     архитектуру, схема описывается в соответствии со стандартом [OpenAPI
     v3.0](https://spec.openapis.org/oas/v3.0.0/). Коды возврата описываются
     соответствующими HTTP-статусами. Платформа принимает и возвращает
     JSON-структуры в HTTP body.
+
 
     ## Запросы
 
@@ -38,6 +40,7 @@ info:
     ```
       Content-Type: application/json; charset=utf-8
     ```
+
 
     ## Формат дат
 
@@ -70,19 +73,85 @@ info:
 
     API предоставляет несколько различных критериев для выбора магазинов, в
     рамках которых будет выполняться поиск или аналитика: `shopID`, `shopIDs`,
-    `paymentInstitutionRealm`. В случае использования нескольких критериев
-    одновременно в выборку будут включены магазины, подпадающие под хотя бы один
-    из перечисленных критериев.
-  termsOfService: https://rbk.money/
+    `paymentInstitutionRealm`, `excludeShopIDs`. В случае использования
+    нескольких критериев одновременно в выборку будут включены магазины,
+    подпадающие под хотя бы один из перечисленных критериев.
+
+
+    ## Коды ошибок
+
+    ### Ошибки бизнес-логики
+
+    Все ошибки бизнес-логики имеют следуюший вид:
+
+      ```json
+      {
+        "code": "string",
+        "message": "string"
+      }
+      ```
+
+    В поле `code` содержится тип ошибки, а в `message` - дополнительная
+    информация по произошедшей ошибке.
+
+    На данный момент существуют следующие коды ошибок:
+
+      | Код                              | Описание                                                                                                                              |
+      | ---                              | --------                                                                                                                              |
+      | **invalidDeadline**              | Неверный формат максимального времени обработки запроса.                                                                              |
+      | **ambiguousPartyID**             | Невозможно однозначно определить идентификатор участника, укажите идентификатор в запросе явно.                                       |
+      | **invalidPartyID**               | Участник с указанным идентификатором не существует или недоступен.                                                                    |
+      | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
+      | **limitExceeded**                | Запрашеваемое количество данных должно быть меньше чем указано.                                                                                                       |
+      | **badContinuationToken**         | Не валидный ContinuationToken.                                                                                                       |
+
+    ### Общие ошибки
+
+    Ошибки возникающие при попытках совершения операций с незарегистрированными
+    в системе объектами. Имеют вид
+
+      ```json
+      {
+          "message": "string"
+      }
+      ```
+
+    В поле `message` содержится информация по произошедшей ошибке. Например:
+
+      ```json
+      {
+          "message": "Invalid token"
+      }
+      ```
+
+    ### Ошибки обработки запросов
+
+    В процессе обработки запросов силами нашей платформы могут происходить
+    различные непредвиденные ситуации. Об их появлении платформа сигнализирует
+    по протоколу HTTP соответствующими [статусами][5xx], обозначающими ошибки
+    сервера.
+
+      |  Код    |  Описание  |
+      | ------- | ---------- |
+      | **500** | В процессе обработки платформой запроса возникла непредвиденная ситуация. При получении подобного кода ответа мы рекомендуем обратиться в техническую поддержку. |
+      | **503** | Платформа временно недоступна и не готова обслуживать данный запрос. Запрос гарантированно не выполнен, при получении подобного кода ответа попробуйте выполнить его позднее, когда доступность платформы будет восстановлена. |
+      | **504** | Платформа превысила допустимое время обработки запроса, результат запроса не определён. Попробуйте отправить запрос повторно или выяснить результат выполнения исходного запроса, если повторное исполнение запроса нежелательно. |
+
+    [5xx]: https://tools.ietf.org/html/rfc7231#section-6.6
+
+
+    Если вы получили ошибку, которой нет в данном описании, обратитесь в
+    техническую поддержку.
+  termsOfService: 'https://rbk.money/'
   contact:
     name: RBKmoney support team
     email: support@rbk.money
-    url: https://api.rbk.money
+    url: 'https://api.rbk.money/lk/v2'
   license:
     name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0.html
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: https://api.rbk.money/lk/v1
+  - url: 'https://api.rbk.money/lk/v2'
 security:
   - bearer: []
 tags:
@@ -92,70 +161,6 @@ tags:
       вызвать соответствующий метод платформы. Имеется возможность отфильтровать
       выборку по определенным статусам.
     x-displayName: Поиск
-  - name: Error Codes
-    description: >
-
-      ## Ошибки бизнес-логики
-
-      Все ошибки бизнес-логики имеют следуюший вид:
-
-        ```json
-        {
-          "code": "string",
-          "message": "string"
-        }
-        ```
-
-      В поле `code` содержится тип ошибки, а в `message` - дополнительная
-      информация по произошедшей ошибке.
-
-      На данный момент существуют следующие коды ошибок:
-
-        | Код                              | Описание                                                                                                                              |
-        | ---                              | --------                                                                                                                              |
-        | **invalidDeadline**              | Неверный формат максимального времени обработки запроса.                                                                              |
-        | **ambiguousPartyID**             | Невозможно однозначно определить идентификатор участника, укажите идентификатор в запросе явно.                                       |
-        | **invalidPartyID**               | Участник с указанным идентификатором не существует или недоступен.                                                                    |
-        | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
-
-      ## Общие ошибки
-
-      Ошибки возникающие при попытках совершения операций с
-      незарегистрированными в системе объектами. Имеют вид
-
-        ```json
-        {
-            "message": "string"
-        }
-        ```
-
-      В поле `message` содержится информация по произошедшей ошибке. Например:
-
-        ```json
-        {
-            "message": "Invalid token"
-        }
-        ```
-
-      ## Ошибки обработки запросов
-
-      В процессе обработки запросов силами нашей платформы могут происходить
-      различные непредвиденные ситуации. Об их появлении платформа сигнализирует
-      по протоколу HTTP соответствующими [статусами][5xx], обозначающими ошибки
-      сервера.
-
-        |  Код    |  Описание  |
-        | ------- | ---------- |
-        | **500** | В процессе обработки платформой запроса возникла непредвиденная ситуация. При получении подобного кода ответа мы рекомендуем обратиться в техническую поддержку. |
-        | **503** | Платформа временно недоступна и не готова обслуживать данный запрос. Запрос гарантированно не выполнен, при получении подобного кода ответа попробуйте выполнить его позднее, когда доступность платформы будет восстановлена. |
-        | **504** | Платформа превысила допустимое время обработки запроса, результат запроса не определён. Попробуйте отправить запрос повторно или выяснить результат выполнения исходного запроса, если повторное исполнение запроса нежелательно. |
-
-      [5xx]: https://tools.ietf.org/html/rfc7231#section-6.6
-
-
-      Если вы получили ошибку, которой нет в данном описании, обратитесь в
-      техническую поддержку.
-    x-displayName: Коды ошибок
   - name: Reports
     description: >
       Один раз в отчетный период платформа автоматически подготавливает и
@@ -165,74 +170,11 @@ tags:
       юридически значимой и позволяет полностью отказаться от бумажного
       документооборота.
     x-displayName: Отчеты
-  - name: Analitics
+  - name: Analytics
     description: |
       Аналитические методы по статистике платежей
     x-displayName: Аналитика
 paths:
-  /analytics/balances/current:
-    get:
-      description: Получение текущего баланса по магазину
-      summary: Получение текущего баланса по магазину
-      tags:
-        - Analytics
-      operationId: getCurrentBalances
-      parameters:
-        - $ref: '#/components/parameters/requestID'
-        - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDs'
-        - $ref: '#/components/parameters/excludeShopIDs'
-        - $ref: '#/components/parameters/paymentInstitutionRealm'
-      responses:
-        '200':
-          description: Список оборотов с группировкой по валютам
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/AmountResult'
-        '400':
-          $ref: '#/components/responses/DefaultLogicError'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /analytics/balances/current-shop-balances:
-    get:
-      description: Получение текущего баланса с группировкой по магазинам
-      summary: Получение текущего баланса с группировкой по магазинам
-      tags:
-        - Analytics
-      operationId: getCurrentBalancesGroupByShop
-      parameters:
-        - $ref: '#/components/parameters/requestID'
-        - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/shopIDs'
-        - $ref: '#/components/parameters/excludeShopIDs'
-        - $ref: '#/components/parameters/partyIDQuery'
-      responses:
-        '200':
-          description: Список балансов с группировкой по магазинам
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/GroupByShopAmountResult'
-        '400':
-          $ref: '#/components/responses/DefaultLogicError'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments/amount:
     get:
       description: Получение списка оборотов с группировкой по валютам
@@ -241,14 +183,14 @@ paths:
         - Analytics
       operationId: getPaymentsAmount
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
       responses:
         '200':
           description: Список оборотов с группировкой по валютам
@@ -265,8 +207,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments/average:
     get:
       description: Получение среднего размера платежа с группировкой по валютам
@@ -275,14 +215,14 @@ paths:
         - Analytics
       operationId: getAveragePayment
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
       responses:
         '200':
           description: Средний размер платежа с группировкой по валютам
@@ -299,8 +239,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments/count:
     get:
       description: Получение количества платежей с группировкой по валютам
@@ -309,14 +247,14 @@ paths:
         - Analytics
       operationId: getPaymentsCount
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
       responses:
         '200':
           description: Среднее количество платежей с группировкой по валютам
@@ -333,8 +271,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments/errors:
     get:
       description: Получение распределения ошибок
@@ -343,14 +279,14 @@ paths:
         - Analytics
       operationId: getPaymentsErrorDistribution
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
       responses:
         '200':
           description: Распределение ошибок
@@ -367,8 +303,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments/split-amount:
     get:
       description: >-
@@ -381,15 +315,15 @@ paths:
         - Analytics
       operationId: getPaymentsSplitAmount
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/splitUnit'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/splitUnitRequired'
       responses:
         '200':
           description: >-
@@ -408,8 +342,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments/split-count:
     get:
       description: >-
@@ -422,15 +354,15 @@ paths:
         - Analytics
       operationId: getPaymentsSplitCount
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/splitUnit'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/splitUnitRequired'
       responses:
         '200':
           description: >-
@@ -449,8 +381,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments/sub-errors:
     get:
       description: Получение распределения ошибок с подошибками
@@ -459,14 +389,14 @@ paths:
         - Analytics
       operationId: getPaymentsSubErrorDistribution
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
       responses:
         '200':
           description: Распределение ошибок с подошибками
@@ -483,8 +413,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/payments-tool:
     get:
       description: Получение распределения использования платежных инструментов
@@ -493,14 +421,14 @@ paths:
         - Analytics
       operationId: getPaymentsToolDistribution
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
       responses:
         '200':
           description: Распределение использования платежных инструментов
@@ -517,8 +445,6 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /analytics/refunds/amount:
     get:
       description: Получение списка возвратов с группировкой по валютам
@@ -527,14 +453,14 @@ paths:
         - Analytics
       operationId: getRefundsAmount
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/excludeShopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
       responses:
         '200':
           description: Список возвратов с группировкой по валютам
@@ -551,8 +477,452 @@ paths:
           $ref: '#/components/responses/DefaultLogicError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
+  /analytics/balances/current:
+    get:
+      description: Получение текущего баланса по магазину
+      summary: Получение текущего баланса по магазину
+      tags:
+        - Analytics
+      operationId: getCurrentBalances
+      parameters:
+        - $ref: '#/components/parameters/requestIDRequired'
+        - $ref: '#/components/parameters/deadline'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/excludeShopIDs'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+      responses:
+        '200':
+          description: Список оборотов с группировкой по валютам
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AmountResult'
+        '400':
+          $ref: '#/components/responses/DefaultLogicError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/balances/current-shop-balances:
+    get:
+      description: Получение текущего баланса с группировкой по магазинам
+      summary: Получение текущего баланса с группировкой по магазинам
+      tags:
+        - Analytics
+      operationId: getCurrentShopBalances
+      parameters:
+        - $ref: '#/components/parameters/requestIDRequired'
+        - $ref: '#/components/parameters/deadline'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/excludeShopIDs'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+      responses:
+        '200':
+          description: Список балансов с группировкой по магазинам
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ShopAmountResult'
+        '400':
+          $ref: '#/components/responses/DefaultLogicError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/crediting/amount:
+    get:
+      description: Получение списка зачислений с группировкой по валютам для ЛК
+      summary: Получение списка зачислений с группировкой по валютам для ЛК
+      tags:
+        - Analytics
+      operationId: getCreditingsAmount
+      parameters:
+        - $ref: '#/components/parameters/requestIDRequired'
+        - $ref: '#/components/parameters/deadline'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/excludeShopIDs'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+      responses:
+        '200':
+          description: Список зачислений с группировкой по валютам для ЛК
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AmountResult'
+        '400':
+          $ref: '#/components/responses/DefaultLogicError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /invoices:
+    get:
+      description: Поиск инвойсов
+      summary: Поиск инвойсов
+      tags:
+        - Search
+      operationId: searchInvoices
+      parameters:
+        - $ref: '#/components/parameters/requestIDRequired'
+        - $ref: '#/components/parameters/deadline'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopID'
+        - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/limitRequired'
+        - $ref: '#/components/parameters/invoiceID'
+        - $ref: '#/components/parameters/invoiceIDs'
+        - name: invoiceStatus
+          in: query
+          description: Статус инвойса для поиска
+          required: false
+          schema:
+            type: string
+            enum:
+              - unpaid
+              - cancelled
+              - paid
+              - fulfilled
+        - name: invoiceAmountFrom
+          in: query
+          description: Минимальная сумма инвойса
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: invoiceAmountTo
+          in: query
+          description: Максимальная сумма инвойса
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: externalID
+          in: query
+          description: Внешний идентификатор
+          required: false
+          schema:
+            type: string
+            maxLength: 40
+            minLength: 1
+        - name: continuationToken
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ContinuationToken'
+      responses:
+        '200':
+          description: Найденные инвойсы
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  continuationToken:
+                    $ref: '#/components/schemas/ContinuationToken'
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/SearchRequestError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /payments:
+    get:
+      description: Поиск платежей
+      summary: Поиск платежей
+      tags:
+        - Search
+      operationId: searchPayments
+      parameters:
+        - $ref: '#/components/parameters/requestIDRequired'
+        - $ref: '#/components/parameters/deadline'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopID'
+        - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/excludeShopIDs'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/limitRequired'
+        - $ref: '#/components/parameters/invoiceID'
+        - $ref: '#/components/parameters/invoiceIDs'
+        - $ref: '#/components/parameters/paymentID'
+        - name: paymentStatus
+          in: query
+          description: Статус платежа для поиска
+          required: false
+          schema:
+            type: string
+            enum:
+              - pending
+              - processed
+              - captured
+              - cancelled
+              - refunded
+              - failed
+        - name: paymentFlow
+          in: query
+          description: Flow платежа
+          required: false
+          schema:
+            type: string
+            enum:
+              - instant
+              - hold
+        - name: paymentMethod
+          in: query
+          description: Метод оплаты
+          required: false
+          schema:
+            type: string
+            enum:
+              - bankCard
+              - paymentTerminal
+        - name: paymentTerminalProvider
+          in: query
+          description: Провайдер платежного терминала
+          required: false
+          schema:
+            type: string
+            enum:
+              - euroset
+              - wechat
+              - alipay
+              - zotapay
+              - qps
+              - uzcard
+              - rbs
+        - name: payerEmail
+          in: query
+          description: 'Email, указанный при оплате'
+          required: false
+          schema:
+            type: string
+            format: email
+            maxLength: 100
+        - name: payerIP
+          in: query
+          description: IP-адрес плательщика
+          required: false
+          schema:
+            type: string
+            format: ip-address
+            maxLength: 45
+        - name: payerFingerprint
+          in: query
+          description: Уникальный отпечаток user agent'а плательщика
+          required: false
+          schema:
+            type: string
+            maxLength: 1000
+        - name: customerID
+          in: query
+          description: Идентификатор плательщика
+          required: false
+          schema:
+            type: string
+            maxLength: 40
+            minLength: 1
+        - name: first6
+          in: query
+          description: Первые 6 цифр номера карты
+          required: false
+          schema:
+            type: string
+            pattern: '^\d{6}$'
+        - name: last4
+          in: query
+          description: Последние 4 цифры номера карты
+          required: false
+          schema:
+            type: string
+            pattern: '^\d{4}$'
+        - name: rrn
+          in: query
+          description: Retrieval Reference Number
+          required: false
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{12}$'
+        - name: approvalCode
+          in: query
+          description: Authorization Approval Code
+          required: false
+          schema:
+            type: string
+            maxLength: 40
+            minLength: 1
+        - name: bankCardTokenProvider
+          in: query
+          required: false
+          schema:
+            description: Провайдер платежных токенов
+            type: string
+            enum:
+              - applepay
+              - googlepay
+              - samsungpay
+              - yandexpay
+        - name: bankCardPaymentSystem
+          in: query
+          required: false
+          schema:
+            description: Платежная система
+            type: string
+            enum:
+              - visa
+              - mastercard
+              - visaelectron
+              - maestro
+              - forbrugsforeningen
+              - dankort
+              - amex
+              - dinersclub
+              - discover
+              - unionpay
+              - jcb
+              - nspkmir
+              - elo
+              - rupay
+              - dummy
+              - uzcard
+        - name: paymentAmountFrom
+          in: query
+          description: Минимальная сумма платежа
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: paymentAmountTo
+          in: query
+          description: Максимальная сумма платежа
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: externalID
+          in: query
+          description: Внешний идентификатор
+          required: false
+          schema:
+            type: string
+            maxLength: 40
+            minLength: 1
+        - name: continuationToken
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ContinuationToken'
+      responses:
+        '200':
+          description: Найденные платежи
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  continuationToken:
+                    $ref: '#/components/schemas/ContinuationToken'
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PaymentSearchResult'
+        '400':
+          $ref: '#/components/responses/SearchRequestError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /refunds:
+    get:
+      description: Поиск возвратов
+      summary: Поиск возвратов
+      tags:
+        - Search
+      operationId: searchRefunds
+      parameters:
+        - $ref: '#/components/parameters/requestIDRequired'
+        - $ref: '#/components/parameters/deadline'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopID'
+        - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/limitRequired'
+        - $ref: '#/components/parameters/invoiceID'
+        - $ref: '#/components/parameters/invoiceIDs'
+        - $ref: '#/components/parameters/paymentID'
+        - name: refundID
+          in: query
+          description: Идентификатор возврата
+          required: false
+          schema:
+            type: string
+            maxLength: 40
+            minLength: 1
+        - name: refundStatus
+          in: query
+          description: Статус возврата
+          schema:
+            type: string
+            enum:
+              - pending
+              - succeeded
+              - failed
+        - name: externalID
+          in: query
+          description: Внешний идентификатор
+          required: false
+          schema:
+            type: string
+            maxLength: 40
+            minLength: 1
+        - name: continuationToken
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ContinuationToken'
+      responses:
+        '200':
+          description: Найденные возвраты
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: integer
+                  continuationToken:
+                    $ref: '#/components/schemas/ContinuationToken'
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RefundSearchResult'
+        '400':
+          $ref: '#/components/responses/SearchRequestError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /chargebacks:
     get:
       description: Поиск чарджбэков
@@ -561,32 +931,17 @@ paths:
         - Search
       operationId: searchChargebacks
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopID'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - name: invoiceID
-          in: query
-          description: Идентификатор инвойса
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: paymentID
-          in: query
-          description: Идентификатор платежа
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/limitRequired'
+        - $ref: '#/components/parameters/invoiceID'
+        - $ref: '#/components/parameters/paymentID'
         - name: chargebackID
           in: query
           description: Идентификатор чарджбэка
@@ -655,349 +1010,9 @@ paths:
                     items:
                       $ref: '#/components/schemas/Chargeback'
         '400':
-          $ref: '#/components/responses/DefaultLogicError'
+          $ref: '#/components/responses/SearchRequestError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /invoices:
-    get:
-      description: Поиск инвойсов
-      summary: Поиск инвойсов
-      tags:
-        - Search
-      operationId: searchInvoices
-      parameters:
-        - $ref: '#/components/parameters/requestID'
-        - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDQuery'
-        - $ref: '#/components/parameters/shopIDs'
-        - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/limit'
-        - name: invoiceIDs
-          in: query
-          description: Список инвойсов
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: invoiceStatus
-          in: query
-          description: Статус инвойса для поиска
-          required: false
-          schema:
-            type: string
-            enum:
-              - unpaid
-              - cancelled
-              - paid
-              - fulfilled
-        - name: invoiceID
-          in: query
-          description: Идентификатор инвойса
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: externalID
-          in: query
-          description: Внешний идентификатор
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: invoiceAmountFrom
-          in: query
-          description: Минимальная сумма инвойса
-          required: false
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-        - name: invoiceAmountTo
-          in: query
-          description: Максимальная сумма инвойса
-          required: false
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-        - name: excludedShops
-          in: query
-          description: Идентификаторы магазинов, исключаемых из поиска
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: continuationToken
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/ContinuationToken'
-      responses:
-        '200':
-          description: Найденные инвойсы
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: object
-                properties:
-                  continuationToken:
-                    $ref: '#/components/schemas/ContinuationToken'
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Invoice'
-        '400':
-          $ref: '#/components/responses/DefaultLogicError'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /payments:
-    get:
-      description: Поиск платежей
-      summary: Поиск платежей
-      tags:
-        - Search
-      operationId: searchPayments
-      parameters:
-        - $ref: '#/components/parameters/requestID'
-        - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDQuery'
-        - $ref: '#/components/parameters/shopIDs'
-        - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/limit'
-        - name: invoiceIDs
-          in: query
-          description: Список инвойсов
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: paymentStatus
-          in: query
-          description: Статус платежа для поиска
-          required: false
-          schema:
-            type: string
-            enum:
-              - pending
-              - processed
-              - captured
-              - cancelled
-              - refunded
-              - failed
-        - name: paymentFlow
-          in: query
-          description: Flow платежа
-          required: false
-          schema:
-            type: string
-            enum:
-              - instant
-              - hold
-        - name: paymentMethod
-          in: query
-          description: Метод оплаты
-          required: false
-          schema:
-            type: string
-            enum:
-              - bankCard
-              - paymentTerminal
-        - name: paymentTerminalProvider
-          in: query
-          description: Провайдер платежного терминала
-          required: false
-          schema:
-            type: string
-            enum:
-              - euroset
-              - wechat
-              - alipay
-              - zotapay
-              - qps
-              - uzcard
-              - rbs
-        - name: invoiceID
-          in: query
-          description: Идентификатор инвойса
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: paymentID
-          in: query
-          description: Идентификатор платежа
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: externalID
-          in: query
-          description: Внешний идентификатор
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: payerEmail
-          in: query
-          description: Email, указанный при оплате
-          required: false
-          schema:
-            type: string
-            format: email
-            maxLength: 100
-        - name: payerIP
-          in: query
-          description: IP-адрес плательщика
-          required: false
-          schema:
-            type: string
-            format: ip-address
-            maxLength: 45
-        - name: payerFingerprint
-          in: query
-          description: Уникальный отпечаток user agent'а плательщика
-          required: false
-          schema:
-            type: string
-            maxLength: 1000
-        - name: customerID
-          in: query
-          description: Идентификатор плательщика
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: first6
-          in: query
-          description: Первые 6 цифр номера карты
-          required: false
-          schema:
-            type: string
-            pattern: ^\d{6}$
-        - name: last4
-          in: query
-          description: Последние 4 цифры номера карты
-          required: false
-          schema:
-            type: string
-            pattern: ^\d{4}$
-        - name: rrn
-          in: query
-          description: Retrieval Reference Number
-          required: false
-          schema:
-            type: string
-            pattern: ^[a-zA-Z0-9]{12}$
-        - name: approvalCode
-          in: query
-          description: Authorization Approval Code
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: bankCardTokenProvider
-          in: query
-          required: false
-          schema:
-            description: Провайдер платежных токенов
-            type: string
-            enum:
-              - applepay
-              - googlepay
-              - samsungpay
-              - yandexpay
-        - name: bankCardPaymentSystem
-          in: query
-          required: false
-          schema:
-            description: Платежная система
-            type: string
-            enum:
-              - visa
-              - mastercard
-              - visaelectron
-              - maestro
-              - forbrugsforeningen
-              - dankort
-              - amex
-              - dinersclub
-              - discover
-              - unionpay
-              - jcb
-              - nspkmir
-              - elo
-              - rupay
-              - dummy
-              - uzcard
-        - name: paymentAmountFrom
-          in: query
-          description: Минимальная сумма платежа
-          required: false
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-        - name: paymentAmountTo
-          in: query
-          description: Максимальная сумма платежа
-          required: false
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-        - name: excludedShops
-          in: query
-          description: Идентификаторы магазинов, исключаемых из поиска
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: continuationToken
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/ContinuationToken'
-      responses:
-        '200':
-          description: Найденные платежи
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: object
-                properties:
-                  continuationToken:
-                    $ref: '#/components/schemas/ContinuationToken'
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/PaymentSearchResult'
-        '400':
-          $ref: '#/components/responses/DefaultLogicError'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /payouts:
     get:
       description: Поиск выплат
@@ -1006,16 +1021,15 @@ paths:
         - Search
       operationId: searchPayouts
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopID'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/limitRequired'
         - name: payoutID
           in: query
           description: Идентификатор выплаты
@@ -1038,14 +1052,6 @@ paths:
                 * PayoutAccount - выплата на банковский счёт
                 * Wallet - выплата на кошелёк
                 * PaymentInstitutionAccount - выплата на счёт платежной организации
-        - name: excludedShops
-          in: query
-          description: Идентификаторы магазинов, исключаемых из поиска
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
         - name: continuationToken
           in: query
           required: false
@@ -1068,113 +1074,9 @@ paths:
                     items:
                       $ref: '#/components/schemas/Payout'
         '400':
-          $ref: '#/components/responses/DefaultLogicError'
+          $ref: '#/components/responses/SearchRequestError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /refunds:
-    get:
-      description: Поиск возвратов
-      summary: Поиск возвратов
-      tags:
-        - Search
-      operationId: searchRefunds
-      parameters:
-        - $ref: '#/components/parameters/requestID'
-        - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDQuery'
-        - $ref: '#/components/parameters/shopIDs'
-        - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - name: invoiceIDs
-          in: query
-          description: Список инвойсов
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: invoiceID
-          in: query
-          description: Идентификатор инвойса
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: paymentID
-          in: query
-          description: Идентификатор платежа
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: refundID
-          in: query
-          description: Идентификатор возврата
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: externalID
-          in: query
-          description: Внешний идентификатор
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: refundStatus
-          in: query
-          description: Статус возврата
-          schema:
-            type: string
-            enum:
-              - pending
-              - succeeded
-              - failed
-        - name: excludedShops
-          in: query
-          description: Идентификаторы магазинов, исключаемых из поиска
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: continuationToken
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/ContinuationToken'
-      responses:
-        '200':
-          description: Найденные возвраты
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: object
-                properties:
-                  totalCount:
-                    type: integer
-                  continuationToken:
-                    $ref: '#/components/schemas/ContinuationToken'
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/RefundSearchResult'
-        '400':
-          $ref: '#/components/responses/DefaultLogicError'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /invoice-templates:
     get:
       description: Поиск шаблонов инвойсов
@@ -1183,14 +1085,22 @@ paths:
         - Search
       operationId: searchInvoiceTemplates
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
+        - $ref: '#/components/parameters/partyIDRequired'
         - $ref: '#/components/parameters/shopIDs'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/limitRequired'
+        - name: invoiceTemplateID
+          in: query
+          description: Идентификатор шаблона инвойса
+          required: false
+          schema:
+            type: string
+            maxLength: 40
+            minLength: 1
         - name: invoiceTemplateStatus
           in: query
           description: Статус шаблона инвойса для поиска
@@ -1200,19 +1110,6 @@ paths:
             enum:
               - created
               - deleted
-        - name: invoiceTemplateID
-          in: query
-          description: Идентификатор шаблона инвойса
-          required: false
-          schema:
-            type: string
-            maxLength: 40
-            minLength: 1
-        - name: continuationToken
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/ContinuationToken'
         - name: name
           in: query
           description: Название шаблона инвойса
@@ -1236,6 +1133,11 @@ paths:
           schema:
             type: string
             format: date-time
+        - name: continuationToken
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ContinuationToken'
       responses:
         '200':
           description: Найденные шаблоны инвойсов
@@ -1251,11 +1153,9 @@ paths:
                     items:
                       $ref: '#/components/schemas/InvoiceTemplate'
         '400':
-          $ref: '#/components/responses/DefaultLogicError'
+          $ref: '#/components/responses/SearchRequestError'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /reports:
     post:
       description: >-
@@ -1268,12 +1168,13 @@ paths:
         - Reports
       operationId: createReport
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDQuery'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopID'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
         - name: reportType
           in: query
           description: Тип отчета
@@ -1301,7 +1202,7 @@ paths:
                 properties:
                   code:
                     description: |
-                      [Код ошибки](#tag/Error-Codes)
+                      [Код ошибки](#section/Kody-oshibok)
                     type: string
                     enum:
                       - ambiguousPartyID
@@ -1321,15 +1222,14 @@ paths:
         - Reports
       operationId: searchReports
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/partyIDQuery'
-        - $ref: '#/components/parameters/shopIDQuery'
-        - $ref: '#/components/parameters/shopIDs'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/shopID'
         - $ref: '#/components/parameters/paymentInstitutionRealm'
-        - $ref: '#/components/parameters/fromTime'
-        - $ref: '#/components/parameters/toTime'
-        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/fromTimeRequired'
+        - $ref: '#/components/parameters/toTimeRequired'
+        - $ref: '#/components/parameters/limitRequired'
         - name: reportTypes
           description: Типы отчетов
           in: query
@@ -1373,7 +1273,7 @@ paths:
                 properties:
                   code:
                     description: |
-                      [Код ошибки](#tag/Error-Codes)
+                      [Код ошибки](#section/Kody-oshibok)
                     type: string
                     enum:
                       - ambiguousPartyID
@@ -1387,7 +1287,7 @@ paths:
                     example: 'Max limit: 1000'
         '401':
           $ref: '#/components/responses/Unauthorized'
-  /reports/{reportID}:
+  '/reports/{reportID}':
     get:
       description: Получить отчет по данному идентификатору
       summary: Получить отчет по данному идентификатору
@@ -1395,9 +1295,11 @@ paths:
         - Reports
       operationId: getReport
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/reportID'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/reportIDPathRequired'
       responses:
         '200':
           description: Найденный отчет
@@ -1411,7 +1313,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-  /reports/{reportID}/cancel:
+  '/reports/{reportID}/cancel':
     post:
       description: >-
         Отменить указанный отчет. Отчеты типа `provisionOfService` отменить
@@ -1423,9 +1325,11 @@ paths:
         - Reports
       operationId: cancelReport
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/reportID'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/reportIDPathRequired'
       responses:
         '202':
           description: Запрос на отмену отчета принят
@@ -1435,7 +1339,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-  /reports/{reportID}/files/{fileID}/download:
+  '/reports/{reportID}/files/{fileID}/download':
     get:
       description: Скачать файл
       summary: Скачать файл
@@ -1443,10 +1347,12 @@ paths:
         - Reports
       operationId: downloadFile
       parameters:
-        - $ref: '#/components/parameters/requestID'
+        - $ref: '#/components/parameters/requestIDRequired'
         - $ref: '#/components/parameters/deadline'
-        - $ref: '#/components/parameters/reportID'
-        - $ref: '#/components/parameters/fileID'
+        - $ref: '#/components/parameters/partyIDRequired'
+        - $ref: '#/components/parameters/paymentInstitutionRealm'
+        - $ref: '#/components/parameters/reportIDPathRequired'
+        - $ref: '#/components/parameters/fileIDPathRequired'
       responses:
         '200':
           description: Download link
@@ -1468,7 +1374,7 @@ components:
       in: header
       description: >
         Для аутентификации вызовов мы используем [JWT](https://jwt.io).
-        Cоответствующий ключ передается в заголовке.
+        Соответствующий ключ передается в заголовке.
 
         ```shell
          Authorization: Bearer {JWT}
@@ -1480,7 +1386,7 @@ components:
 
         Помните, что вы никому не должны передавать ваш API ключ!
   parameters:
-    requestID:
+    requestIDRequired:
       name: X-Request-ID
       in: header
       description: Уникальный идентификатор запроса к системе
@@ -1498,7 +1404,7 @@ components:
         type: string
         maxLength: 40
         minLength: 1
-    partyIDQuery:
+    partyIDRequired:
       name: partyID
       in: query
       description: Уникальный идентификатор участника в рамках платформы
@@ -1519,7 +1425,7 @@ components:
     excludeShopIDs:
       name: excludeShopIDs
       in: query
-      description: Идентификаторы магазинов не включаемые в запрос
+      description: 'Идентификаторы магазинов, исключаемых из запроса'
       required: false
       schema:
         type: array
@@ -1528,14 +1434,14 @@ components:
     paymentInstitutionRealm:
       name: paymentInstitutionRealm
       in: query
-      description: Тип магазина, тестовый или «боевой»
+      description: 'Тип магазина, тестовый или «боевой»'
       required: false
       schema:
         type: string
         enum:
           - live
           - test
-    fromTime:
+    fromTimeRequired:
       name: fromTime
       in: query
       description: Начало временного отрезка
@@ -1543,7 +1449,7 @@ components:
       schema:
         type: string
         format: date-time
-    toTime:
+    toTimeRequired:
       name: toTime
       in: query
       description: Конец временного отрезка
@@ -1551,7 +1457,7 @@ components:
       schema:
         type: string
         format: date-time
-    splitUnit:
+    splitUnitRequired:
       name: splitUnit
       in: query
       description: Единица времени сегмента разбиения
@@ -1565,7 +1471,7 @@ components:
           - week
           - month
           - year
-    shopIDQuery:
+    shopID:
       name: shopID
       in: query
       description: Идентификатор магазина
@@ -1574,7 +1480,7 @@ components:
         type: string
         maxLength: 40
         minLength: 1
-    limit:
+    limitRequired:
       name: limit
       in: query
       description: Лимит выборки
@@ -1584,15 +1490,34 @@ components:
         format: int32
         minimum: 1
         maximum: 1000
-    offset:
-      name: offset
+    invoiceID:
+      name: invoiceID
       in: query
-      description: Смещение выборки
+      description: Идентификатор инвойса
       required: false
       schema:
-        type: integer
-        minimum: 0
-    reportID:
+        type: string
+        maxLength: 40
+        minLength: 1
+    invoiceIDs:
+      name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    paymentID:
+      name: paymentID
+      in: query
+      description: Идентификатор платежа в рамках инвойса
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+        minLength: 1
+    reportIDPathRequired:
       name: reportID
       in: path
       description: Идентификатор отчета
@@ -1600,7 +1525,7 @@ components:
       schema:
         type: integer
         format: int64
-    fileID:
+    fileIDPathRequired:
       name: fileID
       in: path
       description: Идентификатор файла
@@ -1615,7 +1540,7 @@ components:
         Валюта, символьный код согласно [ISO
         4217](https://www.iso.org/iso-4217-currency-codes.html).
       type: string
-      pattern: ^[A-Z]{3}$
+      pattern: '^[A-Z]{3}$'
     AmountResult:
       type: object
       allOf:
@@ -1644,7 +1569,7 @@ components:
       properties:
         code:
           description: |
-            [Код ошибки](#tag/Error-Codes)
+            [Код ошибки](#section/Kody-oshibok)
           type: string
           enum:
             - invalidRequest
@@ -1654,36 +1579,6 @@ components:
         message:
           description: Человекочитаемое описание ошибки
           type: string
-    GeneralError:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-    ShopAmountResult:
-      description: |
-        баланс по магазину
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          description: Идентификатор магазина
-          type: string
-        amountResults:
-          type: array
-          items:
-            $ref: '#/components/schemas/AmountResult'
-    GroupByShopAmountResult:
-      description: |
-        Сгруппированый по магазинам список текущих балансов
-      type: object
-      properties:
-        groupByShopResults:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShopAmountResult'
     CountResult:
       type: object
       allOf:
@@ -1855,6 +1750,20 @@ components:
               type: number
               format: double
               minimum: 0
+    ShopAmountResult:
+      description: |
+        Список балансов магазина
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Идентификатор магазина
+          type: string
+        amountResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmountResult'
     ContinuationToken:
       description: >
         Токен, сигнализирующий о том, что в ответе передана только часть данных.
@@ -1864,119 +1773,6 @@ components:
 
         Если токена нет, получена последняя часть данных.
       type: string
-    ChargebackStatus:
-      description: Статус чарджбэка
-      type: string
-      enum:
-        - pending
-        - accepted
-        - rejected
-        - cancelled
-    ChargebackStage:
-      description: Этап прохождения чарджбэка
-      type: string
-      enum:
-        - chargeback
-        - pre_arbitration
-        - arbitration
-    ChargebackCategory:
-      description: Категория чарджбэка
-      type: string
-      enum:
-        - fraud
-        - dispute
-        - authorisation
-        - processing_error
-    ChargebackReason:
-      description: Данные о причине чарджбэка
-      type: object
-      required:
-        - category
-      properties:
-        code:
-          description: Код категории
-          type: string
-        category:
-          $ref: '#/components/schemas/ChargebackCategory'
-    Content:
-      type: object
-      properties:
-        type:
-          description: Тип данных
-          type: string
-        data:
-          description: Данные
-          type: string
-          format: byte
-    Chargeback:
-      type: object
-      required:
-        - invoiceId
-        - paymentId
-        - chargebackId
-        - shopID
-        - createdAt
-        - bodyAmount
-        - bodyCurrency
-        - levyAmount
-        - levyCurrency
-      properties:
-        invoiceId:
-          description: Идентификатор инвойса
-          type: string
-        paymentId:
-          description: Идентификатор платежа
-          type: string
-        chargebackId:
-          description: Идентификатор чарджбэка
-          type: string
-        externalId:
-          description: Внешний идентификатор
-          type: string
-        shopID:
-          description: Идентификатор магазина
-          type: string
-        createdAt:
-          description: Дата и время создания
-          type: string
-          format: date-time
-        levyAmount:
-          description: Сумма списываемых средств у чарджбека
-          type: integer
-          format: int64
-          minimum: 1
-        levyCurrency:
-          $ref: '#/components/schemas/Currency'
-        bodyAmount:
-          description: Сумма чарджбэка
-          type: integer
-          format: int64
-          minimum: 1
-        bodyCurrency:
-          $ref: '#/components/schemas/Currency'
-        fee:
-          description: Комиссия системы, в минорных денежных единицах
-          type: integer
-          format: int64
-          minimum: 0
-        providerFee:
-          description: Комиссия провайдера, в минорных денежных единицах
-          type: integer
-          format: int64
-          minimum: 0
-        externalFee:
-          description: Комиссия внешней системы системы, в минорных денежных единицах
-          type: integer
-          format: int64
-          minimum: 0
-        status:
-          $ref: '#/components/schemas/ChargebackStatus'
-        stage:
-          $ref: '#/components/schemas/ChargebackStage'
-        chargebackReason:
-          $ref: '#/components/schemas/ChargebackReason'
-        content:
-          $ref: '#/components/schemas/Content'
     InvoiceLineTaxMode:
       description: >
         Схема налогообложения предлагаемого товара или услуги.
@@ -2129,7 +1925,7 @@ components:
               type: string
               maxLength: 1000
             invoiceTemplateID:
-              description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
+              description: 'Идентификатор шаблона (для инвойсов, созданных по шаблону).'
               type: string
             cart:
               $ref: '#/components/schemas/InvoiceCart'
@@ -2137,6 +1933,24 @@ components:
               description: Связанные с инвойсом метаданные
               type: object
         - $ref: '#/components/schemas/InvoiceStatus'
+    SearchRequestError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          description: |
+            [Код ошибки](#section/Kody-oshibok)
+          type: string
+          enum:
+            - invalidRequest
+            - invalidDeadline
+            - limitExceeded
+            - badContinuationToken
+        message:
+          description: Человекочитаемое описание ошибки
+          type: string
     PaymentError:
       description: |
         [Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)
@@ -2207,7 +2021,7 @@ components:
               maxLength: 40
               minLength: 1
             paymentToolToken:
-              description: Токен платежного средства, предоставленного плательщиком
+              description: 'Токен платежного средства, предоставленного плательщиком'
               type: string
               maxLength: 1000
             paymentToolDetails:
@@ -2234,7 +2048,7 @@ components:
         - paymentToolToken
       properties:
         paymentToolToken:
-          description: Токен платежного средства, предоставленного плательщиком
+          description: 'Токен платежного средства, предоставленного плательщиком'
           type: string
           maxLength: 1000
         paymentSession:
@@ -2260,7 +2074,7 @@ components:
             Номер мобильного телефона с международным префиксом согласно
             [E.164](https://en.wikipedia.org/wiki/E.164).
           type: string
-          format: ^\+\d{4,15}$
+          format: '^\+\d{4,15}$'
     PaymentResourcePayer:
       type: object
       description: Одноразовое платежное средство
@@ -2303,7 +2117,7 @@ components:
             recurrentParentPayment:
               $ref: '#/components/schemas/PaymentRecurrentParent'
             paymentToolToken:
-              description: Токен платежного средства, предоставленного плательщиком
+              description: 'Токен платежного средства, предоставленного плательщиком'
               type: string
               maxLength: 1000
             paymentToolDetails:
@@ -2341,7 +2155,7 @@ components:
                 - cancel
                 - capture
             heldUntil:
-              description: Дата и время, до которого происходит удержание денежных средств
+              description: 'Дата и время, до которого происходит удержание денежных средств'
               type: string
               format: date-time
     GeoLocationInfo:
@@ -2395,13 +2209,13 @@ components:
               description: Cокращенный идентификатор платежа и инвойса (spid)
               type: string
             invoiceID:
-              description: Идентификатор инвойса, в рамках которого был создан платеж
+              description: 'Идентификатор инвойса, в рамках которого был создан платеж'
               type: string
             externalID:
               description: Внешний идентификатор
               type: string
             shopID:
-              description: Идентификатор магазина, в рамках которого был создан платеж
+              description: 'Идентификатор магазина, в рамках которого был создан платеж'
               type: string
             createdAt:
               description: Дата и время создания
@@ -2419,7 +2233,7 @@ components:
               format: int64
               minimum: 1
             fee:
-              description: Комиссия системы, в минорных денежных единицах
+              description: 'Комиссия системы, в минорных денежных единицах'
               type: integer
               format: int64
               minimum: 0
@@ -2442,6 +2256,200 @@ components:
               $ref: '#/components/schemas/TransactionInfo'
             makeRecurrent:
               $ref: '#/components/schemas/PaymentMakeRecurrent'
+    RefundStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          description: Статус возврата
+          type: string
+          enum:
+            - pending
+            - succeeded
+            - failed
+        error:
+          description: >
+            Данные ошибки, возникшей в процессе проведения возврата, в случае
+            если
+
+            возврат был неуспешен
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              description: 'Код ошибки, пригодный для обработки автоматическими системами'
+              type: string
+            message:
+              description: 'Описание ошибки, пригодное для восприятия человеком'
+              type: string
+    Refund:
+      type: object
+      allOf:
+        - type: object
+          required:
+            - id
+            - createdAt
+            - amount
+            - currency
+            - shopID
+          properties:
+            id:
+              description: Идентификатор возврата
+              type: string
+            externalID:
+              description: Внешний идентификатор
+              type: string
+            createdAt:
+              description: Дата и время осуществления
+              type: string
+              format: date-time
+            amount:
+              description: >
+                Сумма возврата, в минорных денежных единицах, например в
+                копейках в случае указания российских рублей в качестве валюты.
+              type: integer
+              format: int64
+              minimum: 1
+            currency:
+              $ref: '#/components/schemas/Currency'
+            reason:
+              description: Причина осуществления возврата
+              type: string
+            shopID:
+              description: Идентификатор магазина
+              type: string
+        - $ref: '#/components/schemas/RefundStatus'
+    RefundSearchResult:
+      type: object
+      allOf:
+        - type: object
+          required:
+            - invoiceID
+            - paymentID
+          properties:
+            invoiceID:
+              description: Идентификатор инвойса
+              type: string
+            paymentID:
+              description: Идентификатор платежа
+              type: string
+        - $ref: '#/components/schemas/Refund'
+    ChargebackStatus:
+      description: Статус чарджбэка
+      type: string
+      enum:
+        - pending
+        - accepted
+        - rejected
+        - cancelled
+    ChargebackStage:
+      description: Этап прохождения чарджбэка
+      type: string
+      enum:
+        - chargeback
+        - pre_arbitration
+        - arbitration
+    ChargebackCategory:
+      description: Категория чарджбэка
+      type: string
+      enum:
+        - fraud
+        - dispute
+        - authorisation
+        - processing_error
+    ChargebackReason:
+      description: Данные о причине чарджбэка
+      type: object
+      required:
+        - category
+      properties:
+        code:
+          description: Код категории
+          type: string
+        category:
+          $ref: '#/components/schemas/ChargebackCategory'
+    Content:
+      type: object
+      properties:
+        type:
+          description: Тип данных
+          type: string
+        data:
+          description: Данные
+          type: string
+          format: byte
+    Chargeback:
+      type: object
+      required:
+        - invoiceId
+        - paymentId
+        - chargebackId
+        - shopID
+        - createdAt
+        - bodyAmount
+        - bodyCurrency
+        - levyAmount
+        - levyCurrency
+      properties:
+        invoiceId:
+          description: Идентификатор инвойса
+          type: string
+        paymentId:
+          description: Идентификатор платежа
+          type: string
+        chargebackId:
+          description: Идентификатор чарджбэка
+          type: string
+        externalId:
+          description: Внешний идентификатор
+          type: string
+        shopID:
+          description: Идентификатор магазина
+          type: string
+        createdAt:
+          description: Дата и время создания
+          type: string
+          format: date-time
+        levyAmount:
+          description: Сумма списываемых средств у чарджбека
+          type: integer
+          format: int64
+          minimum: 1
+        levyCurrency:
+          $ref: '#/components/schemas/Currency'
+        bodyAmount:
+          description: Сумма чарджбэка
+          type: integer
+          format: int64
+          minimum: 1
+        bodyCurrency:
+          $ref: '#/components/schemas/Currency'
+        fee:
+          description: 'Комиссия системы, в минорных денежных единицах'
+          type: integer
+          format: int64
+          minimum: 0
+        providerFee:
+          description: 'Комиссия провайдера, в минорных денежных единицах'
+          type: integer
+          format: int64
+          minimum: 0
+        externalFee:
+          description: 'Комиссия внешней системы системы, в минорных денежных единицах'
+          type: integer
+          format: int64
+          minimum: 0
+        status:
+          $ref: '#/components/schemas/ChargebackStatus'
+        stage:
+          $ref: '#/components/schemas/ChargebackStage'
+        chargebackReason:
+          $ref: '#/components/schemas/ChargebackReason'
+        content:
+          $ref: '#/components/schemas/Content'
     PayoutToolDetails:
       description: Данные средства вывода
       type: object
@@ -2474,18 +2482,18 @@ components:
         account:
           description: Номер счёта
           type: string
-          pattern: ^\d{20}$
+          pattern: '^\d{20}$'
         bankName:
           description: Наименование юридического лица банковской организации
           type: string
           maxLength: 100
         bankPostAccount:
           type: string
-          pattern: ^\d{20}$
+          pattern: '^\d{20}$'
         bankBik:
           description: БИК банковской организации
           type: string
-          pattern: ^\d{9}$
+          pattern: '^\d{9}$'
     PayoutToolDetailsBankAccount:
       type: object
       allOf:
@@ -2500,7 +2508,7 @@ components:
             Business Identifier Code [ISO
             9362](https://en.wikipedia.org/wiki/ISO_9362).
           type: string
-          pattern: ^([A-Z0-9]{8}|[A-Z0-9]{11})$
+          pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
           example: |
             RZBAATWW
         abartn:
@@ -2510,7 +2518,7 @@ components:
 
             банковской организации, специфичный для банковской системы USA.
           type: string
-          pattern: ^[0-9]{9}$
+          pattern: '^[0-9]{9}$'
           example: '129131673'
         name:
           description: Наименование юридического лица банковской организации
@@ -2527,7 +2535,7 @@ components:
                 alpha-3 код по стандарту [ISO
                 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
           type: string
-          pattern: ^[A-Z]{2}$
+          pattern: '^[A-Z]{2}$'
           example: AT
         address:
           description: Адрес юридического лица банковской организации
@@ -2543,14 +2551,14 @@ components:
           description: |
             Номер счёта
           type: string
-          pattern: ^[0-9A-Z]{8,40}$
+          pattern: '^[0-9A-Z]{8,40}$'
           example: '123006951'
         iban:
           description: >
             International Bank Account Number [ISO
             13616](https://en.wikipedia.org/wiki/International_Bank_Account_Number)
           type: string
-          pattern: ^[A-Z0-9]{3,35}$
+          pattern: '^[A-Z0-9]{3,35}$'
           example: GR1601101250000000012300695
         bankDetails:
           $ref: '#/components/schemas/InternationalBankDetails'
@@ -2619,7 +2627,7 @@ components:
           format: int64
           minimum: 1
         fee:
-          description: Комиссия системы, в минорных денежных единицах
+          description: 'Комиссия системы, в минорных денежных единицах'
           type: integer
           format: int64
           minimum: 0
@@ -2639,87 +2647,6 @@ components:
           type: object
           example:
             payoutDesc: Custom payout
-    RefundStatus:
-      type: object
-      required:
-        - status
-      properties:
-        status:
-          description: Статус возврата
-          type: string
-          enum:
-            - pending
-            - succeeded
-            - failed
-        error:
-          description: >
-            Данные ошибки, возникшей в процессе проведения возврата, в случае
-            если
-
-            возврат был неуспешен
-          type: object
-          required:
-            - code
-            - message
-          properties:
-            code:
-              description: Код ошибки, пригодный для обработки автоматическими системами
-              type: string
-            message:
-              description: Описание ошибки, пригодное для восприятия человеком
-              type: string
-    Refund:
-      type: object
-      allOf:
-        - type: object
-          required:
-            - id
-            - createdAt
-            - amount
-            - currency
-            - shopID
-          properties:
-            id:
-              description: Идентификатор возврата
-              type: string
-            externalID:
-              description: Внешний идентификатор
-              type: string
-            createdAt:
-              description: Дата и время осуществления
-              type: string
-              format: date-time
-            amount:
-              description: >
-                Сумма возврата, в минорных денежных единицах, например в
-                копейках в случае указания российских рублей в качестве валюты.
-              type: integer
-              format: int64
-              minimum: 1
-            currency:
-              $ref: '#/components/schemas/Currency'
-            reason:
-              description: Причина осуществления возврата
-              type: string
-            shopID:
-              description: Идентификатор магазина
-              type: string
-        - $ref: '#/components/schemas/RefundStatus'
-    RefundSearchResult:
-      type: object
-      allOf:
-        - type: object
-          required:
-            - invoiceID
-            - paymentID
-          properties:
-            invoiceID:
-              description: Идентификатор инвойса
-              type: string
-            paymentID:
-              description: Идентификатор платежа
-              type: string
-        - $ref: '#/components/schemas/Refund'
     InvoiceTemplateDetails:
       type: object
       properties:
@@ -2949,6 +2876,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FileMeta'
+    GeneralError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
     ReportLink:
       type: object
       required:
@@ -2966,6 +2900,12 @@ components:
             $ref: '#/components/schemas/DefaultLogicError'
     Unauthorized:
       description: Ошибка авторизации
+    SearchRequestError:
+      description: Неверные данные
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/SearchRequestError'
     NotFound:
       description: Заданный ресурс не найден
       content:

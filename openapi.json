@@ -1,14 +1,14 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0",
+    "version": "2.0.0",
     "title": "RBKmoney Platform Analytics API",
-    "description": "## Описание\nRBKmoney Analytics API является точкой взаимодействия с аналитической и поисковой частью платформы. Все аналитическоие запросы осуществляются с помощью вызовов соответствующих методов API. Любые сторонние приложения, включая наши веб-сайты, личные кабинеты и другие UI-интерфейсы являются внешними приложениями-клиентами.\nRBKmoney Analytics API работает поверх HTTP-протокола. Мы используем REST архитектуру, схема описывается в соответствии со стандартом [OpenAPI v3.0](https://spec.openapis.org/oas/v3.0.0/). Коды возврата описываются соответствующими HTTP-статусами. Платформа принимает и возвращает JSON-структуры в HTTP body.\n## Запросы\nЛюбой вызов методов API обязан предваряться предоставлением уникального для участника в пределах платформы ID запроса. Данный ID передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-ID: oX5MWM2AQy\n```\nПлатформа гарантирует идемпотентность запросов, отправленных с одинаковым ID.\n## Тип содержимого и кодировка\nЛюбой запрос к API должен выполняться в кодировке UTF-8 и с указанием содержимого в формате JSON\n```\n  Content-Type: application/json; charset=utf-8\n```\n## Формат дат\nПлатформа принимает значения date-time в стандарте ISO 8601 с обязательным указанием UTC-оффсета, например:\n```\n  2017-01-01T00:00:00Z\n  2017-01-01T00:00:01+00:00\n```\n## Максимальное время обработки запроса\nК любому вызову методов API можно добавить параметр отсечки по времени, определяющий максимальное время ожидания завершения операции по запросу. Данная отсечка передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-Deadline: 10s\n```\nЗначение отсечки может быть задано в формате ISO 8601 (см. [Формат дат](#section/Format-dat)), либо в относительных величинах, например:\n`150000ms`, `540s`, `3.5m` При этом возможные единицы измерения `ms`, `s`, `m`. В обоих случаях  не рекомендуется, чтобы задаваемое значение было меньше **3 секунд** и превышало **1 минуту**.\n## Поиск по магазинам\nAPI предоставляет несколько различных критериев для выбора магазинов, в рамках которых будет выполняться поиск или аналитика: `shopID`, `shopIDs`, `paymentInstitutionRealm`. В случае использования нескольких критериев одновременно в выборку будут включены магазины, подпадающие под хотя бы один из перечисленных критериев.\n",
+    "description": "## Описание\nRBKmoney Analytics API является точкой взаимодействия с аналитической и поисковой частью платформы. Все аналитическоие запросы осуществляются с помощью вызовов соответствующих методов API. Любые сторонние приложения, включая наши веб-сайты, личные кабинеты и другие UI-интерфейсы являются внешними приложениями-клиентами.\n\nRBKmoney Analytics API работает поверх HTTP-протокола. Мы используем REST архитектуру, схема описывается в соответствии со стандартом [OpenAPI v3.0](https://spec.openapis.org/oas/v3.0.0/). Коды возврата описываются соответствующими HTTP-статусами. Платформа принимает и возвращает JSON-структуры в HTTP body.\n\n## Запросы\nЛюбой вызов методов API обязан предваряться предоставлением уникального для участника в пределах платформы ID запроса. Данный ID передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-ID: oX5MWM2AQy\n```\nПлатформа гарантирует идемпотентность запросов, отправленных с одинаковым ID.\n## Тип содержимого и кодировка\nЛюбой запрос к API должен выполняться в кодировке UTF-8 и с указанием содержимого в формате JSON\n```\n  Content-Type: application/json; charset=utf-8\n```\n\n## Формат дат\nПлатформа принимает значения date-time в стандарте ISO 8601 с обязательным указанием UTC-оффсета, например:\n```\n  2017-01-01T00:00:00Z\n  2017-01-01T00:00:01+00:00\n```\n## Максимальное время обработки запроса\nК любому вызову методов API можно добавить параметр отсечки по времени, определяющий максимальное время ожидания завершения операции по запросу. Данная отсечка передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-Deadline: 10s\n```\nЗначение отсечки может быть задано в формате ISO 8601 (см. [Формат дат](#section/Format-dat)), либо в относительных величинах, например:\n`150000ms`, `540s`, `3.5m` При этом возможные единицы измерения `ms`, `s`, `m`. В обоих случаях  не рекомендуется, чтобы задаваемое значение было меньше **3 секунд** и превышало **1 минуту**.\n## Поиск по магазинам\nAPI предоставляет несколько различных критериев для выбора магазинов, в рамках которых будет выполняться поиск или аналитика: `shopID`, `shopIDs`, `paymentInstitutionRealm`, `excludeShopIDs`. В случае использования нескольких критериев одновременно в выборку будут включены магазины, подпадающие под хотя бы один из перечисленных критериев.\n\n## Коды ошибок\n### Ошибки бизнес-логики\nВсе ошибки бизнес-логики имеют следуюший вид:\n\n  ```json\n  {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n  ```\n\nВ поле `code` содержится тип ошибки, а в `message` - дополнительная информация по произошедшей ошибке.\nНа данный момент существуют следующие коды ошибок:\n\n  | Код                              | Описание                                                                                                                              |\n  | ---                              | --------                                                                                                                              |\n  | **invalidDeadline**              | Неверный формат максимального времени обработки запроса.                                                                              |\n  | **ambiguousPartyID**             | Невозможно однозначно определить идентификатор участника, укажите идентификатор в запросе явно.                                       |\n  | **invalidPartyID**               | Участник с указанным идентификатором не существует или недоступен.                                                                    |\n  | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |\n  | **limitExceeded**                | Запрашеваемое количество данных должно быть меньше чем указано.                                                                                                       |\n  | **badContinuationToken**         | Не валидный ContinuationToken.                                                                                                       |\n\n### Общие ошибки\nОшибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид\n\n  ```json\n  {\n      \"message\": \"string\"\n  }\n  ```\n\nВ поле `message` содержится информация по произошедшей ошибке. Например:\n\n  ```json\n  {\n      \"message\": \"Invalid token\"\n  }\n  ```\n\n### Ошибки обработки запросов\nВ процессе обработки запросов силами нашей платформы могут происходить различные непредвиденные ситуации. Об их появлении платформа сигнализирует по протоколу HTTP соответствующими [статусами][5xx], обозначающими ошибки сервера.\n\n  |  Код    |  Описание  |\n  | ------- | ---------- |\n  | **500** | В процессе обработки платформой запроса возникла непредвиденная ситуация. При получении подобного кода ответа мы рекомендуем обратиться в техническую поддержку. |\n  | **503** | Платформа временно недоступна и не готова обслуживать данный запрос. Запрос гарантированно не выполнен, при получении подобного кода ответа попробуйте выполнить его позднее, когда доступность платформы будет восстановлена. |\n  | **504** | Платформа превысила допустимое время обработки запроса, результат запроса не определён. Попробуйте отправить запрос повторно или выяснить результат выполнения исходного запроса, если повторное исполнение запроса нежелательно. |\n\n[5xx]: https://tools.ietf.org/html/rfc7231#section-6.6\n\nЕсли вы получили ошибку, которой нет в данном описании, обратитесь в техническую поддержку.\n",
     "termsOfService": "https://rbk.money/",
     "contact": {
       "name": "RBKmoney support team",
       "email": "support@rbk.money",
-      "url": "https://api.rbk.money"
+      "url": "https://api.rbk.money/lk/v2"
     },
     "license": {
       "name": "Apache 2.0",
@@ -17,7 +17,7 @@
   },
   "servers": [
     {
-      "url": "https://api.rbk.money/lk/v1"
+      "url": "https://api.rbk.money/lk/v2"
     }
   ],
   "security": [
@@ -32,137 +32,17 @@
       "x-displayName": "Поиск"
     },
     {
-      "name": "Error Codes",
-      "description": "\n## Ошибки бизнес-логики\nВсе ошибки бизнес-логики имеют следуюший вид:\n\n  ```json\n  {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n  ```\n\nВ поле `code` содержится тип ошибки, а в `message` - дополнительная информация по произошедшей ошибке.\nНа данный момент существуют следующие коды ошибок:\n\n  | Код                              | Описание                                                                                                                              |\n  | ---                              | --------                                                                                                                              |\n  | **invalidDeadline**              | Неверный формат максимального времени обработки запроса.                                                                              |\n  | **ambiguousPartyID**             | Невозможно однозначно определить идентификатор участника, укажите идентификатор в запросе явно.                                       |\n  | **invalidPartyID**               | Участник с указанным идентификатором не существует или недоступен.                                                                    |\n  | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |\n\n## Общие ошибки\nОшибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид\n\n  ```json\n  {\n      \"message\": \"string\"\n  }\n  ```\n\nВ поле `message` содержится информация по произошедшей ошибке. Например:\n\n  ```json\n  {\n      \"message\": \"Invalid token\"\n  }\n  ```\n\n## Ошибки обработки запросов\nВ процессе обработки запросов силами нашей платформы могут происходить различные непредвиденные ситуации. Об их появлении платформа сигнализирует по протоколу HTTP соответствующими [статусами][5xx], обозначающими ошибки сервера.\n\n  |  Код    |  Описание  |\n  | ------- | ---------- |\n  | **500** | В процессе обработки платформой запроса возникла непредвиденная ситуация. При получении подобного кода ответа мы рекомендуем обратиться в техническую поддержку. |\n  | **503** | Платформа временно недоступна и не готова обслуживать данный запрос. Запрос гарантированно не выполнен, при получении подобного кода ответа попробуйте выполнить его позднее, когда доступность платформы будет восстановлена. |\n  | **504** | Платформа превысила допустимое время обработки запроса, результат запроса не определён. Попробуйте отправить запрос повторно или выяснить результат выполнения исходного запроса, если повторное исполнение запроса нежелательно. |\n\n[5xx]: https://tools.ietf.org/html/rfc7231#section-6.6\n\nЕсли вы получили ошибку, которой нет в данном описании, обратитесь в техническую поддержку.\n",
-      "x-displayName": "Коды ошибок"
-    },
-    {
       "name": "Reports",
       "description": "Один раз в отчетный период платформа автоматически подготавливает и размещает документы в формате XLSX с разбиением по магазину активной категории. Также, каждый документ будет подписан [квалифицированной ЭЦП](https://digital.gov.ru/ru/appeals/faq/31/). Данная подпись является юридически значимой и позволяет полностью отказаться от бумажного документооборота.\n",
       "x-displayName": "Отчеты"
     },
     {
-      "name": "Analitics",
+      "name": "Analytics",
       "description": "Аналитические методы по статистике платежей\n",
       "x-displayName": "Аналитика"
     }
   ],
   "paths": {
-    "/analytics/balances/current": {
-      "get": {
-        "description": "Получение текущего баланса по магазину",
-        "summary": "Получение текущего баланса по магазину",
-        "tags": [
-          "Analytics"
-        ],
-        "operationId": "getCurrentBalances",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/requestID"
-          },
-          {
-            "$ref": "#/components/parameters/deadline"
-          },
-          {
-            "$ref": "#/components/parameters/partyIDQuery"
-          },
-          {
-            "$ref": "#/components/parameters/shopIDs"
-          },
-          {
-            "$ref": "#/components/parameters/excludeShopIDs"
-          },
-          {
-            "$ref": "#/components/parameters/paymentInstitutionRealm"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Список оборотов с группировкой по валютам",
-            "content": {
-              "application/json; charset=utf-8": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "result": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/AmountResult"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/DefaultLogicError"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/analytics/balances/current-shop-balances": {
-      "get": {
-        "description": "Получение текущего баланса с группировкой по магазинам",
-        "summary": "Получение текущего баланса с группировкой по магазинам",
-        "tags": [
-          "Analytics"
-        ],
-        "operationId": "getCurrentBalancesGroupByShop",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/requestID"
-          },
-          {
-            "$ref": "#/components/parameters/deadline"
-          },
-          {
-            "$ref": "#/components/parameters/shopIDs"
-          },
-          {
-            "$ref": "#/components/parameters/excludeShopIDs"
-          },
-          {
-            "$ref": "#/components/parameters/partyIDQuery"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Список балансов с группировкой по магазинам",
-            "content": {
-              "application/json; charset=utf-8": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "result": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/GroupByShopAmountResult"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/DefaultLogicError"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
     "/analytics/payments/amount": {
       "get": {
         "description": "Получение списка оборотов с группировкой по валютам",
@@ -173,13 +53,13 @@
         "operationId": "getPaymentsAmount",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -191,10 +71,10 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           }
         ],
         "responses": {
@@ -221,9 +101,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -238,13 +115,13 @@
         "operationId": "getAveragePayment",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -256,10 +133,10 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           }
         ],
         "responses": {
@@ -286,9 +163,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -303,13 +177,13 @@
         "operationId": "getPaymentsCount",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -321,10 +195,10 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           }
         ],
         "responses": {
@@ -351,9 +225,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -368,13 +239,13 @@
         "operationId": "getPaymentsErrorDistribution",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -386,10 +257,10 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           }
         ],
         "responses": {
@@ -416,9 +287,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -433,13 +301,13 @@
         "operationId": "getPaymentsSplitAmount",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -451,13 +319,13 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/splitUnit"
+            "$ref": "#/components/parameters/splitUnitRequired"
           }
         ],
         "responses": {
@@ -484,9 +352,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -501,13 +366,13 @@
         "operationId": "getPaymentsSplitCount",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -519,13 +384,13 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/splitUnit"
+            "$ref": "#/components/parameters/splitUnitRequired"
           }
         ],
         "responses": {
@@ -552,9 +417,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -569,13 +431,13 @@
         "operationId": "getPaymentsSubErrorDistribution",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -587,10 +449,10 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           }
         ],
         "responses": {
@@ -617,9 +479,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -634,13 +493,13 @@
         "operationId": "getPaymentsToolDistribution",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -652,10 +511,10 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           }
         ],
         "responses": {
@@ -682,9 +541,6 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -699,13 +555,13 @@
         "operationId": "getRefundsAmount",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -717,10 +573,10 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           }
         ],
         "responses": {
@@ -747,165 +603,50 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
     },
-    "/chargebacks": {
+    "/analytics/balances/current": {
       "get": {
-        "description": "Поиск чарджбэков",
-        "summary": "Поиск чарджбэков",
+        "description": "Получение текущего баланса по магазину",
+        "summary": "Получение текущего баланса по магазину",
         "tags": [
-          "Search"
+          "Analytics"
         ],
-        "operationId": "searchChargebacks",
+        "operationId": "getCurrentBalances",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
-          },
-          {
-            "$ref": "#/components/parameters/shopIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
           },
           {
+            "$ref": "#/components/parameters/excludeShopIDs"
+          },
+          {
             "$ref": "#/components/parameters/paymentInstitutionRealm"
-          },
-          {
-            "$ref": "#/components/parameters/fromTime"
-          },
-          {
-            "$ref": "#/components/parameters/toTime"
-          },
-          {
-            "$ref": "#/components/parameters/limit"
-          },
-          {
-            "$ref": "#/components/parameters/offset"
-          },
-          {
-            "name": "invoiceID",
-            "in": "query",
-            "description": "Идентификатор инвойса",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "paymentID",
-            "in": "query",
-            "description": "Идентификатор платежа",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "chargebackID",
-            "in": "query",
-            "description": "Идентификатор чарджбэка",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "chargebackStatuses",
-            "in": "query",
-            "description": "Статусы чарджбэков",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "pending",
-                  "accepted",
-                  "rejected",
-                  "cancelled"
-                ]
-              }
-            }
-          },
-          {
-            "name": "chargebackStages",
-            "in": "query",
-            "description": "Этапы чарджбэков",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "chargeback",
-                  "pre_arbitration",
-                  "arbitration"
-                ]
-              }
-            }
-          },
-          {
-            "name": "chargebackCategories",
-            "in": "query",
-            "description": "Категории чарджбэков",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "fraud",
-                  "dispute",
-                  "authorisation",
-                  "processing_error"
-                ]
-              }
-            }
-          },
-          {
-            "name": "continuationToken",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/ContinuationToken"
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Найденные чарджбэки",
+            "description": "Список оборотов с группировкой по валютам",
             "content": {
               "application/json; charset=utf-8": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "totalCount": {
-                      "type": "integer"
-                    },
-                    "continuationToken": {
-                      "$ref": "#/components/schemas/ContinuationToken"
-                    },
                     "result": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Chargeback"
+                        "$ref": "#/components/schemas/AmountResult"
                       }
                     }
                   }
@@ -918,9 +659,124 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/analytics/balances/current-shop-balances": {
+      "get": {
+        "description": "Получение текущего баланса с группировкой по магазинам",
+        "summary": "Получение текущего баланса с группировкой по магазинам",
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "getCurrentShopBalances",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/requestIDRequired"
           },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
+          {
+            "$ref": "#/components/parameters/deadline"
+          },
+          {
+            "$ref": "#/components/parameters/partyIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/shopIDs"
+          },
+          {
+            "$ref": "#/components/parameters/excludeShopIDs"
+          },
+          {
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список балансов с группировкой по магазинам",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ShopAmountResult"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/analytics/crediting/amount": {
+      "get": {
+        "description": "Получение списка зачислений с группировкой по валютам для ЛК",
+        "summary": "Получение списка зачислений с группировкой по валютам для ЛК",
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "getCreditingsAmount",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/requestIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/deadline"
+          },
+          {
+            "$ref": "#/components/parameters/partyIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/shopIDs"
+          },
+          {
+            "$ref": "#/components/parameters/excludeShopIDs"
+          },
+          {
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          },
+          {
+            "$ref": "#/components/parameters/fromTimeRequired"
+          },
+          {
+            "$ref": "#/components/parameters/toTimeRequired"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список зачислений с группировкой по валютам для ЛК",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AmountResult"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -935,16 +791,16 @@
         "operationId": "searchInvoices",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
-            "$ref": "#/components/parameters/shopIDQuery"
+            "$ref": "#/components/parameters/shopID"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -953,25 +809,19 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/limit"
+            "$ref": "#/components/parameters/limitRequired"
           },
           {
-            "name": "invoiceIDs",
-            "in": "query",
-            "description": "Список инвойсов",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/components/parameters/invoiceIDs"
           },
           {
             "name": "invoiceStatus",
@@ -986,28 +836,6 @@
                 "paid",
                 "fulfilled"
               ]
-            }
-          },
-          {
-            "name": "invoiceID",
-            "in": "query",
-            "description": "Идентификатор инвойса",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "externalID",
-            "in": "query",
-            "description": "Внешний идентификатор",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
             }
           },
           {
@@ -1033,15 +861,14 @@
             }
           },
           {
-            "name": "excludedShops",
+            "name": "externalID",
             "in": "query",
-            "description": "Идентификаторы магазинов, исключаемых из поиска",
+            "description": "Внешний идентификатор",
             "required": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
             }
           },
           {
@@ -1076,13 +903,10 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/DefaultLogicError"
+            "$ref": "#/components/responses/SearchRequestError"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -1097,43 +921,43 @@
         "operationId": "searchPayments",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
-            "$ref": "#/components/parameters/shopIDQuery"
+            "$ref": "#/components/parameters/shopID"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
           },
           {
+            "$ref": "#/components/parameters/excludeShopIDs"
+          },
+          {
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/limit"
+            "$ref": "#/components/parameters/limitRequired"
           },
           {
-            "name": "invoiceIDs",
-            "in": "query",
-            "description": "Список инвойсов",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/components/parameters/invoiceIDs"
+          },
+          {
+            "$ref": "#/components/parameters/paymentID"
           },
           {
             "name": "paymentStatus",
@@ -1194,39 +1018,6 @@
                 "uzcard",
                 "rbs"
               ]
-            }
-          },
-          {
-            "name": "invoiceID",
-            "in": "query",
-            "description": "Идентификатор инвойса",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "paymentID",
-            "in": "query",
-            "description": "Идентификатор платежа",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "externalID",
-            "in": "query",
-            "description": "Внешний идентификатор",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
             }
           },
           {
@@ -1378,15 +1169,14 @@
             }
           },
           {
-            "name": "excludedShops",
+            "name": "externalID",
             "in": "query",
-            "description": "Идентификаторы магазинов, исключаемых из поиска",
+            "description": "Внешний идентификатор",
             "required": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
             }
           },
           {
@@ -1421,135 +1211,10 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/DefaultLogicError"
+            "$ref": "#/components/responses/SearchRequestError"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/payouts": {
-      "get": {
-        "description": "Поиск выплат",
-        "summary": "Поиск выплат",
-        "tags": [
-          "Search"
-        ],
-        "operationId": "searchPayouts",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/requestID"
-          },
-          {
-            "$ref": "#/components/parameters/deadline"
-          },
-          {
-            "$ref": "#/components/parameters/partyIDQuery"
-          },
-          {
-            "$ref": "#/components/parameters/shopIDQuery"
-          },
-          {
-            "$ref": "#/components/parameters/shopIDs"
-          },
-          {
-            "$ref": "#/components/parameters/paymentInstitutionRealm"
-          },
-          {
-            "$ref": "#/components/parameters/fromTime"
-          },
-          {
-            "$ref": "#/components/parameters/toTime"
-          },
-          {
-            "$ref": "#/components/parameters/limit"
-          },
-          {
-            "$ref": "#/components/parameters/offset"
-          },
-          {
-            "name": "payoutID",
-            "in": "query",
-            "description": "Идентификатор выплаты",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "payoutToolType",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "PayoutAccount",
-                "Wallet",
-                "PaymentInstitutionAccount"
-              ],
-              "description": "Тип выплаты для поиска\n  * PayoutAccount - выплата на банковский счёт\n  * Wallet - выплата на кошелёк\n  * PaymentInstitutionAccount - выплата на счёт платежной организации\n"
-            }
-          },
-          {
-            "name": "excludedShops",
-            "in": "query",
-            "description": "Идентификаторы магазинов, исключаемых из поиска",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "continuationToken",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/ContinuationToken"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Найденные выплаты",
-            "content": {
-              "application/json; charset=utf-8": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "totalCount": {
-                      "type": "integer"
-                    },
-                    "continuationToken": {
-                      "$ref": "#/components/schemas/ContinuationToken"
-                    },
-                    "result": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Payout"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/DefaultLogicError"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -1564,16 +1229,16 @@
         "operationId": "searchRefunds",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
-            "$ref": "#/components/parameters/shopIDQuery"
+            "$ref": "#/components/parameters/shopID"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -1582,66 +1247,27 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/limit"
+            "$ref": "#/components/parameters/limitRequired"
           },
           {
-            "$ref": "#/components/parameters/offset"
+            "$ref": "#/components/parameters/invoiceID"
           },
           {
-            "name": "invoiceIDs",
-            "in": "query",
-            "description": "Список инвойсов",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/parameters/invoiceIDs"
           },
           {
-            "name": "invoiceID",
-            "in": "query",
-            "description": "Идентификатор инвойса",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "paymentID",
-            "in": "query",
-            "description": "Идентификатор платежа",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
+            "$ref": "#/components/parameters/paymentID"
           },
           {
             "name": "refundID",
             "in": "query",
             "description": "Идентификатор возврата",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          },
-          {
-            "name": "externalID",
-            "in": "query",
-            "description": "Внешний идентификатор",
             "required": false,
             "schema": {
               "type": "string",
@@ -1663,15 +1289,14 @@
             }
           },
           {
-            "name": "excludedShops",
+            "name": "externalID",
             "in": "query",
-            "description": "Идентификаторы магазинов, исключаемых из поиска",
+            "description": "Внешний идентификатор",
             "required": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
             }
           },
           {
@@ -1709,13 +1334,263 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/DefaultLogicError"
+            "$ref": "#/components/responses/SearchRequestError"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/chargebacks": {
+      "get": {
+        "description": "Поиск чарджбэков",
+        "summary": "Поиск чарджбэков",
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchChargebacks",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/requestIDRequired"
           },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
+          {
+            "$ref": "#/components/parameters/deadline"
+          },
+          {
+            "$ref": "#/components/parameters/partyIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/shopID"
+          },
+          {
+            "$ref": "#/components/parameters/shopIDs"
+          },
+          {
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          },
+          {
+            "$ref": "#/components/parameters/fromTimeRequired"
+          },
+          {
+            "$ref": "#/components/parameters/toTimeRequired"
+          },
+          {
+            "$ref": "#/components/parameters/limitRequired"
+          },
+          {
+            "$ref": "#/components/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/components/parameters/paymentID"
+          },
+          {
+            "name": "chargebackID",
+            "in": "query",
+            "description": "Идентификатор чарджбэка",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "chargebackStatuses",
+            "in": "query",
+            "description": "Статусы чарджбэков",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "accepted",
+                  "rejected",
+                  "cancelled"
+                ]
+              }
+            }
+          },
+          {
+            "name": "chargebackStages",
+            "in": "query",
+            "description": "Этапы чарджбэков",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "chargeback",
+                  "pre_arbitration",
+                  "arbitration"
+                ]
+              }
+            }
+          },
+          {
+            "name": "chargebackCategories",
+            "in": "query",
+            "description": "Категории чарджбэков",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "fraud",
+                  "dispute",
+                  "authorisation",
+                  "processing_error"
+                ]
+              }
+            }
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ContinuationToken"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найденные чарджбэки",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer"
+                    },
+                    "continuationToken": {
+                      "$ref": "#/components/schemas/ContinuationToken"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Chargeback"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/SearchRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/payouts": {
+      "get": {
+        "description": "Поиск выплат",
+        "summary": "Поиск выплат",
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchPayouts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/requestIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/deadline"
+          },
+          {
+            "$ref": "#/components/parameters/partyIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/shopID"
+          },
+          {
+            "$ref": "#/components/parameters/shopIDs"
+          },
+          {
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          },
+          {
+            "$ref": "#/components/parameters/fromTimeRequired"
+          },
+          {
+            "$ref": "#/components/parameters/toTimeRequired"
+          },
+          {
+            "$ref": "#/components/parameters/limitRequired"
+          },
+          {
+            "name": "payoutID",
+            "in": "query",
+            "description": "Идентификатор выплаты",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "payoutToolType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PayoutAccount",
+                "Wallet",
+                "PaymentInstitutionAccount"
+              ],
+              "description": "Тип выплаты для поиска\n  * PayoutAccount - выплата на банковский счёт\n  * Wallet - выплата на кошелёк\n  * PaymentInstitutionAccount - выплата на счёт платежной организации\n"
+            }
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ContinuationToken"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найденные выплаты",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer"
+                    },
+                    "continuationToken": {
+                      "$ref": "#/components/schemas/ContinuationToken"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Payout"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/SearchRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -1730,13 +1605,13 @@
         "operationId": "searchInvoiceTemplates",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
             "$ref": "#/components/parameters/shopIDs"
@@ -1745,26 +1620,13 @@
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/limit"
-          },
-          {
-            "name": "invoiceTemplateStatus",
-            "in": "query",
-            "description": "Статус шаблона инвойса для поиска",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "created",
-                "deleted"
-              ]
-            }
+            "$ref": "#/components/parameters/limitRequired"
           },
           {
             "name": "invoiceTemplateID",
@@ -1778,11 +1640,16 @@
             }
           },
           {
-            "name": "continuationToken",
+            "name": "invoiceTemplateStatus",
             "in": "query",
+            "description": "Статус шаблона инвойса для поиска",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/ContinuationToken"
+              "type": "string",
+              "enum": [
+                "created",
+                "deleted"
+              ]
             }
           },
           {
@@ -1816,6 +1683,14 @@
               "type": "string",
               "format": "date-time"
             }
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ContinuationToken"
+            }
           }
         ],
         "responses": {
@@ -1841,13 +1716,10 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/DefaultLogicError"
+            "$ref": "#/components/responses/SearchRequestError"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -1862,22 +1734,25 @@
         "operationId": "createReport",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
-            "$ref": "#/components/parameters/shopIDQuery"
+            "$ref": "#/components/parameters/shopID"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
+          },
+          {
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
             "name": "reportType",
@@ -1915,7 +1790,7 @@
                   ],
                   "properties": {
                     "code": {
-                      "description": "[Код ошибки](#tag/Error-Codes)\n",
+                      "description": "[Код ошибки](#section/Kody-oshibok)\n",
                       "type": "string",
                       "enum": [
                         "ambiguousPartyID",
@@ -1948,31 +1823,28 @@
         "operationId": "searchReports",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/partyIDQuery"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
-            "$ref": "#/components/parameters/shopIDQuery"
-          },
-          {
-            "$ref": "#/components/parameters/shopIDs"
+            "$ref": "#/components/parameters/shopID"
           },
           {
             "$ref": "#/components/parameters/paymentInstitutionRealm"
           },
           {
-            "$ref": "#/components/parameters/fromTime"
+            "$ref": "#/components/parameters/fromTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/toTime"
+            "$ref": "#/components/parameters/toTimeRequired"
           },
           {
-            "$ref": "#/components/parameters/limit"
+            "$ref": "#/components/parameters/limitRequired"
           },
           {
             "name": "reportTypes",
@@ -2034,7 +1906,7 @@
                   ],
                   "properties": {
                     "code": {
-                      "description": "[Код ошибки](#tag/Error-Codes)\n",
+                      "description": "[Код ошибки](#section/Kody-oshibok)\n",
                       "type": "string",
                       "enum": [
                         "ambiguousPartyID",
@@ -2070,13 +1942,19 @@
         "operationId": "getReport",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/reportID"
+            "$ref": "#/components/parameters/partyIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          },
+          {
+            "$ref": "#/components/parameters/reportIDPathRequired"
           }
         ],
         "responses": {
@@ -2112,13 +1990,19 @@
         "operationId": "cancelReport",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/reportID"
+            "$ref": "#/components/parameters/partyIDRequired"
+          },
+          {
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          },
+          {
+            "$ref": "#/components/parameters/reportIDPathRequired"
           }
         ],
         "responses": {
@@ -2147,16 +2031,22 @@
         "operationId": "downloadFile",
         "parameters": [
           {
-            "$ref": "#/components/parameters/requestID"
+            "$ref": "#/components/parameters/requestIDRequired"
           },
           {
             "$ref": "#/components/parameters/deadline"
           },
           {
-            "$ref": "#/components/parameters/reportID"
+            "$ref": "#/components/parameters/partyIDRequired"
           },
           {
-            "$ref": "#/components/parameters/fileID"
+            "$ref": "#/components/parameters/paymentInstitutionRealm"
+          },
+          {
+            "$ref": "#/components/parameters/reportIDPathRequired"
+          },
+          {
+            "$ref": "#/components/parameters/fileIDPathRequired"
           }
         ],
         "responses": {
@@ -2189,11 +2079,11 @@
         "type": "apiKey",
         "name": "Authorization",
         "in": "header",
-        "description": "Для аутентификации вызовов мы используем [JWT](https://jwt.io). Cоответствующий ключ передается в заголовке.\n```shell\n Authorization: Bearer {JWT}\n```\nПосмотреть ваш API-ключ вы можете в [личном кабинете](https://dashboard.rbk.money/).\n\nПомните, что вы никому не должны передавать ваш API ключ!\n"
+        "description": "Для аутентификации вызовов мы используем [JWT](https://jwt.io). Соответствующий ключ передается в заголовке.\n```shell\n Authorization: Bearer {JWT}\n```\nПосмотреть ваш API-ключ вы можете в [личном кабинете](https://dashboard.rbk.money/).\n\nПомните, что вы никому не должны передавать ваш API ключ!\n"
       }
     },
     "parameters": {
-      "requestID": {
+      "requestIDRequired": {
         "name": "X-Request-ID",
         "in": "header",
         "description": "Уникальный идентификатор запроса к системе",
@@ -2215,7 +2105,7 @@
           "minLength": 1
         }
       },
-      "partyIDQuery": {
+      "partyIDRequired": {
         "name": "partyID",
         "in": "query",
         "description": "Уникальный идентификатор участника в рамках платформы",
@@ -2241,7 +2131,7 @@
       "excludeShopIDs": {
         "name": "excludeShopIDs",
         "in": "query",
-        "description": "Идентификаторы магазинов не включаемые в запрос",
+        "description": "Идентификаторы магазинов, исключаемых из запроса",
         "required": false,
         "schema": {
           "type": "array",
@@ -2263,7 +2153,7 @@
           ]
         }
       },
-      "fromTime": {
+      "fromTimeRequired": {
         "name": "fromTime",
         "in": "query",
         "description": "Начало временного отрезка",
@@ -2273,7 +2163,7 @@
           "format": "date-time"
         }
       },
-      "toTime": {
+      "toTimeRequired": {
         "name": "toTime",
         "in": "query",
         "description": "Конец временного отрезка",
@@ -2283,7 +2173,7 @@
           "format": "date-time"
         }
       },
-      "splitUnit": {
+      "splitUnitRequired": {
         "name": "splitUnit",
         "in": "query",
         "description": "Единица времени сегмента разбиения",
@@ -2300,7 +2190,7 @@
           ]
         }
       },
-      "shopIDQuery": {
+      "shopID": {
         "name": "shopID",
         "in": "query",
         "description": "Идентификатор магазина",
@@ -2311,7 +2201,7 @@
           "minLength": 1
         }
       },
-      "limit": {
+      "limitRequired": {
         "name": "limit",
         "in": "query",
         "description": "Лимит выборки",
@@ -2323,17 +2213,41 @@
           "maximum": 1000
         }
       },
-      "offset": {
-        "name": "offset",
+      "invoiceID": {
+        "name": "invoiceID",
         "in": "query",
-        "description": "Смещение выборки",
+        "description": "Идентификатор инвойса",
         "required": false,
         "schema": {
-          "type": "integer",
-          "minimum": 0
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
         }
       },
-      "reportID": {
+      "invoiceIDs": {
+        "name": "invoiceIDs",
+        "in": "query",
+        "description": "Список инвойсов",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "paymentID": {
+        "name": "paymentID",
+        "in": "query",
+        "description": "Идентификатор платежа в рамках инвойса",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        }
+      },
+      "reportIDPathRequired": {
         "name": "reportID",
         "in": "path",
         "description": "Идентификатор отчета",
@@ -2343,7 +2257,7 @@
           "format": "int64"
         }
       },
-      "fileID": {
+      "fileIDPathRequired": {
         "name": "fileID",
         "in": "path",
         "description": "Идентификатор файла",
@@ -2391,7 +2305,7 @@
         ],
         "properties": {
           "code": {
-            "description": "[Код ошибки](#tag/Error-Codes)\n",
+            "description": "[Код ошибки](#section/Kody-oshibok)\n",
             "type": "string",
             "enum": [
               "invalidRequest",
@@ -2403,48 +2317,6 @@
           "message": {
             "description": "Человекочитаемое описание ошибки",
             "type": "string"
-          }
-        }
-      },
-      "GeneralError": {
-        "type": "object",
-        "required": [
-          "message"
-        ],
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "ShopAmountResult": {
-        "description": "баланс по магазину\n",
-        "type": "object",
-        "required": [
-          "id"
-        ],
-        "properties": {
-          "id": {
-            "description": "Идентификатор магазина",
-            "type": "string"
-          },
-          "amountResults": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AmountResult"
-            }
-          }
-        }
-      },
-      "GroupByShopAmountResult": {
-        "description": "Сгруппированый по магазинам список текущих балансов\n",
-        "type": "object",
-        "properties": {
-          "groupByShopResults": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopAmountResult"
-            }
           }
         }
       },
@@ -2688,157 +2560,28 @@
           }
         ]
       },
-      "ContinuationToken": {
-        "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
-        "type": "string"
-      },
-      "ChargebackStatus": {
-        "description": "Статус чарджбэка",
-        "type": "string",
-        "enum": [
-          "pending",
-          "accepted",
-          "rejected",
-          "cancelled"
-        ]
-      },
-      "ChargebackStage": {
-        "description": "Этап прохождения чарджбэка",
-        "type": "string",
-        "enum": [
-          "chargeback",
-          "pre_arbitration",
-          "arbitration"
-        ]
-      },
-      "ChargebackCategory": {
-        "description": "Категория чарджбэка",
-        "type": "string",
-        "enum": [
-          "fraud",
-          "dispute",
-          "authorisation",
-          "processing_error"
-        ]
-      },
-      "ChargebackReason": {
-        "description": "Данные о причине чарджбэка",
+      "ShopAmountResult": {
+        "description": "Список балансов магазина\n",
         "type": "object",
         "required": [
-          "category"
+          "id"
         ],
         "properties": {
-          "code": {
-            "description": "Код категории",
-            "type": "string"
-          },
-          "category": {
-            "$ref": "#/components/schemas/ChargebackCategory"
-          }
-        }
-      },
-      "Content": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "description": "Тип данных",
-            "type": "string"
-          },
-          "data": {
-            "description": "Данные",
-            "type": "string",
-            "format": "byte"
-          }
-        }
-      },
-      "Chargeback": {
-        "type": "object",
-        "required": [
-          "invoiceId",
-          "paymentId",
-          "chargebackId",
-          "shopID",
-          "createdAt",
-          "bodyAmount",
-          "bodyCurrency",
-          "levyAmount",
-          "levyCurrency"
-        ],
-        "properties": {
-          "invoiceId": {
-            "description": "Идентификатор инвойса",
-            "type": "string"
-          },
-          "paymentId": {
-            "description": "Идентификатор платежа",
-            "type": "string"
-          },
-          "chargebackId": {
-            "description": "Идентификатор чарджбэка",
-            "type": "string"
-          },
-          "externalId": {
-            "description": "Внешний идентификатор",
-            "type": "string"
-          },
-          "shopID": {
+          "id": {
             "description": "Идентификатор магазина",
             "type": "string"
           },
-          "createdAt": {
-            "description": "Дата и время создания",
-            "type": "string",
-            "format": "date-time"
-          },
-          "levyAmount": {
-            "description": "Сумма списываемых средств у чарджбека",
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1
-          },
-          "levyCurrency": {
-            "$ref": "#/components/schemas/Currency"
-          },
-          "bodyAmount": {
-            "description": "Сумма чарджбэка",
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1
-          },
-          "bodyCurrency": {
-            "$ref": "#/components/schemas/Currency"
-          },
-          "fee": {
-            "description": "Комиссия системы, в минорных денежных единицах",
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0
-          },
-          "providerFee": {
-            "description": "Комиссия провайдера, в минорных денежных единицах",
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0
-          },
-          "externalFee": {
-            "description": "Комиссия внешней системы системы, в минорных денежных единицах",
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0
-          },
-          "status": {
-            "$ref": "#/components/schemas/ChargebackStatus"
-          },
-          "stage": {
-            "$ref": "#/components/schemas/ChargebackStage"
-          },
-          "chargebackReason": {
-            "$ref": "#/components/schemas/ChargebackReason"
-          },
-          "content": {
-            "$ref": "#/components/schemas/Content"
+          "amountResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmountResult"
+            }
           }
         }
+      },
+      "ContinuationToken": {
+        "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
+        "type": "string"
       },
       "InvoiceLineTaxMode": {
         "description": "Схема налогообложения предлагаемого товара или услуги.\nУказывается, только если предлагаемый товар или услуга облагается налогом.\n",
@@ -3033,6 +2776,29 @@
             "$ref": "#/components/schemas/InvoiceStatus"
           }
         ]
+      },
+      "SearchRequestError": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "description": "[Код ошибки](#section/Kody-oshibok)\n",
+            "type": "string",
+            "enum": [
+              "invalidRequest",
+              "invalidDeadline",
+              "limitExceeded",
+              "badContinuationToken"
+            ]
+          },
+          "message": {
+            "description": "Человекочитаемое описание ошибки",
+            "type": "string"
+          }
+        }
       },
       "PaymentError": {
         "description": "[Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)\n",
@@ -3459,6 +3225,264 @@
           }
         ]
       },
+      "RefundStatus": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "description": "Статус возврата",
+            "type": "string",
+            "enum": [
+              "pending",
+              "succeeded",
+              "failed"
+            ]
+          },
+          "error": {
+            "description": "Данные ошибки, возникшей в процессе проведения возврата, в случае если\nвозврат был неуспешен\n",
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "description": "Код ошибки, пригодный для обработки автоматическими системами",
+                "type": "string"
+              },
+              "message": {
+                "description": "Описание ошибки, пригодное для восприятия человеком",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Refund": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "id",
+              "createdAt",
+              "amount",
+              "currency",
+              "shopID"
+            ],
+            "properties": {
+              "id": {
+                "description": "Идентификатор возврата",
+                "type": "string"
+              },
+              "externalID": {
+                "description": "Внешний идентификатор",
+                "type": "string"
+              },
+              "createdAt": {
+                "description": "Дата и время осуществления",
+                "type": "string",
+                "format": "date-time"
+              },
+              "amount": {
+                "description": "Сумма возврата, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.\n",
+                "type": "integer",
+                "format": "int64",
+                "minimum": 1
+              },
+              "currency": {
+                "$ref": "#/components/schemas/Currency"
+              },
+              "reason": {
+                "description": "Причина осуществления возврата",
+                "type": "string"
+              },
+              "shopID": {
+                "description": "Идентификатор магазина",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/RefundStatus"
+          }
+        ]
+      },
+      "RefundSearchResult": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "invoiceID",
+              "paymentID"
+            ],
+            "properties": {
+              "invoiceID": {
+                "description": "Идентификатор инвойса",
+                "type": "string"
+              },
+              "paymentID": {
+                "description": "Идентификатор платежа",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/Refund"
+          }
+        ]
+      },
+      "ChargebackStatus": {
+        "description": "Статус чарджбэка",
+        "type": "string",
+        "enum": [
+          "pending",
+          "accepted",
+          "rejected",
+          "cancelled"
+        ]
+      },
+      "ChargebackStage": {
+        "description": "Этап прохождения чарджбэка",
+        "type": "string",
+        "enum": [
+          "chargeback",
+          "pre_arbitration",
+          "arbitration"
+        ]
+      },
+      "ChargebackCategory": {
+        "description": "Категория чарджбэка",
+        "type": "string",
+        "enum": [
+          "fraud",
+          "dispute",
+          "authorisation",
+          "processing_error"
+        ]
+      },
+      "ChargebackReason": {
+        "description": "Данные о причине чарджбэка",
+        "type": "object",
+        "required": [
+          "category"
+        ],
+        "properties": {
+          "code": {
+            "description": "Код категории",
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/ChargebackCategory"
+          }
+        }
+      },
+      "Content": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "Тип данных",
+            "type": "string"
+          },
+          "data": {
+            "description": "Данные",
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "Chargeback": {
+        "type": "object",
+        "required": [
+          "invoiceId",
+          "paymentId",
+          "chargebackId",
+          "shopID",
+          "createdAt",
+          "bodyAmount",
+          "bodyCurrency",
+          "levyAmount",
+          "levyCurrency"
+        ],
+        "properties": {
+          "invoiceId": {
+            "description": "Идентификатор инвойса",
+            "type": "string"
+          },
+          "paymentId": {
+            "description": "Идентификатор платежа",
+            "type": "string"
+          },
+          "chargebackId": {
+            "description": "Идентификатор чарджбэка",
+            "type": "string"
+          },
+          "externalId": {
+            "description": "Внешний идентификатор",
+            "type": "string"
+          },
+          "shopID": {
+            "description": "Идентификатор магазина",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "Дата и время создания",
+            "type": "string",
+            "format": "date-time"
+          },
+          "levyAmount": {
+            "description": "Сумма списываемых средств у чарджбека",
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "levyCurrency": {
+            "$ref": "#/components/schemas/Currency"
+          },
+          "bodyAmount": {
+            "description": "Сумма чарджбэка",
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "bodyCurrency": {
+            "$ref": "#/components/schemas/Currency"
+          },
+          "fee": {
+            "description": "Комиссия системы, в минорных денежных единицах",
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "providerFee": {
+            "description": "Комиссия провайдера, в минорных денежных единицах",
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "externalFee": {
+            "description": "Комиссия внешней системы системы, в минорных денежных единицах",
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "status": {
+            "$ref": "#/components/schemas/ChargebackStatus"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/ChargebackStage"
+          },
+          "chargebackReason": {
+            "$ref": "#/components/schemas/ChargebackReason"
+          },
+          "content": {
+            "$ref": "#/components/schemas/Content"
+          }
+        }
+      },
       "PayoutToolDetails": {
         "description": "Данные средства вывода",
         "type": "object",
@@ -3707,116 +3731,6 @@
             }
           }
         }
-      },
-      "RefundStatus": {
-        "type": "object",
-        "required": [
-          "status"
-        ],
-        "properties": {
-          "status": {
-            "description": "Статус возврата",
-            "type": "string",
-            "enum": [
-              "pending",
-              "succeeded",
-              "failed"
-            ]
-          },
-          "error": {
-            "description": "Данные ошибки, возникшей в процессе проведения возврата, в случае если\nвозврат был неуспешен\n",
-            "type": "object",
-            "required": [
-              "code",
-              "message"
-            ],
-            "properties": {
-              "code": {
-                "description": "Код ошибки, пригодный для обработки автоматическими системами",
-                "type": "string"
-              },
-              "message": {
-                "description": "Описание ошибки, пригодное для восприятия человеком",
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "Refund": {
-        "type": "object",
-        "allOf": [
-          {
-            "type": "object",
-            "required": [
-              "id",
-              "createdAt",
-              "amount",
-              "currency",
-              "shopID"
-            ],
-            "properties": {
-              "id": {
-                "description": "Идентификатор возврата",
-                "type": "string"
-              },
-              "externalID": {
-                "description": "Внешний идентификатор",
-                "type": "string"
-              },
-              "createdAt": {
-                "description": "Дата и время осуществления",
-                "type": "string",
-                "format": "date-time"
-              },
-              "amount": {
-                "description": "Сумма возврата, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.\n",
-                "type": "integer",
-                "format": "int64",
-                "minimum": 1
-              },
-              "currency": {
-                "$ref": "#/components/schemas/Currency"
-              },
-              "reason": {
-                "description": "Причина осуществления возврата",
-                "type": "string"
-              },
-              "shopID": {
-                "description": "Идентификатор магазина",
-                "type": "string"
-              }
-            }
-          },
-          {
-            "$ref": "#/components/schemas/RefundStatus"
-          }
-        ]
-      },
-      "RefundSearchResult": {
-        "type": "object",
-        "allOf": [
-          {
-            "type": "object",
-            "required": [
-              "invoiceID",
-              "paymentID"
-            ],
-            "properties": {
-              "invoiceID": {
-                "description": "Идентификатор инвойса",
-                "type": "string"
-              },
-              "paymentID": {
-                "description": "Идентификатор платежа",
-                "type": "string"
-              }
-            }
-          },
-          {
-            "$ref": "#/components/schemas/Refund"
-          }
-        ]
       },
       "InvoiceTemplateDetails": {
         "type": "object",
@@ -4147,6 +4061,17 @@
           }
         }
       },
+      "GeneralError": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
       "ReportLink": {
         "type": "object",
         "required": [
@@ -4173,6 +4098,16 @@
       },
       "Unauthorized": {
         "description": "Ошибка авторизации"
+      },
+      "SearchRequestError": {
+        "description": "Неверные данные",
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/SearchRequestError"
+            }
+          }
+        }
       },
       "NotFound": {
         "description": "Заданный ресурс не найден",
