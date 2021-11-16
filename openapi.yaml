@@ -703,7 +703,15 @@ paths:
           description: Провайдер платежного терминала
           required: false
           schema:
-            $ref: '#/components/schemas/PaymentTerminalProvider'
+            type: string
+            enum:
+              - euroset
+              - wechat
+              - alipay
+              - zotapay
+              - qps
+              - uzcard
+              - rbs
         - name: payerEmail
           in: query
           description: Email, указанный при оплате
@@ -768,12 +776,36 @@ paths:
           in: query
           required: false
           schema:
-            $ref: '#/components/schemas/BankCardTokenProvider'
+            description: Провайдер платежных токенов
+            type: string
+            enum:
+              - applepay
+              - googlepay
+              - samsungpay
+              - yandexpay
         - name: bankCardPaymentSystem
           in: query
           required: false
           schema:
-            $ref: '#/components/schemas/BankCardPaymentSystem'
+            description: Платежная система
+            type: string
+            enum:
+              - visa
+              - mastercard
+              - visaelectron
+              - maestro
+              - forbrugsforeningen
+              - dankort
+              - amex
+              - dinersclub
+              - discover
+              - unionpay
+              - jcb
+              - nspkmir
+              - elo
+              - rupay
+              - dummy
+              - uzcard
         - name: paymentAmountFrom
           in: query
           description: Минимальная сумма платежа
@@ -1919,45 +1951,6 @@ components:
         message:
           description: Человекочитаемое описание ошибки
           type: string
-    PaymentTerminalProvider:
-      description: Провайдер терминальной сети
-      type: string
-      enum:
-        - euroset
-        - wechat
-        - alipay
-        - zotapay
-        - qps
-        - uzcard
-        - rbs
-    BankCardTokenProvider:
-      description: Провайдер платежных токенов
-      type: string
-      enum:
-        - applepay
-        - googlepay
-        - samsungpay
-        - yandexpay
-    BankCardPaymentSystem:
-      description: Платежная система
-      type: string
-      enum:
-        - visa
-        - mastercard
-        - visaelectron
-        - maestro
-        - forbrugsforeningen
-        - dankort
-        - amex
-        - dinersclub
-        - discover
-        - unionpay
-        - jcb
-        - nspkmir
-        - elo
-        - rupay
-        - dummy
-        - uzcard
     PaymentError:
       description: |
         [Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)
@@ -2018,6 +2011,34 @@ components:
           PaymentToolDetailsCryptoWallet: '#/components/schemas/PaymentToolDetailsCryptoWallet'
           PaymentToolDetailsMobileCommerce: '#/components/schemas/PaymentToolDetailsMobileCommerce'
           PaymentToolDetailsPaymentTerminal: '#/components/schemas/PaymentToolDetailsPaymentTerminal'
+    BankCardPaymentSystem:
+      description: Платежная система
+      type: string
+      enum:
+        - visa
+        - mastercard
+        - visaelectron
+        - maestro
+        - forbrugsforeningen
+        - dankort
+        - amex
+        - dinersclub
+        - discover
+        - unionpay
+        - jcb
+        - nspkmir
+        - elo
+        - rupay
+        - dummy
+        - uzcard
+    BankCardTokenProvider:
+      description: Провайдер платежных токенов
+      type: string
+      enum:
+        - applepay
+        - googlepay
+        - samsungpay
+        - yandexpay
     BankCardDetails:
       required:
         - cardNumberMask
@@ -2079,6 +2100,17 @@ components:
       allOf:
         - $ref: '#/components/schemas/PaymentToolDetails'
         - $ref: '#/components/schemas/MobileCommerceDetails'
+    PaymentTerminalProvider:
+      description: Провайдер терминальной сети
+      type: string
+      enum:
+        - euroset
+        - wechat
+        - alipay
+        - zotapay
+        - qps
+        - uzcard
+        - rbs
     PaymentTerminalDetails:
       required:
         - provider
@@ -2214,6 +2246,9 @@ components:
         type:
           description: Тип процесса выполнения платежа
           type: string
+          enum:
+            - PaymentFlowInstant
+            - PaymentFlowHold
       discriminator:
         propertyName: type
         mapping:

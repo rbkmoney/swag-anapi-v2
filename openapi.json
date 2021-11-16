@@ -1008,7 +1008,16 @@
             "description": "Провайдер платежного терминала",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/PaymentTerminalProvider"
+              "type": "string",
+              "enum": [
+                "euroset",
+                "wechat",
+                "alipay",
+                "zotapay",
+                "qps",
+                "uzcard",
+                "rbs"
+              ]
             }
           },
           {
@@ -1100,7 +1109,14 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/BankCardTokenProvider"
+              "description": "Провайдер платежных токенов",
+              "type": "string",
+              "enum": [
+                "applepay",
+                "googlepay",
+                "samsungpay",
+                "yandexpay"
+              ]
             }
           },
           {
@@ -1108,7 +1124,26 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/BankCardPaymentSystem"
+              "description": "Платежная система",
+              "type": "string",
+              "enum": [
+                "visa",
+                "mastercard",
+                "visaelectron",
+                "maestro",
+                "forbrugsforeningen",
+                "dankort",
+                "amex",
+                "dinersclub",
+                "discover",
+                "unionpay",
+                "jcb",
+                "nspkmir",
+                "elo",
+                "rupay",
+                "dummy",
+                "uzcard"
+              ]
             }
           },
           {
@@ -2765,51 +2800,6 @@
           }
         }
       },
-      "PaymentTerminalProvider": {
-        "description": "Провайдер терминальной сети",
-        "type": "string",
-        "enum": [
-          "euroset",
-          "wechat",
-          "alipay",
-          "zotapay",
-          "qps",
-          "uzcard",
-          "rbs"
-        ]
-      },
-      "BankCardTokenProvider": {
-        "description": "Провайдер платежных токенов",
-        "type": "string",
-        "enum": [
-          "applepay",
-          "googlepay",
-          "samsungpay",
-          "yandexpay"
-        ]
-      },
-      "BankCardPaymentSystem": {
-        "description": "Платежная система",
-        "type": "string",
-        "enum": [
-          "visa",
-          "mastercard",
-          "visaelectron",
-          "maestro",
-          "forbrugsforeningen",
-          "dankort",
-          "amex",
-          "dinersclub",
-          "discover",
-          "unionpay",
-          "jcb",
-          "nspkmir",
-          "elo",
-          "rupay",
-          "dummy",
-          "uzcard"
-        ]
-      },
       "PaymentError": {
         "description": "[Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)\n",
         "type": "object",
@@ -2891,6 +2881,38 @@
             "PaymentToolDetailsPaymentTerminal": "#/components/schemas/PaymentToolDetailsPaymentTerminal"
           }
         }
+      },
+      "BankCardPaymentSystem": {
+        "description": "Платежная система",
+        "type": "string",
+        "enum": [
+          "visa",
+          "mastercard",
+          "visaelectron",
+          "maestro",
+          "forbrugsforeningen",
+          "dankort",
+          "amex",
+          "dinersclub",
+          "discover",
+          "unionpay",
+          "jcb",
+          "nspkmir",
+          "elo",
+          "rupay",
+          "dummy",
+          "uzcard"
+        ]
+      },
+      "BankCardTokenProvider": {
+        "description": "Провайдер платежных токенов",
+        "type": "string",
+        "enum": [
+          "applepay",
+          "googlepay",
+          "samsungpay",
+          "yandexpay"
+        ]
       },
       "BankCardDetails": {
         "required": [
@@ -2987,6 +3009,19 @@
           {
             "$ref": "#/components/schemas/MobileCommerceDetails"
           }
+        ]
+      },
+      "PaymentTerminalProvider": {
+        "description": "Провайдер терминальной сети",
+        "type": "string",
+        "enum": [
+          "euroset",
+          "wechat",
+          "alipay",
+          "zotapay",
+          "qps",
+          "uzcard",
+          "rbs"
         ]
       },
       "PaymentTerminalDetails": {
@@ -3188,7 +3223,11 @@
         "properties": {
           "type": {
             "description": "Тип процесса выполнения платежа",
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "PaymentFlowInstant",
+              "PaymentFlowHold"
+            ]
           }
         },
         "discriminator": {
