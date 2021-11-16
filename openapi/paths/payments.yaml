@@ -54,7 +54,15 @@ get:
       description: Провайдер платежного терминала
       required: false
       schema:
-        $ref: '../components/schemas/PaymentTerminalProvider.yaml'
+        type: string
+        enum:
+          - euroset
+          - wechat
+          - alipay
+          - zotapay
+          - qps
+          - uzcard
+          - rbs
     - name: payerEmail
       in: query
       description: 'Email, указанный при оплате'
@@ -119,12 +127,36 @@ get:
       in: query
       required: false
       schema:
-        $ref: '../components/schemas/BankCardTokenProvider.yaml'
+        description: Провайдер платежных токенов
+        type: string
+        enum:
+          - applepay
+          - googlepay
+          - samsungpay
+          - yandexpay
     - name: bankCardPaymentSystem
       in: query
       required: false
       schema:
-        $ref: '../components/schemas/BankCardPaymentSystem.yaml'
+        description: Платежная система
+        type: string
+        enum:
+          - visa
+          - mastercard
+          - visaelectron
+          - maestro
+          - forbrugsforeningen
+          - dankort
+          - amex
+          - dinersclub
+          - discover
+          - unionpay
+          - jcb
+          - nspkmir
+          - elo
+          - rupay
+          - dummy
+          - uzcard
     - name: paymentAmountFrom
       in: query
       description: Минимальная сумма платежа
